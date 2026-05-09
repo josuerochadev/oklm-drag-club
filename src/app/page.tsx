@@ -3,36 +3,35 @@ import { fetchEpisodes } from "@/lib/rss";
 import Hero from "@/components/Hero";
 import EpisodeCard from "@/components/EpisodeCard";
 import NewsletterForm from "@/components/NewsletterForm";
-import PlatformLinks from "@/components/PlatformLinks";
+import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
 
-// Liens globaux du podcast (remplacer par les vraies URLs)
-const PODCAST_LINKS = {
-  spotifyUrl: "https://open.spotify.com/show/oklm-drag-club",
-  applePodcastsUrl: "https://podcasts.apple.com/fr/podcast/oklm-drag-club",
-};
+const PLATFORMS = [
+  { Icon: SpotifyIcon,  href: "https://open.spotify.com/show/oklm-drag-club",       label: "Spotify" },
+  { Icon: AppleIcon,    href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club", label: "Apple Podcasts" },
+  { Icon: DeezerIcon,   href: "https://www.deezer.com/show/oklm-drag-club",           label: "Deezer" },
+  { Icon: AmazonIcon,   href: "https://music.amazon.fr/podcasts/oklm-drag-club",       label: "Amazon Music" },
+];
 
 export default async function HomePage() {
   const episodes = await fetchEpisodes().catch(() => []);
-  const latestEpisode = episodes[0];
   const recentEpisodes = episodes.slice(0, 5);
 
   return (
     <>
-      {/* Hero */}
-      <Hero latestEpisode={latestEpisode} />
+      <Hero />
 
-      {/* Épisodes récents */}
-      <section className="relative max-w-2xl mx-auto px-6 pb-20">
-        {/* Titre section */}
-        <div className="flex items-center justify-between mb-10">
+      {/* ── Épisodes récents ── */}
+      <section className="max-w-2xl mx-auto px-6 py-16">
+        <div className="flex items-center justify-between mb-8">
           <h2
             style={{
-              fontFamily: '"Italiana", serif',
-              fontStyle: "normal",
-              fontSize: "9px",
-              letterSpacing: "0.4em",
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 700,
+              fontSize: "11px",
+              letterSpacing: "0.12em",
               textTransform: "uppercase",
-              color: "#8A7080",
+              color: "#1E1EE6",
+              opacity: 0.5,
             }}
           >
             Épisodes récents
@@ -40,35 +39,31 @@ export default async function HomePage() {
           <Link
             href="/episodes"
             style={{
-              fontFamily: '"Italiana", serif',
-              fontStyle: "normal",
-              fontSize: "8px",
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color: "#B88068",
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 700,
+              fontSize: "13px",
+              color: "#1E1EE6",
             }}
-            className="hover:opacity-70 transition-opacity"
+            className="hover:opacity-60 transition-opacity"
           >
             Voir tout →
           </Link>
         </div>
 
         {recentEpisodes.length > 0 ? (
-          <div>
-            {recentEpisodes.map((ep, i) => (
-              <EpisodeCard key={ep.id} episode={ep} index={i} />
-            ))}
-          </div>
+          recentEpisodes.map((ep, i) => (
+            <EpisodeCard key={ep.id} episode={ep} index={i} />
+          ))
         ) : (
           <p
             style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              fontStyle: "italic",
-              fontWeight: 300,
-              fontSize: "16px",
-              color: "#8A7080",
-              textAlign: "center",
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 600,
+              fontSize: "15px",
+              color: "#1E1EE6",
+              opacity: 0.5,
               padding: "40px 0",
+              textAlign: "center",
             }}
           >
             Les épisodes arrivent bientôt…
@@ -76,110 +71,82 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* Plateformes */}
+      {/* ── Newsletter + plateformes ── */}
       <section
-        id="platforms"
-        className="relative max-w-2xl mx-auto px-6 py-16 text-center"
+        id="newsletter"
+        className="max-w-2xl mx-auto px-6 pb-20"
       >
         <div
-          className="rounded-3xl p-10 overflow-hidden relative"
+          className="rounded-3xl p-10"
           style={{
-            background: "rgba(255,255,255,0.45)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            border: "0.5px solid rgba(180,150,150,0.2)",
+            background: "#D8E8F8",
+            border: "1.5px solid rgba(30,30,230,0.2)",
           }}
         >
-          {/* Halo interne */}
-          <div
-            className="halo"
-            style={{
-              width: 260,
-              height: 260,
-              bottom: "-60px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "#FFE0B0",
-              opacity: 0.3,
-            }}
-          />
-
-          <div className="relative">
-            <div className="mb-2">
-              <span
-                style={{
-                  fontFamily: '"Italiana", serif',
-                  fontStyle: "normal",
-                  fontSize: "8px",
-                  letterSpacing: "0.4em",
-                  textTransform: "uppercase",
-                  color: "#B88068",
-                }}
-              >
-                ✦ Écouter sur
-              </span>
-            </div>
-
-            <h2
-              className="mb-8"
-              style={{
-                fontFamily: '"Cormorant Garamond", serif',
-                fontStyle: "italic",
-                fontWeight: 300,
-                fontSize: "32px",
-                color: "#5A3E50",
-              }}
-            >
-              Vos plateformes préférées
-            </h2>
-
-            <div className="flex justify-center mb-10">
-              <PlatformLinks
-                spotifyUrl={PODCAST_LINKS.spotifyUrl}
-                applePodcastsUrl={PODCAST_LINKS.applePodcastsUrl}
-              />
-            </div>
-
-            {/* Séparateur */}
-            <div
-              className="mb-8"
-              style={{
-                height: "0.5px",
-                background: "rgba(180,150,150,0.2)",
-                margin: "0 auto 32px",
-                maxWidth: "200px",
-              }}
-            />
-
-            {/* Newsletter */}
-            <div className="mb-4">
-              <span
-                style={{
-                  fontFamily: '"Italiana", serif',
-                  fontStyle: "normal",
-                  fontSize: "8px",
-                  letterSpacing: "0.4em",
-                  textTransform: "uppercase",
-                  color: "#8A7080",
-                }}
-              >
-                Rester informé·e
-              </span>
-            </div>
+          {/* Plateformes */}
+          <div className="mb-10">
             <p
-              className="mb-6"
+              className="mb-5"
               style={{
-                fontFamily: '"Cormorant Garamond", serif',
-                fontStyle: "italic",
-                fontWeight: 300,
-                fontSize: "15px",
-                color: "#8A7080",
+                fontFamily: '"Inter", sans-serif',
+                fontWeight: 700,
+                fontSize: "11px",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "#1E1EE6",
+                opacity: 0.5,
               }}
             >
-              Recevez une note douce à chaque nouvel épisode.
+              Écouter sur
             </p>
-            <NewsletterForm />
+            <div className="flex items-center gap-5 flex-wrap">
+              {PLATFORMS.map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
+                  className="transition-transform hover:scale-110 duration-200"
+                  style={{ color: "#1E1EE6" }}
+                >
+                  <Icon style={{ width: 36, height: 36 } as React.CSSProperties} />
+                </a>
+              ))}
+            </div>
           </div>
+
+          {/* Séparateur */}
+          <div style={{ height: "1.5px", background: "rgba(30,30,230,0.15)", marginBottom: "32px" }} />
+
+          {/* Newsletter */}
+          <p
+            className="mb-2"
+            style={{
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 700,
+              fontSize: "11px",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "#1E1EE6",
+              opacity: 0.5,
+            }}
+          >
+            Rester informé·e
+          </p>
+          <h2
+            className="mb-6"
+            style={{
+              fontFamily: '"Bagel Fat One", sans-serif',
+              fontSize: "clamp(28px, 5vw, 40px)",
+              color: "#1E1EE6",
+              lineHeight: 1.1,
+            }}
+          >
+            Une note douce à chaque épisode.
+          </h2>
+          <NewsletterForm />
         </div>
       </section>
     </>

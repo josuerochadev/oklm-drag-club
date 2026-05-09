@@ -17,73 +17,56 @@ export default function EpisodesClientPage({
     active === "all" ? episodes : episodes.filter((ep) => ep.show === active);
 
   return (
-    <div className="max-w-2xl mx-auto px-6 pt-32 pb-20">
+    <div className="max-w-2xl mx-auto px-6 pt-28 pb-20">
       {/* En-tête */}
-      <div className="text-center mb-14">
-        <div className="mb-4">
-          <span
-            style={{
-              fontFamily: '"Italiana", serif',
-              fontStyle: "normal",
-              fontSize: "8px",
-              letterSpacing: "0.45em",
-              textTransform: "uppercase",
-              color: "#B88068",
-            }}
-          >
-            ✦ Archives ✦
-          </span>
-        </div>
+      <div className="mb-10">
         <h1
+          className="font-display mb-2"
           style={{
-            fontFamily: '"Cormorant Garamond", serif',
-            fontStyle: "italic",
-            fontWeight: 300,
-            fontSize: "clamp(36px, 6vw, 56px)",
-            color: "#5A3E50",
-            lineHeight: 1.15,
+            fontFamily: '"Bagel Fat One", sans-serif',
+            fontSize: "clamp(42px, 8vw, 72px)",
+            color: "#1E1EE6",
+            lineHeight: 1,
           }}
         >
-          Tous les épisodes
+          Épisodes
         </h1>
         {episodes.length > 0 && (
           <p
-            className="mt-3"
             style={{
-              fontFamily: '"Italiana", serif',
-              fontStyle: "normal",
-              fontSize: "8px",
-              letterSpacing: "0.3em",
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 700,
+              fontSize: "11px",
+              letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "#8A7080",
+              color: "#1E1EE6",
+              opacity: 0.4,
             }}
           >
-            {episodes.length} épisode{episodes.length > 1 ? "s" : ""}
+            {episodes.length} épisodes
           </p>
         )}
       </div>
 
       {/* Filtre shows */}
-      <div className="mb-12">
+      <div className="mb-10">
         <ShowFilter active={active} onChange={setActive} />
       </div>
 
       {/* Liste */}
       {visible.length > 0 ? (
-        <div>
-          {visible.map((ep, i) => (
-            <EpisodeCard key={ep.id} episode={ep} index={i} />
-          ))}
-        </div>
+        visible.map((ep, i) => (
+          <EpisodeCard key={ep.id} episode={ep} index={i} />
+        ))
       ) : (
         <p
-          className="text-center py-20"
+          className="py-20 text-center"
           style={{
-            fontFamily: '"Cormorant Garamond", serif',
-            fontStyle: "italic",
-            fontWeight: 300,
-            fontSize: "16px",
-            color: "#8A7080",
+            fontFamily: '"Inter", sans-serif',
+            fontWeight: 600,
+            fontSize: "15px",
+            color: "#1E1EE6",
+            opacity: 0.45,
           }}
         >
           Aucun épisode dans cette catégorie pour l&apos;instant.

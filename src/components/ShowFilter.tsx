@@ -11,30 +11,22 @@ export default function ShowFilter({ active, onChange }: ShowFilterProps) {
   const all = [{ id: "all" as const, label: "Tous" }, ...SHOWS_LIST];
 
   return (
-    <div className="flex flex-wrap gap-2 justify-center">
+    <div className="flex flex-wrap gap-2">
       {all.map((show) => {
         const isActive = active === show.id;
-        const aura = "aura" in show ? show.aura : "#D4A088";
         return (
           <button
             key={show.id}
             onClick={() => onChange(show.id as ShowId | "all")}
-            className="glass-pill transition-all duration-300 cursor-pointer hover:scale-105"
+            className="btn-pill transition-all duration-200 cursor-pointer"
             style={{
-              padding: "6px 18px",
-              fontFamily: '"Italiana", serif',
-              fontStyle: "normal",
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              fontSize: "9px",
-              color: isActive ? "#fff" : "#8A7080",
-              background: isActive
-                ? `linear-gradient(135deg, ${aura}, #B88068)`
-                : undefined,
-              boxShadow: isActive
-                ? `0 0 20px ${aura}60`
-                : undefined,
-              border: isActive ? "none" : undefined,
+              padding: "8px 18px",
+              fontSize: "13px",
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 700,
+              background: isActive ? "#1E1EE6" : "#D8E8F8",
+              color: isActive ? "#fff" : "#1E1EE6",
+              borderColor: "#1E1EE6",
             }}
           >
             {show.label}

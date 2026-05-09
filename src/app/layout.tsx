@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/Nav";
-import BackgroundGlows from "@/components/BackgroundGlows";
 
 export const metadata: Metadata = {
   title: "OKLM Drag Club — Podcast drag & téléréalité",
@@ -16,27 +15,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="h-full antialiased">
-      <body className="min-h-full flex flex-col relative">
-        <BackgroundGlows />
+      <body className="min-h-full flex flex-col" style={{ background: "#F8F4F0" }}>
         <Nav />
-        <main className="relative z-10 flex-1">{children}</main>
+        <main className="flex-1">{children}</main>
 
-        {/* Footer */}
         <footer
-          className="relative z-10 text-center py-12 px-6"
-          style={{ borderTop: "0.5px solid rgba(180,150,150,0.15)" }}
+          className="text-center py-10 px-6"
+          style={{ borderTop: "1.5px solid rgba(30,30,230,0.10)" }}
         >
           <p
             style={{
-              fontFamily: '"Italiana", serif',
-              fontStyle: "normal",
-              fontSize: "8px",
-              letterSpacing: "0.32em",
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 700,
+              fontSize: "11px",
+              letterSpacing: "0.12em",
               textTransform: "uppercase",
-              color: "#8A7080",
+              color: "#1E1EE6",
+              opacity: 0.4,
             }}
           >
-            OKLM Drag Club ✦ Par Romain
+            OKLM Drag Club · Par Romain
           </p>
         </footer>
       </body>

@@ -3,32 +3,47 @@ import Link from "next/link";
 export default function Nav() {
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5"
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4"
       style={{
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        background: "rgba(250,244,238,0.7)",
-        borderBottom: "0.5px solid rgba(180,150,150,0.18)",
+        backdropFilter: "blur(14px)",
+        WebkitBackdropFilter: "blur(14px)",
+        background: "rgba(248,244,240,0.82)",
+        borderBottom: "1.5px solid rgba(30,30,230,0.12)",
       }}
     >
-      <Link href="/" className="font-italiana text-[10px] tracking-[0.32em] text-plum hover:text-gold transition-colors duration-300" style={{ fontFamily: '"Italiana", serif', fontStyle: "normal", letterSpacing: "0.32em", textTransform: "uppercase", color: "#5A3E50" }}>
-        OKLM Drag Club
+      <Link
+        href="/"
+        className="font-display"
+        style={{
+          fontFamily: '"Bagel Fat One", sans-serif',
+          fontSize: "18px",
+          color: "#1E1EE6",
+          letterSpacing: "0.01em",
+        }}
+      >
+        OKLM
       </Link>
 
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-6">
         <Link
           href="/episodes"
-          className="font-italiana text-[9px] transition-colors duration-300"
-          style={{ fontFamily: '"Italiana", serif', fontStyle: "normal", letterSpacing: "0.28em", textTransform: "uppercase", color: "#8A7080" }}
+          style={{
+            fontFamily: '"Inter", sans-serif',
+            fontWeight: 700,
+            fontSize: "13px",
+            color: "#1E1EE6",
+            letterSpacing: "0.04em",
+          }}
+          className="hover:opacity-60 transition-opacity"
         >
           Épisodes
         </Link>
         <Link
-          href="/#platforms"
-          className="glass-pill px-5 py-2 font-italiana text-[9px] transition-all duration-300 hover:shadow-[0_0_20px_rgba(184,128,104,0.25)]"
-          style={{ fontFamily: '"Italiana", serif', fontStyle: "normal", letterSpacing: "0.28em", textTransform: "uppercase", color: "#B88068" }}
+          href="/#newsletter"
+          className="btn-pill btn-pill-blue"
+          style={{ padding: "8px 20px", fontSize: "13px" }}
         >
-          Écouter
+          Newsletter
         </Link>
       </div>
     </nav>

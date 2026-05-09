@@ -6,66 +6,49 @@ export default function NewsletterForm() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Placeholder — à connecter à un service email
-    setSent(true);
-  };
-
   if (sent) {
     return (
       <p
-        className="fade-up"
         style={{
-          fontFamily: '"Cormorant Garamond", serif',
-          fontStyle: "italic",
-          fontWeight: 300,
-          fontSize: "15px",
-          color: "#B88068",
-          letterSpacing: "0.04em",
+          fontFamily: '"Inter", sans-serif',
+          fontWeight: 700,
+          fontSize: "16px",
+          color: "#1E1EE6",
         }}
       >
-        ✦ À très vite dans vos oreilles.
+        À très vite dans vos oreilles.
       </p>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-3 flex-wrap justify-center">
+    <form
+      onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+      className="flex gap-3 flex-wrap"
+    >
       <input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="votre@email.com"
         required
-        className="glass-pill outline-none"
         style={{
-          padding: "10px 20px",
-          fontFamily: '"Cormorant Garamond", serif',
-          fontStyle: "italic",
-          fontWeight: 300,
-          fontSize: "15px",
-          color: "#5A3E50",
+          borderRadius: "999px",
+          border: "2px solid #1E1EE6",
+          padding: "12px 22px",
+          fontFamily: '"Inter", sans-serif',
+          fontWeight: 600,
+          fontSize: "14px",
+          color: "#1E1EE6",
+          background: "rgba(255,255,255,0.7)",
+          outline: "none",
           minWidth: "220px",
-          background: "rgba(255,255,255,0.5)",
         }}
       />
       <button
         type="submit"
-        className="transition-all duration-300 hover:shadow-[0_0_28px_rgba(184,128,104,0.4)] hover:scale-105 active:scale-100"
-        style={{
-          padding: "10px 28px",
-          borderRadius: "999px",
-          background: "linear-gradient(135deg, #D4A088, #B88068)",
-          fontFamily: '"Italiana", serif',
-          fontStyle: "normal",
-          letterSpacing: "0.28em",
-          textTransform: "uppercase",
-          fontSize: "9px",
-          color: "#fff",
-          border: "none",
-          cursor: "pointer",
-        }}
+        className="btn-pill btn-pill-solid"
+        style={{ padding: "12px 28px", fontSize: "14px" }}
       >
         S&apos;abonner
       </button>
