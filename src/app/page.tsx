@@ -1,65 +1,187 @@
-import Image from "next/image";
+import Link from "next/link";
+import { fetchEpisodes } from "@/lib/rss";
+import Hero from "@/components/Hero";
+import EpisodeCard from "@/components/EpisodeCard";
+import NewsletterForm from "@/components/NewsletterForm";
+import PlatformLinks from "@/components/PlatformLinks";
 
-export default function Home() {
+// Liens globaux du podcast (remplacer par les vraies URLs)
+const PODCAST_LINKS = {
+  spotifyUrl: "https://open.spotify.com/show/oklm-drag-club",
+  applePodcastsUrl: "https://podcasts.apple.com/fr/podcast/oklm-drag-club",
+};
+
+export default async function HomePage() {
+  const episodes = await fetchEpisodes().catch(() => []);
+  const latestEpisode = episodes[0];
+  const recentEpisodes = episodes.slice(0, 5);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Hero */}
+      <Hero latestEpisode={latestEpisode} />
+
+      {/* Épisodes récents */}
+      <section className="relative max-w-2xl mx-auto px-6 pb-20">
+        {/* Titre section */}
+        <div className="flex items-center justify-between mb-10">
+          <h2
+            style={{
+              fontFamily: '"Italiana", serif',
+              fontStyle: "normal",
+              fontSize: "9px",
+              letterSpacing: "0.4em",
+              textTransform: "uppercase",
+              color: "#8A7080",
+            }}
+          >
+            Épisodes récents
+          </h2>
+          <Link
+            href="/episodes"
+            style={{
+              fontFamily: '"Italiana", serif',
+              fontStyle: "normal",
+              fontSize: "8px",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: "#B88068",
+            }}
+            className="hover:opacity-70 transition-opacity"
+          >
+            Voir tout →
+          </Link>
+        </div>
+
+        {recentEpisodes.length > 0 ? (
+          <div>
+            {recentEpisodes.map((ep, i) => (
+              <EpisodeCard key={ep.id} episode={ep} index={i} />
+            ))}
+          </div>
+        ) : (
+          <p
+            style={{
+              fontFamily: '"Cormorant Garamond", serif',
+              fontStyle: "italic",
+              fontWeight: 300,
+              fontSize: "16px",
+              color: "#8A7080",
+              textAlign: "center",
+              padding: "40px 0",
+            }}
+          >
+            Les épisodes arrivent bientôt…
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+        )}
+      </section>
+
+      {/* Plateformes */}
+      <section
+        id="platforms"
+        className="relative max-w-2xl mx-auto px-6 py-16 text-center"
+      >
+        <div
+          className="rounded-3xl p-10 overflow-hidden relative"
+          style={{
+            background: "rgba(255,255,255,0.45)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            border: "0.5px solid rgba(180,150,150,0.2)",
+          }}
+        >
+          {/* Halo interne */}
+          <div
+            className="halo"
+            style={{
+              width: 260,
+              height: 260,
+              bottom: "-60px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              background: "#FFE0B0",
+              opacity: 0.3,
+            }}
+          />
+
+          <div className="relative">
+            <div className="mb-2">
+              <span
+                style={{
+                  fontFamily: '"Italiana", serif',
+                  fontStyle: "normal",
+                  fontSize: "8px",
+                  letterSpacing: "0.4em",
+                  textTransform: "uppercase",
+                  color: "#B88068",
+                }}
+              >
+                ✦ Écouter sur
+              </span>
+            </div>
+
+            <h2
+              className="mb-8"
+              style={{
+                fontFamily: '"Cormorant Garamond", serif',
+                fontStyle: "italic",
+                fontWeight: 300,
+                fontSize: "32px",
+                color: "#5A3E50",
+              }}
+            >
+              Vos plateformes préférées
+            </h2>
+
+            <div className="flex justify-center mb-10">
+              <PlatformLinks
+                spotifyUrl={PODCAST_LINKS.spotifyUrl}
+                applePodcastsUrl={PODCAST_LINKS.applePodcastsUrl}
+              />
+            </div>
+
+            {/* Séparateur */}
+            <div
+              className="mb-8"
+              style={{
+                height: "0.5px",
+                background: "rgba(180,150,150,0.2)",
+                margin: "0 auto 32px",
+                maxWidth: "200px",
+              }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+            {/* Newsletter */}
+            <div className="mb-4">
+              <span
+                style={{
+                  fontFamily: '"Italiana", serif',
+                  fontStyle: "normal",
+                  fontSize: "8px",
+                  letterSpacing: "0.4em",
+                  textTransform: "uppercase",
+                  color: "#8A7080",
+                }}
+              >
+                Rester informé·e
+              </span>
+            </div>
+            <p
+              className="mb-6"
+              style={{
+                fontFamily: '"Cormorant Garamond", serif',
+                fontStyle: "italic",
+                fontWeight: 300,
+                fontSize: "15px",
+                color: "#8A7080",
+              }}
+            >
+              Recevez une note douce à chaque nouvel épisode.
+            </p>
+            <NewsletterForm />
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 }

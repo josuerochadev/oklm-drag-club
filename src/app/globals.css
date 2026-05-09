@@ -1,26 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme inline {
+  /* Palette Angelic Dreamcore */
+  --color-cream:         #FAF4EE;
+  --color-blush:         #F4ECE8;
+  --color-mist:          #EDE4E4;
+  --color-plum:          #5A3E50;
+  --color-plum-soft:     #8A7080;
+  --color-gold:          #B88068;
+  --color-gold-light:    #D4A088;
+
+  /* Halos */
+  --color-halo-peach:    #FFE4D0;
+  --color-halo-lavender: #E8D8F0;
+  --color-halo-gold:     #FFE0B0;
+
+  /* Shows */
+  --color-show-drf:      #E8C088;
+  --color-show-dragula:  #E0A088;
+  --color-show-traitres: #E89878;
+  --color-show-asmr:     #B898C8;
+  --color-show-ff:       #E8A8B8;
+
+  /* Dark */
+  --color-night:         #1A1428;
+  --color-night-soft:    #231832;
+
+  /* Fonts */
+  --font-italiana:  "Italiana", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Base ─── */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 300;
+  color: #5A3E50;
+  background: linear-gradient(160deg, #FAF4EE 0%, #F4ECE8 50%, #EDE4E4 100%);
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    color: #E8D8F0;
+    background: linear-gradient(160deg, #1A1428 0%, #231832 60%, #1E1630 100%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Typography helpers ─── */
+
+.font-italiana {
+  font-family: "Italiana", serif;
+  font-style: normal;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+/* ─── Gradient text ─── */
+
+.gradient-text {
+  background: linear-gradient(135deg, #D4A088 0%, #B88068 50%, #C49078 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (prefers-color-scheme: dark) {
+  .gradient-text {
+    background: linear-gradient(135deg, #FFE4D0 0%, #D4A088 50%, #E8C088 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+/* ─── Glass pill ─── */
+
+.glass-pill {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.45);
+  border: 0.5px solid rgba(180, 150, 150, 0.25);
+  border-radius: 999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass-pill {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(200, 180, 220, 0.15);
+  }
+}
+
+/* ─── Halo blob ─── */
+
+.halo {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ─── Animations ─── */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up { animation: fade-up 0.7s ease-out both; }
+
+@keyframes pulse-halo {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(1.06); }
+}
+
+.pulse-halo { animation: pulse-halo 7s ease-in-out infinite; }
+
+@keyframes pulse-halo-slow {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50%       { opacity: 0.38; transform: scale(1.04); }
+}
+
+.pulse-halo-slow { animation: pulse-halo-slow 10s ease-in-out infinite; }
+
+/* ─── Group hover : gradient text ─── */
+
+.group:hover .group-hover\:gradient-text {
+  background: linear-gradient(135deg, #D4A088 0%, #B88068 50%, #C49078 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Description RSS ─── */
+
+.episode-description p {
+  margin-bottom: 1em;
+  line-height: 1.85;
+}
+.episode-description p:last-child { margin-bottom: 0; }
+.episode-description br { display: none; }
+.episode-description a {
+  color: #B88068;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
