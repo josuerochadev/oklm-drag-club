@@ -5,22 +5,22 @@ import { SHOWS_LIST } from "@/lib/shows";
 const PLATFORMS = [
   {
     Icon: SpotifyIcon,
-    href: "https://open.spotify.com/show/oklm-drag-club",
+    href: "https://open.spotify.com/show/3oH7fhOQ0r4TxzSmB8w6Ll",
     label: "Spotify",
   },
   {
     Icon: AppleIcon,
-    href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club",
+    href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club/id1735072269",
     label: "Apple Podcasts",
   },
   {
     Icon: DeezerIcon,
-    href: "https://www.deezer.com/show/oklm-drag-club",
+    href: "https://link.deezer.com/s/33gD3EOafsQg6hYKIJ1O3",
     label: "Deezer",
   },
   {
     Icon: AmazonIcon,
-    href: "https://music.amazon.fr/podcasts/oklm-drag-club",
+    href: "https://music.amazon.fr/podcasts/e265f2dd-51a6-4596-9f50-2a77094fa1a4/oklm-drag-club?ref=dm_sh_B8czxUzRAahr96DhRnDz0uJ26&referrer=dm_sh_messages",
     label: "Amazon Music",
   },
 ];

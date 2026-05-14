@@ -1,5 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
 import type { ShowId } from "./shows";
+import { fetchPlatformLinks, AMAZON_SHOW_URL } from "./platforms";
 
 export interface Episode {
   id: string;
@@ -110,7 +111,10 @@ export async function fetchEpisodes(): Promise<Episode[]> {
     // overrides not found — fine
   }
 
-  const response = await fetch(RSS_URL, { cache: "force-cache" });
+  const [response, platformLinks] = await Promise.all([
+    fetch(RSS_URL, { cache: "force-cache" }),
+    fetchPlatformLinks().catch(() => new Map()),
+  ]);
   if (!response.ok) throw new Error(`RSS fetch failed: ${response.status}`);
 
   const xml = await response.text();
@@ -150,6 +154,7 @@ export async function fetchEpisodes(): Promise<Episode[]> {
       channelImage;
 
     const ov = overrides[id] ?? {};
+    const platform = platformLinks.get(baseSlug) ?? {};
 
     return {
       id,
@@ -161,9 +166,10 @@ export async function fetchEpisodes(): Promise<Episode[]> {
       romanNumeral: toRoman(episodeNumber),
       show,
       spotifyUrl: extractSpotifyUrl(item),
-      applePodcastsUrl: ov.applePodcastsUrl,
-      deezerUrl: ov.deezerUrl,
-      amazonUrl: ov.amazonUrl,
+      // overrides.json prend le dessus sur les APIs (correction manuelle possible)
+      applePodcastsUrl: ov.applePodcastsUrl ?? platform.applePodcastsUrl,
+      deezerUrl: ov.deezerUrl ?? platform.deezerUrl,
+      amazonUrl: ov.amazonUrl ?? AMAZON_SHOW_URL,
       imageUrl,
     };
   });

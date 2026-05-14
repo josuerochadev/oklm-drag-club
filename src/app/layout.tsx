@@ -93,18 +93,28 @@ export default function RootLayout({
               >
                 Écouter
               </p>
-              {["Spotify", "Apple Podcasts", "Deezer", "Amazon Music"].map((l) => (
-                <p
-                  key={l}
+              {[
+                { label: "Spotify", href: "https://open.spotify.com/show/3oH7fhOQ0r4TxzSmB8w6Ll" },
+                { label: "Apple Podcasts", href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club/id1735072269" },
+                { label: "Deezer", href: "https://link.deezer.com/s/33gD3EOafsQg6hYKIJ1O3" },
+                { label: "Amazon Music", href: "https://music.amazon.fr/podcasts/e265f2dd-51a6-4596-9f50-2a77094fa1a4/oklm-drag-club?ref=dm_sh_B8czxUzRAahr96DhRnDz0uJ26&referrer=dm_sh_messages" },
+              ].map(({ label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
+                    display: "block",
                     fontFamily: "var(--font-body)",
                     fontSize: "13px",
                     color: "rgba(255,255,255,0.70)",
                     marginBottom: "9px",
+                    textDecoration: "none",
                   }}
                 >
-                  {l}
-                </p>
+                  {label}
+                </a>
               ))}
             </div>
           </div>
