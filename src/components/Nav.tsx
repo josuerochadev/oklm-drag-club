@@ -3,47 +3,51 @@ import Link from "next/link";
 export default function Nav() {
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4"
       style={{
-        backdropFilter: "blur(14px)",
-        WebkitBackdropFilter: "blur(14px)",
-        background: "rgba(248,244,240,0.82)",
-        borderBottom: "1.5px solid rgba(30,30,230,0.12)",
+        height: "56px",
+        padding: "0 32px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        background: "var(--white)",
+        borderBottom: "var(--border-base)",
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
       }}
     >
       <Link
         href="/"
-        className="font-display"
         style={{
-          fontFamily: '"Bagel Fat One", sans-serif',
-          fontSize: "18px",
-          color: "#1E1EE6",
-          letterSpacing: "0.01em",
+          fontFamily: "var(--font-display)",
+          fontSize: "1.5rem",
+          letterSpacing: "-0.04em",
+          color: "var(--forest)",
+          textDecoration: "none",
         }}
       >
         OKLM
       </Link>
 
-      <div className="flex items-center gap-6">
+      <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
         <Link
           href="/episodes"
           style={{
-            fontFamily: '"Inter", sans-serif',
-            fontWeight: 700,
-            fontSize: "13px",
-            color: "#1E1EE6",
-            letterSpacing: "0.04em",
+            fontFamily: "var(--font-body)",
+            fontWeight: 500,
+            fontSize: "0.9375rem",
+            color: "var(--forest-mid)",
+            textDecoration: "none",
           }}
-          className="hover:opacity-60 transition-opacity"
         >
           Épisodes
         </Link>
         <Link
           href="/#newsletter"
-          className="btn-pill btn-pill-blue"
-          style={{ padding: "8px 20px", fontSize: "13px" }}
+          className="btn btn-primary"
+          style={{ padding: "8px 18px", fontSize: "0.75rem" }}
         >
-          Newsletter
+          S&apos;abonner
         </Link>
       </div>
     </nav>

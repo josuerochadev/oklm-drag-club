@@ -1,140 +1,211 @@
 import Link from "next/link";
-import Crown from "./svg/Crown";
-import Bird from "./svg/Bird";
-import Cherub from "./svg/Cherub";
 import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "./svg/PlatformIcons";
+import { SHOWS_LIST } from "@/lib/shows";
 
 const PLATFORMS = [
-  { Icon: SpotifyIcon,  href: "https://open.spotify.com/show/oklm-drag-club",       label: "Spotify" },
-  { Icon: AppleIcon,    href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club", label: "Apple Podcasts" },
-  { Icon: DeezerIcon,   href: "https://www.deezer.com/show/oklm-drag-club",           label: "Deezer" },
-  { Icon: AmazonIcon,   href: "https://music.amazon.fr/podcasts/oklm-drag-club",       label: "Amazon Music" },
+  {
+    Icon: SpotifyIcon,
+    href: "https://open.spotify.com/show/oklm-drag-club",
+    label: "Spotify",
+  },
+  {
+    Icon: AppleIcon,
+    href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club",
+    label: "Apple Podcasts",
+  },
+  {
+    Icon: DeezerIcon,
+    href: "https://www.deezer.com/show/oklm-drag-club",
+    label: "Deezer",
+  },
+  {
+    Icon: AmazonIcon,
+    href: "https://music.amazon.fr/podcasts/oklm-drag-club",
+    label: "Amazon Music",
+  },
 ];
 
 export default function Hero() {
   return (
-    <section className="hero-bg relative min-h-svh flex flex-col items-center justify-center overflow-hidden px-6 py-20">
-
-      {/* ── Couronne ── */}
+    <section
+      style={{
+        height: "calc(100svh - 56px)",
+        background: "var(--forest)",
+        backgroundImage:
+          "repeating-linear-gradient(135deg, transparent 0, transparent 24px, rgba(255,255,255,0.022) 24px, rgba(255,255,255,0.022) 48px)",
+        borderBottom: "var(--border-base)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "32px",
+        overflow: "hidden",
+      }}
+    >
       <div
-        className="fade-up mb-4 relative z-10"
-        style={{ animationDelay: "0.05s" }}
+        style={{
+          maxWidth: "680px",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          gap: "0",
+        }}
       >
-        <Crown
-          className="float-slow"
+        {/* Label */}
+        <p
+          className="section-label"
           style={{
-            width: 72,
-            height: "auto",
-            color: "#1E1EE6",
-            filter: "drop-shadow(0 4px 16px rgba(30,30,230,0.25))",
-          } as React.CSSProperties}
-        />
-      </div>
-
-      {/* ── Logo display ── */}
-      <h1
-        className="font-display fade-up relative z-10 text-center leading-none select-none"
-        style={{
-          animationDelay: "0.12s",
-          fontSize: "clamp(80px, 18vw, 200px)",
-          color: "#1E1EE6",
-          textShadow: "0 6px 32px rgba(30,30,230,0.18)",
-          lineHeight: 0.9,
-          letterSpacing: "-0.01em",
-        }}
-      >
-        OKLM<br />DRAG<br />CLUB
-      </h1>
-
-      {/* ── Cherub gauche ── */}
-      <div
-        className="absolute z-0 pointer-events-none float-med"
-        style={{
-          left: "clamp(-60px, -2vw, 20px)",
-          bottom: "8%",
-          width: "clamp(160px, 20vw, 280px)",
-          color: "#1E1EE6",
-          opacity: 0.88,
-          filter: "drop-shadow(0 8px 24px rgba(30,30,230,0.15))",
-        }}
-      >
-        <Cherub style={{ width: "100%", height: "auto" } as React.CSSProperties} />
-      </div>
-
-      {/* ── Oiseau droit ── */}
-      <div
-        className="absolute z-0 pointer-events-none float-slow"
-        style={{
-          right: "clamp(10px, 6vw, 80px)",
-          top: "18%",
-          width: "clamp(90px, 11vw, 160px)",
-          color: "#1E1EE6",
-          opacity: 0.82,
-          filter: "drop-shadow(0 4px 16px rgba(30,30,230,0.15))",
-          animationDelay: "1.5s",
-        }}
-      >
-        <Bird style={{ width: "100%", height: "auto" } as React.CSSProperties} />
-      </div>
-
-      {/* ── Tagline ── */}
-      <p
-        className="fade-up relative z-10 text-center mt-8 max-w-xl"
-        style={{
-          animationDelay: "0.28s",
-          fontFamily: '"Inter", sans-serif',
-          fontWeight: 600,
-          fontSize: "clamp(15px, 2vw, 18px)",
-          color: "#1E1EE6",
-          lineHeight: 1.6,
-        }}
-      >
-        Réactions calmes et bienveillantes sur la drag et la téléréalité
-        {" "}—{" "}sans hurler dans vos oreilles.
-      </p>
-
-      {/* ── CTA buttons ── */}
-      <div
-        className="fade-up flex flex-wrap gap-4 justify-center mt-10 relative z-10"
-        style={{ animationDelay: "0.38s" }}
-      >
-        <Link
-          href="/episodes"
-          className="btn-pill btn-pill-blue"
-          style={{ padding: "14px 32px", fontSize: "15px" }}
+            color: "rgba(255,255,255,0.30)",
+            marginBottom: "20px",
+            animation: "hero-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+          }}
         >
-          Tous les épisodes
-        </Link>
-        <Link
-          href="/#newsletter"
-          className="btn-pill btn-pill-peach"
-          style={{ padding: "14px 32px", fontSize: "15px" }}
-        >
-          Rester informé·e
-        </Link>
-      </div>
+          Podcast drag & téléréalité
+        </p>
 
-      {/* ── Platform icons ── */}
-      <div
-        className="fade-up flex items-center gap-6 mt-10 relative z-10"
-        style={{ animationDelay: "0.5s" }}
-      >
-        {PLATFORMS.map(({ Icon, href, label }) => (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            title={label}
-            className="transition-transform hover:scale-110 duration-200"
-            style={{ color: "#1E1EE6" }}
+        {/* Titre */}
+        <h1
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(40px, 9vw, 88px)",
+            color: "var(--lime)",
+            letterSpacing: "-0.04em",
+            lineHeight: 0.92,
+            marginBottom: "24px",
+            whiteSpace: "nowrap",
+            animation: "hero-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.07s both",
+          }}
+        >
+          OKLM DRAG CLUB
+        </h1>
+
+        {/* Tagline */}
+        <p
+          style={{
+            fontFamily: "var(--font-body)",
+            fontWeight: 400,
+            fontSize: "clamp(14px, 1.4vw, 17px)",
+            color: "rgba(255,255,255,0.50)",
+            lineHeight: 1.65,
+            maxWidth: "440px",
+            marginBottom: "36px",
+            animation: "hero-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both",
+          }}
+        >
+          Réactions calmes et bienveillantes sur la drag et la téléréalité,
+          sans hurler dans vos oreilles.
+        </p>
+
+        {/* Plateformes */}
+        <div
+          style={{
+            width: "100%",
+            marginBottom: "32px",
+            animation: "hero-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.21s both",
+          }}
+        >
+          <p
+            className="section-label"
+            style={{ color: "rgba(255,255,255,0.25)", marginBottom: "12px" }}
           >
-            <Icon style={{ width: 40, height: 40 } as React.CSSProperties} />
-          </a>
-        ))}
-      </div>
+            Écouter sur
+          </p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+            }}
+          >
+            {PLATFORMS.map(({ Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="platform-card"
+                style={{ flexDirection: "column", gap: "10px", padding: "18px 12px" }}
+              >
+                <Icon size={32} />
+                <span
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "clamp(10px, 1vw, 13px)",
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {label}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
 
+        {/* CTA épisodes */}
+        <div
+          style={{
+            marginBottom: "36px",
+            animation: "hero-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both",
+          }}
+        >
+          <Link href="/episodes" className="btn btn-lime">
+            Voir les épisodes
+          </Link>
+        </div>
+
+        {/* Émissions */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            paddingTop: "16px",
+            borderTop: "1px solid rgba(255,255,255,0.10)",
+            width: "100%",
+            animation: "hero-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both",
+          }}
+        >
+          <span
+            className="section-label"
+            style={{ color: "rgba(255,255,255,0.25)" }}
+          >
+            Émissions
+          </span>
+          {SHOWS_LIST.map((show) => (
+            <div
+              key={show.id}
+              style={{ display: "flex", alignItems: "center", gap: "7px" }}
+            >
+              <span
+                style={{
+                  width: "7px",
+                  height: "7px",
+                  borderRadius: "1px",
+                  backgroundColor: show.color,
+                  flexShrink: 0,
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 500,
+                  fontSize: "0.75rem",
+                  color: "rgba(255,255,255,0.45)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {show.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

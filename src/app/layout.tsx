@@ -14,28 +14,125 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className="h-full antialiased">
-      <body className="min-h-full flex flex-col" style={{ background: "#F8F4F0" }}>
+    <html lang="fr" className="h-full">
+      <body className="min-h-full flex flex-col">
         <Nav />
         <main className="flex-1">{children}</main>
 
         <footer
-          className="text-center py-10 px-6"
-          style={{ borderTop: "1.5px solid rgba(30,30,230,0.10)" }}
+          style={{
+            background: "var(--forest)",
+            borderTop: "var(--border-base)",
+            padding: "48px 32px 28px",
+          }}
         >
-          <p
+          <div
             style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "11px",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#1E1EE6",
-              opacity: 0.4,
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr 1fr",
+              gap: "32px",
+              maxWidth: "1200px",
+              margin: "0 auto 32px",
             }}
           >
-            OKLM Drag Club · Par Romain
-          </p>
+            {/* Logo + tagline */}
+            <div>
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "2rem",
+                  color: "var(--lime)",
+                  letterSpacing: "-0.04em",
+                  lineHeight: 1,
+                  marginBottom: "12px",
+                }}
+              >
+                OKLM
+              </div>
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "13px",
+                  color: "rgba(255,255,255,0.55)",
+                  lineHeight: 1.65,
+                  maxWidth: "260px",
+                }}
+              >
+                Sans hurler dans vos oreilles. Un podcast drag par Romain — réactions calmes, analyses bienveillantes.
+              </p>
+            </div>
+
+            {/* Émissions */}
+            <div>
+              <p
+                className="section-label"
+                style={{ color: "rgba(255,255,255,0.45)", marginBottom: "14px" }}
+              >
+                Émissions
+              </p>
+              {["Drag Race France", "Dragula", "Les Traîtres FR", "Ultime Drag ASMR", "Fan Fiction"].map((l) => (
+                <p
+                  key={l}
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "13px",
+                    color: "rgba(255,255,255,0.70)",
+                    marginBottom: "9px",
+                  }}
+                >
+                  {l}
+                </p>
+              ))}
+            </div>
+
+            {/* Écouter */}
+            <div>
+              <p
+                className="section-label"
+                style={{ color: "rgba(255,255,255,0.45)", marginBottom: "14px" }}
+              >
+                Écouter
+              </p>
+              {["Spotify", "Apple Podcasts", "Deezer", "Amazon Music"].map((l) => (
+                <p
+                  key={l}
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "13px",
+                    color: "rgba(255,255,255,0.70)",
+                    marginBottom: "9px",
+                  }}
+                >
+                  {l}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div
+            style={{
+              height: "1px",
+              background: "rgba(255,255,255,0.12)",
+              maxWidth: "1200px",
+              margin: "0 auto 20px",
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              maxWidth: "1200px",
+              margin: "0 auto",
+              fontFamily: "var(--font-body)",
+              fontSize: "11px",
+              color: "rgba(255,255,255,0.35)",
+            }}
+          >
+            <span>© 2026 OKLM Drag Club</span>
+            <span>Fait avec douceur</span>
+          </div>
         </footer>
       </body>
     </html>

@@ -1,147 +1,224 @@
 import Link from "next/link";
 import { fetchEpisodes } from "@/lib/rss";
+import { SHOWS_LIST } from "@/lib/shows";
 import Hero from "@/components/Hero";
 import EpisodeCard from "@/components/EpisodeCard";
 import NewsletterForm from "@/components/NewsletterForm";
-import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
-
-const PLATFORMS = [
-  { Icon: SpotifyIcon,  href: "https://open.spotify.com/show/oklm-drag-club",       label: "Spotify" },
-  { Icon: AppleIcon,    href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club", label: "Apple Podcasts" },
-  { Icon: DeezerIcon,   href: "https://www.deezer.com/show/oklm-drag-club",           label: "Deezer" },
-  { Icon: AmazonIcon,   href: "https://music.amazon.fr/podcasts/oklm-drag-club",       label: "Amazon Music" },
-];
 
 export default async function HomePage() {
   const episodes = await fetchEpisodes().catch(() => []);
-  const recentEpisodes = episodes.slice(0, 5);
+  const featured = episodes[0] ?? null;
+  const recentEpisodes = episodes.slice(1, 7);
 
   return (
     <>
       <Hero />
 
-      {/* ── Épisodes récents ── */}
-      <section className="max-w-2xl mx-auto px-6 py-16">
-        <div className="flex items-center justify-between mb-8">
-          <h2
-            style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "11px",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#1E1EE6",
-              opacity: 0.5,
-            }}
-          >
-            Épisodes récents
-          </h2>
-          <Link
-            href="/episodes"
-            style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "13px",
-              color: "#1E1EE6",
-            }}
-            className="hover:opacity-60 transition-opacity"
-          >
-            Voir tout →
-          </Link>
-        </div>
-
-        {recentEpisodes.length > 0 ? (
-          recentEpisodes.map((ep, i) => (
-            <EpisodeCard key={ep.id} episode={ep} index={i} />
-          ))
-        ) : (
-          <p
-            style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 600,
-              fontSize: "15px",
-              color: "#1E1EE6",
-              opacity: 0.5,
-              padding: "40px 0",
-              textAlign: "center",
-            }}
-          >
-            Les épisodes arrivent bientôt…
-          </p>
-        )}
-      </section>
-
-      {/* ── Newsletter + plateformes ── */}
-      <section
-        id="newsletter"
-        className="max-w-2xl mx-auto px-6 pb-20"
-      >
-        <div
-          className="rounded-3xl p-10"
-          style={{
-            background: "#D8E8F8",
-            border: "1.5px solid rgba(30,30,230,0.2)",
-          }}
-        >
-          {/* Plateformes */}
-          <div className="mb-10">
-            <p
-              className="mb-5"
+      {/* ── Dernier épisode ── */}
+      {featured && (
+        <section style={{ borderBottom: "var(--border-base)" }}>
+          <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
+            <p className="section-label" style={{ marginBottom: "20px" }}>
+              Dernier épisode
+            </p>
+            <Link
+              href={`/episodes/${featured.id}`}
+              className="episode-card-link"
               style={{
-                fontFamily: '"Inter", sans-serif',
-                fontWeight: 700,
-                fontSize: "11px",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                color: "#1E1EE6",
-                opacity: 0.5,
+                display: "grid",
+                gridTemplateColumns: "200px 1fr",
+                border: "var(--border-base)",
+                borderRadius: "var(--radius-xs)",
+                overflow: "hidden",
+                textDecoration: "none",
+                color: "var(--forest)",
               }}
             >
-              Écouter sur
-            </p>
-            <div className="flex items-center gap-5 flex-wrap">
-              {PLATFORMS.map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  title={label}
-                  className="transition-transform hover:scale-110 duration-200"
-                  style={{ color: "#1E1EE6" }}
+              {/* Thumb */}
+              <div
+                style={{
+                  backgroundColor: "var(--lime)",
+                  backgroundImage:
+                    "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
+                  position: "relative",
+                  minHeight: "180px",
+                  borderRight: "var(--border-base)",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "6rem",
+                    letterSpacing: "-0.04em",
+                    color: "var(--forest)",
+                    opacity: 0.12,
+                    position: "absolute",
+                    bottom: "-4px",
+                    right: "8px",
+                    lineHeight: 1,
+                    userSelect: "none",
+                  }}
                 >
-                  <Icon style={{ width: 36, height: 36 } as React.CSSProperties} />
-                </a>
-              ))}
-            </div>
+                  {featured.episodeNumber}
+                </span>
+              </div>
+
+              {/* Contenu */}
+              <div style={{ padding: "28px 32px", background: "var(--lime-soft)" }}>
+                <p
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontWeight: 500,
+                    fontSize: "0.75rem",
+                    color: "var(--forest-mid)",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {SHOWS_LIST.find((s) => s.id === featured.show)?.label ?? ""}
+                  {featured.duration ? ` · ${featured.duration}` : ""}
+                </p>
+                <h2
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "clamp(22px, 3vw, 36px)",
+                    lineHeight: 1.1,
+                    letterSpacing: "-0.04em",
+                    color: "var(--forest)",
+                    marginBottom: "20px",
+                  }}
+                >
+                  {featured.title}
+                </h2>
+                <span className="btn btn-primary" style={{ pointerEvents: "none" }}>
+                  Écouter
+                </span>
+              </div>
+            </Link>
           </div>
+        </section>
+      )}
 
-          {/* Séparateur */}
-          <div style={{ height: "1.5px", background: "rgba(30,30,230,0.15)", marginBottom: "32px" }} />
-
-          {/* Newsletter */}
-          <p
-            className="mb-2"
+      {/* ── Émissions ── */}
+      <section style={{ borderBottom: "var(--border-base)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
+          <p className="section-label" style={{ marginBottom: "20px" }}>
+            Émissions
+          </p>
+          <div
             style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "11px",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#1E1EE6",
-              opacity: 0.5,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+              gap: "16px",
             }}
           >
+            {SHOWS_LIST.map((show) => (
+              <div
+                key={show.id}
+                style={{
+                  backgroundColor: show.color,
+                  backgroundImage:
+                    "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
+                  border: "var(--border-base)",
+                  borderRadius: "var(--radius-xs)",
+                  padding: "24px 20px",
+                  minHeight: "120px",
+                  display: "flex",
+                  alignItems: "flex-end",
+                }}
+              >
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "1rem",
+                    letterSpacing: "-0.03em",
+                    color: "var(--forest)",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {show.label}
+                </h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Épisodes récents ── */}
+      <section style={{ borderBottom: "var(--border-base)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "24px",
+            }}
+          >
+            <p className="section-label">Épisodes récents</p>
+            <Link
+              href="/episodes"
+              style={{
+                fontFamily: "var(--font-body)",
+                fontWeight: 700,
+                fontSize: "0.75rem",
+                letterSpacing: "0.07em",
+                textTransform: "uppercase",
+                color: "var(--forest-mid)",
+              }}
+            >
+              Voir tout →
+            </Link>
+          </div>
+
+          {recentEpisodes.length > 0 ? (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                gap: "24px",
+              }}
+            >
+              {recentEpisodes.map((ep) => (
+                <EpisodeCard key={ep.id} episode={ep} />
+              ))}
+            </div>
+          ) : (
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "15px",
+                color: "var(--forest-mid)",
+                padding: "40px 0",
+                textAlign: "center",
+              }}
+            >
+              Les épisodes arrivent bientôt…
+            </p>
+          )}
+        </div>
+      </section>
+
+      {/* ── Newsletter ── */}
+      <section
+        id="newsletter"
+        style={{
+          background: "var(--lime)",
+          borderBottom: "var(--border-base)",
+        }}
+      >
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
+          <p className="section-label" style={{ marginBottom: "12px" }}>
             Rester informé·e
           </p>
           <h2
-            className="mb-6"
             style={{
-              fontFamily: '"Bagel Fat One", sans-serif',
-              fontSize: "clamp(28px, 5vw, 40px)",
-              color: "#1E1EE6",
-              lineHeight: 1.1,
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(28px, 4vw, 48px)",
+              color: "var(--forest)",
+              letterSpacing: "-0.04em",
+              lineHeight: 1,
+              marginBottom: "28px",
+              maxWidth: "480px",
             }}
           >
             Une note douce à chaque épisode.

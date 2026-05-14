@@ -7,29 +7,30 @@ interface ShowFilterProps {
   onChange: (show: ShowId | "all") => void;
 }
 
-export default function ShowFilter({ active, onChange }: ShowFilterProps) {
-  const all = [{ id: "all" as const, label: "Tous" }, ...SHOWS_LIST];
+const ITEMS = [
+  { id: "all" as const, label: "Tous", activeClass: "badge-forest" },
+  ...SHOWS_LIST.map((s) => ({ id: s.id, label: s.label, activeClass: s.badgeClass })),
+];
 
+export default function ShowFilter({ active, onChange }: ShowFilterProps) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {all.map((show) => {
-        const isActive = active === show.id;
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+      {ITEMS.map((item) => {
+        const isActive = active === item.id;
         return (
           <button
-            key={show.id}
-            onClick={() => onChange(show.id as ShowId | "all")}
-            className="btn-pill transition-all duration-200 cursor-pointer"
+            key={item.id}
+            onClick={() => onChange(item.id as ShowId | "all")}
+            className={`badge ${isActive ? item.activeClass : "badge-outline"}`}
             style={{
-              padding: "8px 18px",
-              fontSize: "13px",
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              background: isActive ? "#1E1EE6" : "#D8E8F8",
-              color: isActive ? "#fff" : "#1E1EE6",
-              borderColor: "#1E1EE6",
+              cursor: "pointer",
+              transition: "box-shadow var(--transition-fast), transform var(--transition-fast)",
+              ...(isActive
+                ? { boxShadow: "var(--shadow-offset-sm)", transform: "translate(-1px, -1px)" }
+                : {}),
             }}
           >
-            {show.label}
+            {item.label}
           </button>
         );
       })}

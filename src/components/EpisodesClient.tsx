@@ -17,56 +17,59 @@ export default function EpisodesClientPage({
     active === "all" ? episodes : episodes.filter((ep) => ep.show === active);
 
   return (
-    <div className="max-w-2xl mx-auto px-6 pt-28 pb-20">
+    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 32px 80px" }}>
       {/* En-tête */}
-      <div className="mb-10">
+      <div style={{ marginBottom: "40px" }}>
         <h1
-          className="font-display mb-2"
           style={{
-            fontFamily: '"Bagel Fat One", sans-serif',
-            fontSize: "clamp(42px, 8vw, 72px)",
-            color: "#1E1EE6",
-            lineHeight: 1,
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(48px, 9vw, 96px)",
+            color: "var(--forest)",
+            lineHeight: 0.95,
+            letterSpacing: "-0.04em",
+            marginBottom: "8px",
           }}
         >
           Épisodes
         </h1>
         {episodes.length > 0 && (
-          <p
-            style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "11px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "#1E1EE6",
-              opacity: 0.4,
-            }}
-          >
+          <p className="section-label" style={{ marginBottom: "32px" }}>
             {episodes.length} épisodes
           </p>
         )}
-      </div>
 
-      {/* Filtre shows */}
-      <div className="mb-10">
+        <div
+          style={{
+            height: "2px",
+            background: "var(--forest)",
+            marginBottom: "24px",
+          }}
+        />
+
         <ShowFilter active={active} onChange={setActive} />
       </div>
 
-      {/* Liste */}
+      {/* Grille */}
       {visible.length > 0 ? (
-        visible.map((ep, i) => (
-          <EpisodeCard key={ep.id} episode={ep} index={i} />
-        ))
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+            gap: "24px",
+          }}
+        >
+          {visible.map((ep) => (
+            <EpisodeCard key={ep.id} episode={ep} />
+          ))}
+        </div>
       ) : (
         <p
-          className="py-20 text-center"
           style={{
-            fontFamily: '"Inter", sans-serif',
-            fontWeight: 600,
+            fontFamily: "var(--font-body)",
             fontSize: "15px",
-            color: "#1E1EE6",
-            opacity: 0.45,
+            color: "var(--forest-mid)",
+            padding: "64px 0",
+            textAlign: "center",
           }}
         >
           Aucun épisode dans cette catégorie pour l&apos;instant.

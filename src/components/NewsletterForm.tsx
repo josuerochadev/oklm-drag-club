@@ -10,10 +10,10 @@ export default function NewsletterForm() {
     return (
       <p
         style={{
-          fontFamily: '"Inter", sans-serif',
-          fontWeight: 700,
-          fontSize: "16px",
-          color: "#1E1EE6",
+          fontFamily: "var(--font-display)",
+          fontSize: "1.25rem",
+          color: "var(--forest)",
+          letterSpacing: "-0.03em",
         }}
       >
         À très vite dans vos oreilles.
@@ -24,7 +24,7 @@ export default function NewsletterForm() {
   return (
     <form
       onSubmit={(e) => { e.preventDefault(); setSent(true); }}
-      className="flex gap-3 flex-wrap"
+      style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}
     >
       <input
         type="email"
@@ -32,24 +32,10 @@ export default function NewsletterForm() {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="votre@email.com"
         required
-        style={{
-          borderRadius: "999px",
-          border: "2px solid #1E1EE6",
-          padding: "12px 22px",
-          fontFamily: '"Inter", sans-serif',
-          fontWeight: 600,
-          fontSize: "14px",
-          color: "#1E1EE6",
-          background: "rgba(255,255,255,0.7)",
-          outline: "none",
-          minWidth: "220px",
-        }}
+        className="field-input"
+        style={{ minWidth: "220px", flex: 1 }}
       />
-      <button
-        type="submit"
-        className="btn-pill btn-pill-solid"
-        style={{ padding: "12px 28px", fontSize: "14px" }}
-      >
+      <button type="submit" className="btn btn-primary">
         S&apos;abonner
       </button>
     </form>

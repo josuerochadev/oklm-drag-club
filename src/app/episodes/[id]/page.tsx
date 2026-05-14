@@ -60,71 +60,49 @@ export default async function EpisodePage({
     .map((p) => ({ ...p, href: episode[p.key]! }));
 
   return (
-    <div className="max-w-2xl mx-auto px-6 pt-28 pb-24 fade-up">
+    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 32px 80px" }}>
 
       {/* Retour */}
-      <Link
-        href="/episodes"
-        className="inline-flex items-center gap-2 mb-10 hover:opacity-60 transition-opacity"
-        style={{
-          fontFamily: '"Inter", sans-serif',
-          fontWeight: 700,
-          fontSize: "13px",
-          color: "#1E1EE6",
-        }}
-      >
-        ← Tous les épisodes
+      <Link href="/episodes" className="btn btn-ghost" style={{ marginBottom: "40px", display: "inline-flex" }}>
+        ← Retour
       </Link>
 
-      {/* Show badge + numéro */}
-      <div className="flex items-center gap-3 mb-6">
-        <div
-          className="flex items-center justify-center rounded-full"
+      {/* Métadonnées show */}
+      <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+        <span className={`badge ${show.badgeClass}`}>{show.label}</span>
+        <span
           style={{
-            width: 52,
-            height: 52,
-            background: show.auraLight,
-            border: `2px solid ${show.aura}`,
-            flexShrink: 0,
+            fontFamily: "var(--font-body)",
+            fontSize: "0.75rem",
+            color: "var(--forest-mid)",
           }}
         >
-          <span
-            style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: episode.romanNumeral.length > 5 ? "9px" : "12px",
-              color: "#1E1EE6",
-            }}
-          >
-            {episode.romanNumeral}
-          </span>
-        </div>
-        <div>
-          <div
-            style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "11px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "#1E1EE6",
-              opacity: 0.5,
-            }}
-          >
-            {show.label}{pubDate ? ` · ${pubDate}` : ""}{episode.duration ? ` · ${episode.duration}` : ""}
-          </div>
-        </div>
+          {pubDate}{episode.duration ? ` · ${episode.duration}` : ""}
+        </span>
       </div>
+
+      {/* Numéro épisode */}
+      <p
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "1rem",
+          letterSpacing: "0.04em",
+          color: "var(--forest-light)",
+          marginBottom: "8px",
+        }}
+      >
+        Épisode {episode.episodeNumber}
+      </p>
 
       {/* Titre */}
       <h1
-        className="mb-8"
         style={{
-          fontFamily: '"Inter", sans-serif',
-          fontWeight: 700,
-          fontSize: "clamp(26px, 5vw, 42px)",
-          color: "#1E1EE6",
-          lineHeight: 1.15,
+          fontFamily: "var(--font-display)",
+          fontSize: "clamp(28px, 5vw, 52px)",
+          color: "var(--forest)",
+          lineHeight: 1.05,
+          letterSpacing: "-0.04em",
+          marginBottom: "32px",
         }}
       >
         {episode.title}
@@ -132,7 +110,7 @@ export default async function EpisodePage({
 
       {/* Platform links */}
       {episodeLinks.length > 0 && (
-        <div className="flex items-center gap-4 mb-10 flex-wrap">
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "40px" }}>
           {episodeLinks.map(({ Icon, href, label }) => (
             <a
               key={label}
@@ -141,10 +119,10 @@ export default async function EpisodePage({
               rel="noopener noreferrer"
               title={label}
               aria-label={label}
-              className="btn-pill btn-pill-blue flex items-center gap-2 transition-all hover:scale-105"
-              style={{ padding: "9px 18px", fontSize: "13px" }}
+              className="btn btn-ghost"
+              style={{ padding: "8px 16px", fontSize: "0.75rem" }}
             >
-              <Icon style={{ width: 18, height: 18 } as React.CSSProperties} />
+              <Icon size={16} />
               {label}
             </a>
           ))}
@@ -152,34 +130,24 @@ export default async function EpisodePage({
       )}
 
       {/* Séparateur */}
-      <div style={{ height: "1.5px", background: "rgba(30,30,230,0.12)", marginBottom: "32px" }} />
+      <div style={{ height: "2px", background: "var(--forest)", marginBottom: "32px", opacity: 0.12 }} />
 
       {/* Description */}
       {episode.description && (
         <div>
           <p
-            className="mb-4"
-            style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "11px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "#1E1EE6",
-              opacity: 0.4,
-            }}
+            className="section-label"
+            style={{ marginBottom: "16px" }}
           >
             À propos
           </p>
           <div
             className="episode-description"
             style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 400,
-              fontSize: "16px",
-              color: "#1E1EE6",
+              fontFamily: "var(--font-body)",
+              fontSize: "1rem",
+              color: "var(--forest)",
               lineHeight: 1.75,
-              opacity: 0.85,
             }}
             dangerouslySetInnerHTML={{ __html: episode.description }}
           />
@@ -189,66 +157,58 @@ export default async function EpisodePage({
       {/* Navigation prev/next */}
       {(prevEpisode || nextEpisode) && (
         <div
-          className="mt-16 pt-8 grid grid-cols-2 gap-6"
-          style={{ borderTop: "1.5px solid rgba(30,30,230,0.12)" }}
+          style={{
+            marginTop: "64px",
+            paddingTop: "32px",
+            borderTop: "var(--border-base)",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "24px",
+          }}
         >
           {prevEpisode ? (
-            <Link href={`/episodes/${prevEpisode.id}`} className="group">
-              <div
-                style={{
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 700,
-                  fontSize: "10px",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  color: "#1E1EE6",
-                  opacity: 0.4,
-                  marginBottom: "6px",
-                }}
-              >
+            <Link
+              href={`/episodes/${prevEpisode.id}`}
+              style={{ textDecoration: "none", color: "var(--forest)" }}
+            >
+              <p className="section-label" style={{ marginBottom: "6px" }}>
                 ← Précédent
-              </div>
-              <div
-                className="group-hover:opacity-60 transition-opacity line-clamp-2"
+              </p>
+              <p
                 style={{
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  color: "#1E1EE6",
+                  fontFamily: "var(--font-display)",
+                  fontSize: "0.9375rem",
+                  letterSpacing: "-0.02em",
+                  color: "var(--forest)",
+                  lineHeight: 1.2,
                 }}
+                className="line-clamp-2"
               >
                 {prevEpisode.title}
-              </div>
+              </p>
             </Link>
           ) : <div />}
 
           {nextEpisode ? (
-            <Link href={`/episodes/${nextEpisode.id}`} className="group text-right">
-              <div
-                style={{
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 700,
-                  fontSize: "10px",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  color: "#1E1EE6",
-                  opacity: 0.4,
-                  marginBottom: "6px",
-                }}
-              >
+            <Link
+              href={`/episodes/${nextEpisode.id}`}
+              style={{ textDecoration: "none", color: "var(--forest)", textAlign: "right" }}
+            >
+              <p className="section-label" style={{ marginBottom: "6px", justifyContent: "flex-end" }}>
                 Suivant →
-              </div>
-              <div
-                className="group-hover:opacity-60 transition-opacity line-clamp-2"
+              </p>
+              <p
                 style={{
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  color: "#1E1EE6",
+                  fontFamily: "var(--font-display)",
+                  fontSize: "0.9375rem",
+                  letterSpacing: "-0.02em",
+                  color: "var(--forest)",
+                  lineHeight: 1.2,
                 }}
+                className="line-clamp-2"
               >
                 {nextEpisode.title}
-              </div>
+              </p>
             </Link>
           ) : <div />}
         </div>

@@ -4,10 +4,9 @@ import type { Episode } from "@/lib/rss";
 
 interface EpisodeCardProps {
   episode: Episode;
-  index?: number;
 }
 
-export default function EpisodeCard({ episode, index = 0 }: EpisodeCardProps) {
+export default function EpisodeCard({ episode }: EpisodeCardProps) {
   const show = SHOW_CONFIG[episode.show];
 
   const pubDate = episode.pubDate
@@ -19,99 +18,105 @@ export default function EpisodeCard({ episode, index = 0 }: EpisodeCardProps) {
     : null;
 
   return (
-    <article
-      className="fade-up"
-      style={{ animationDelay: `${index * 0.05}s` }}
-    >
+    <article>
       <Link
         href={`/episodes/${episode.id}`}
-        className="group flex gap-5 items-start py-6 transition-colors duration-200"
-        style={{ borderBottom: "1.5px solid rgba(30,30,230,0.12)" }}
+        style={{
+          display: "block",
+          border: "var(--border-base)",
+          borderRadius: "var(--radius-xs)",
+          overflow: "hidden",
+          textDecoration: "none",
+          color: "var(--forest)",
+          transition: "box-shadow var(--transition-fast), transform var(--transition-fast)",
+        }}
+        className="episode-card-link"
       >
-        {/* Roman numeral badge */}
+        {/* Thumb */}
         <div
-          className="flex-shrink-0 flex items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
           style={{
-            width: 56,
-            height: 56,
-            background: show.auraLight,
-            border: `2px solid ${show.aura}`,
-            flexShrink: 0,
+            height: "160px",
+            position: "relative",
+            borderBottom: "var(--border-base)",
+            backgroundColor: show.color,
+            backgroundImage:
+              "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
           }}
         >
+          {/* Ghost episode number */}
           <span
             style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: episode.romanNumeral.length > 5 ? "9px" : episode.romanNumeral.length > 3 ? "11px" : "13px",
-              color: "#1E1EE6",
-              letterSpacing: "0.04em",
+              fontFamily: "var(--font-display)",
+              fontSize: "5rem",
+              letterSpacing: "-0.04em",
+              color: "var(--forest)",
+              opacity: 0.12,
+              position: "absolute",
+              bottom: "-8px",
+              right: "10px",
+              lineHeight: 1,
+              userSelect: "none",
             }}
           >
-            {episode.romanNumeral}
+            {episode.episodeNumber}
+          </span>
+
+          {/* Show badge */}
+          <span
+            className={`badge ${show.badgeClass}`}
+            style={{ position: "absolute", top: "12px", left: "12px" }}
+          >
+            {show.abbr}
           </span>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          {/* Show + date */}
+        {/* Body */}
+        <div style={{ padding: "16px" }}>
           <div
-            className="flex items-center gap-2 mb-2 flex-wrap"
             style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "11px",
-              letterSpacing: "0.08em",
-              color: "#1E1EE6",
-              opacity: 0.55,
-              textTransform: "uppercase",
+              fontFamily: "var(--font-body)",
+              fontWeight: 500,
+              fontSize: "0.75rem",
+              color: "var(--forest-mid)",
+              marginBottom: "6px",
             }}
           >
-            <span>{show.label}</span>
-            {pubDate && <><span>·</span><span>{pubDate}</span></>}
-            {episode.duration && <><span>·</span><span>{episode.duration}</span></>}
+            {show.label}
           </div>
 
-          {/* Title */}
-          <h3
-            className="mb-2 leading-tight transition-opacity duration-200 group-hover:opacity-70"
+          <h2
             style={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 700,
-              fontSize: "clamp(16px, 2.5vw, 20px)",
-              color: "#1E1EE6",
+              fontFamily: "var(--font-display)",
+              fontSize: "1.25rem",
+              lineHeight: 1.15,
+              letterSpacing: "-0.03em",
+              color: "var(--forest)",
+              marginBottom: "10px",
             }}
           >
             {episode.title}
-          </h3>
+          </h2>
 
-          {/* Description */}
-          {episode.description && (
-            <p
-              className="line-clamp-2"
-              style={{
-                fontFamily: '"Inter", sans-serif',
-                fontWeight: 400,
-                fontSize: "14px",
-                color: "#1E1EE6",
-                opacity: 0.55,
-                lineHeight: 1.6,
-              }}
-              dangerouslySetInnerHTML={{
-                __html: episode.description.replace(/<[^>]*>/g, "").slice(0, 160) + "…",
-              }}
-            />
-          )}
-        </div>
-
-        {/* Arrow */}
-        <div
-          className="flex-shrink-0 self-center opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-0 group-hover:translate-x-1"
-          style={{ color: "#1E1EE6", fontSize: "20px", fontWeight: 700 }}
-        >
-          →
+          <div
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "0.75rem",
+              color: "var(--forest-mid)",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              flexWrap: "wrap",
+            }}
+          >
+            {episode.duration && <span>{episode.duration}</span>}
+            {episode.duration && pubDate && (
+              <span style={{ opacity: 0.5 }}>·</span>
+            )}
+            {pubDate && <span>{pubDate}</span>}
+          </div>
         </div>
       </Link>
+
     </article>
   );
 }

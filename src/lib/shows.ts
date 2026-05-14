@@ -9,46 +9,60 @@ export type ShowId =
 export interface ShowConfig {
   id: ShowId;
   label: string;
-  aura: string;
-  auraLight: string;
+  abbr: string;
+  color: string;      // CSS variable, e.g. 'var(--lime)'
+  colorSoft: string;  // CSS variable pour fond doux
+  badgeClass: string; // classe CSS badge
 }
 
 export const SHOW_CONFIG: Record<ShowId, ShowConfig> = {
   "drag-race-france": {
     id: "drag-race-france",
     label: "Drag Race France",
-    aura: "#E8C088",
-    auraLight: "rgba(232,192,136,0.35)",
+    abbr: "DRF",
+    color: "var(--lime)",
+    colorSoft: "var(--lime-soft)",
+    badgeClass: "badge-lime",
   },
   dragula: {
     id: "dragula",
     label: "Dragula",
-    aura: "#E0A088",
-    auraLight: "rgba(224,160,136,0.35)",
+    abbr: "DRG",
+    color: "var(--fuchsia)",
+    colorSoft: "var(--fuchsia-soft)",
+    badgeClass: "badge-fuchsia",
   },
   "les-traitres-fr": {
     id: "les-traitres-fr",
     label: "Les Traîtres FR",
-    aura: "#E89878",
-    auraLight: "rgba(232,152,120,0.35)",
+    abbr: "TRT",
+    color: "var(--yellow)",
+    colorSoft: "var(--yellow-soft)",
+    badgeClass: "badge-yellow",
   },
   "ultime-drag-asmr": {
     id: "ultime-drag-asmr",
     label: "Ultime Drag ASMR",
-    aura: "#B898C8",
-    auraLight: "rgba(184,152,200,0.35)",
+    abbr: "ASMR",
+    color: "var(--lime-soft)",
+    colorSoft: "var(--lime-soft)",
+    badgeClass: "badge-outline",
   },
   "fan-fiction": {
     id: "fan-fiction",
     label: "Fan Fiction",
-    aura: "#E8A8B8",
-    auraLight: "rgba(232,168,184,0.35)",
+    abbr: "FAN",
+    color: "var(--fuchsia-soft)",
+    colorSoft: "var(--fuchsia-soft)",
+    badgeClass: "badge-outline",
   },
   other: {
     id: "other",
     label: "Autre",
-    aura: "#D4A088",
-    auraLight: "rgba(212,160,136,0.35)",
+    abbr: "—",
+    color: "var(--white)",
+    colorSoft: "var(--white)",
+    badgeClass: "badge-outline",
   },
 };
 
