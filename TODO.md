@@ -17,11 +17,11 @@ Suivi des tâches du projet. Statuts : `[ ]` à faire · `[~]` en cours · `[x]`
 ## Phase 2 — Contenu & SEO
 
 - [x] **Page À propos** (`/about`) — présenter le podcast, Romain, les émissions couvertes
-- [ ] **Open Graph / og:image** — ajouter balises og sur le layout et les pages épisode (og:image statique ou dynamique via `opengraph-image.tsx`)
-- [ ] **Twitter / X cards** — balises `twitter:card` dans les metadata
-- [ ] **Sitemap** — générer `/sitemap.xml` (Next.js App Router supporte `src/app/sitemap.ts`)
-- [ ] **robots.txt** — créer `src/app/robots.ts`
-- [ ] **JSON-LD schema.org** — ajouter `PodcastSeries` sur le layout et `PodcastEpisode` sur chaque page épisode (aide au référencement Google)
+- [x] **Open Graph / og:image** — og:image générée dynamiquement par Next.js (`opengraph-image.tsx`) pour la home et chaque épisode
+- [x] **Twitter / X cards** — `summary_large_image` sur layout et pages épisode
+- [x] **Sitemap** — `/sitemap.xml` généré via `src/app/sitemap.ts` (home, /episodes, /about, tous les épisodes)
+- [x] **robots.txt** — `src/app/robots.ts` avec lien vers sitemap
+- [x] **JSON-LD schema.org** — `PodcastSeries` dans le layout, `PodcastEpisode` sur chaque page épisode
 - [ ] **Favicon personnalisé** — remplacer le favicon Next.js par défaut par une icône OKLM
 
 ---

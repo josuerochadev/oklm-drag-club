@@ -1,5 +1,6 @@
 import { fetchEpisodes } from "@/lib/rss";
 import { SHOW_CONFIG } from "@/lib/shows";
+import { SITE_URL, SITE_NAME } from "@/lib/config";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
@@ -18,9 +19,24 @@ export async function generateMetadata({
   const episodes = await fetchEpisodes().catch(() => []);
   const episode = episodes.find((ep) => ep.id === id);
   if (!episode) return {};
+  const description = episode.description.replace(/<[^>]*>/g, "").slice(0, 160);
+  const url = `${SITE_URL}/episodes/${episode.id}`;
   return {
-    title: `${episode.title} — OKLM Drag Club`,
-    description: episode.description.replace(/<[^>]*>/g, "").slice(0, 160),
+    title: episode.title,
+    description,
+    openGraph: {
+      type: "website",
+      locale: "fr_FR",
+      siteName: SITE_NAME,
+      title: episode.title,
+      description,
+      url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: episode.title,
+      description,
+    },
   };
 }
 
@@ -59,7 +75,26 @@ export default async function EpisodePage({
     .filter((p) => episode[p.key])
     .map((p) => ({ ...p, href: episode[p.key]! }));
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "PodcastEpisode",
+    name: episode.title,
+    description: episode.description.replace(/<[^>]*>/g, "").slice(0, 300),
+    url: `${SITE_URL}/episodes/${episode.id}`,
+    datePublished: episode.pubDate ? new Date(episode.pubDate).toISOString().split("T")[0] : undefined,
+    partOfSeries: {
+      "@type": "PodcastSeries",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  };
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 32px 80px" }}>
 
       {/* Retour */}
@@ -214,5 +249,6 @@ export default async function EpisodePage({
         </div>
       )}
     </div>
+    </>
   );
 }

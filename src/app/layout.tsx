@@ -1,11 +1,27 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "OKLM Drag Club — Podcast drag & téléréalité",
-  description:
-    "Réactions calmes et bienveillantes sur la drag et la téléréalité — sans hurler dans vos oreilles. Drag Race France, Dragula, Les Traîtres FR, et plus.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — Podcast drag & téléréalité`,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Podcast drag & téléréalité`,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — Podcast drag & téléréalité`,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -13,8 +29,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "PodcastSeries",
+    name: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    inLanguage: "fr",
+    author: { "@type": "Person", name: "Romain" },
+    offers: [
+      { "@type": "Offer", url: "https://open.spotify.com/show/3oH7fhOQ0r4TxzSmB8w6Ll" },
+      { "@type": "Offer", url: "https://podcasts.apple.com/fr/podcast/oklm-drag-club/id1735072269" },
+      { "@type": "Offer", url: "https://link.deezer.com/s/33gD3EOafsQg6hYKIJ1O3" },
+    ],
+  };
+
   return (
     <html lang="fr" className="h-full">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <Nav />
         <main className="flex-1">{children}</main>
