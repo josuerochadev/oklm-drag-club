@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { fetchEpisodes } from "@/lib/rss";
 import { SHOWS_LIST } from "@/lib/shows";
 import Hero from "@/components/Hero";
@@ -47,20 +48,31 @@ export default async function HomePage() {
               <div
                 style={{
                   backgroundColor: "var(--lime)",
-                  backgroundImage:
-                    "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
+                  backgroundImage: featured.imageUrl
+                    ? undefined
+                    : "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
                   position: "relative",
                   minHeight: "180px",
                   borderRight: "var(--border-base)",
+                  overflow: "hidden",
                 }}
               >
+                {featured.imageUrl && (
+                  <Image
+                    src={featured.imageUrl}
+                    alt={featured.title}
+                    fill
+                    sizes="200px"
+                    style={{ objectFit: "cover" }}
+                  />
+                )}
                 <span
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "6rem",
                     letterSpacing: "-0.04em",
-                    color: "var(--forest)",
-                    opacity: 0.12,
+                    color: featured.imageUrl ? "var(--white)" : "var(--forest)",
+                    opacity: featured.imageUrl ? 0.35 : 0.12,
                     position: "absolute",
                     bottom: "-4px",
                     right: "8px",
