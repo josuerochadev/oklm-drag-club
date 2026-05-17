@@ -31,7 +31,7 @@ async function fetchAppleLinks(): Promise<Map<string, string>> {
   const map = new Map<string, string>();
   const url = `https://itunes.apple.com/lookup?id=${APPLE_PODCAST_ID}&media=podcast&entity=podcastEpisode&limit=200&country=fr`;
 
-  const res = await fetch(url, { cache: "force-cache" });
+  const res = await fetch(url, { next: { revalidate: 3600 } });
   if (!res.ok) return map;
 
   const data = (await res.json()) as {
@@ -56,7 +56,7 @@ async function fetchDeezerLinks(): Promise<Map<string, string>> {
 
   while (true) {
     const url = `https://api.deezer.com/podcast/${DEEZER_SHOW_ID}/episodes?limit=100&index=${index}`;
-    const res = await fetch(url, { cache: "force-cache" });
+    const res = await fetch(url, { next: { revalidate: 3600 } });
     if (!res.ok) break;
 
     const data = (await res.json()) as {

@@ -228,6 +228,21 @@ a { color: var(--forest); text-decoration: none; }
   outline-offset: 2px;
 }
 
+/* ── Nav responsive ── */
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-hamburger { display: none !important; }
+.nav-mobile-menu { display: none !important; }
+
+@media (max-width: 640px) {
+  .nav-desktop { display: none !important; }
+  .nav-hamburger { display: flex !important; }
+  .nav-mobile-menu { display: flex !important; }
+}
+
 /* ── Episode description ── */
 .episode-description p { margin-bottom: 1em; line-height: 1.7; }
 .episode-description p:last-child { margin-bottom: 0; }

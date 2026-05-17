@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SHOW_CONFIG } from "@/lib/shows";
 import type { Episode } from "@/lib/rss";
 
@@ -39,23 +40,36 @@ export default function EpisodeCard({ episode }: EpisodeCardProps) {
             position: "relative",
             borderBottom: "var(--border-base)",
             backgroundColor: show.color,
-            backgroundImage:
-              "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
+            backgroundImage: episode.imageUrl
+              ? undefined
+              : "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
+            overflow: "hidden",
           }}
         >
+          {episode.imageUrl && (
+            <Image
+              src={episode.imageUrl}
+              alt={episode.title}
+              fill
+              sizes="(max-width: 640px) 100vw, 320px"
+              style={{ objectFit: "cover" }}
+            />
+          )}
+
           {/* Ghost episode number */}
           <span
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "5rem",
               letterSpacing: "-0.04em",
-              color: "var(--forest)",
-              opacity: 0.12,
+              color: episode.imageUrl ? "var(--white)" : "var(--forest)",
+              opacity: episode.imageUrl ? 0.35 : 0.12,
               position: "absolute",
               bottom: "-8px",
               right: "10px",
               lineHeight: 1,
               userSelect: "none",
+              zIndex: 1,
             }}
           >
             {episode.episodeNumber}
@@ -64,7 +78,7 @@ export default function EpisodeCard({ episode }: EpisodeCardProps) {
           {/* Show badge */}
           <span
             className={`badge ${show.badgeClass}`}
-            style={{ position: "absolute", top: "12px", left: "12px" }}
+            style={{ position: "absolute", top: "12px", left: "12px", zIndex: 1 }}
           >
             {show.abbr}
           </span>

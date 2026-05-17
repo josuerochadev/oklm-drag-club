@@ -22,17 +22,17 @@ Suivi des tâches du projet. Statuts : `[ ]` à faire · `[~]` en cours · `[x]`
 - [x] **Sitemap** — `/sitemap.xml` généré via `src/app/sitemap.ts` (home, /episodes, /about, tous les épisodes)
 - [x] **robots.txt** — `src/app/robots.ts` avec lien vers sitemap
 - [x] **JSON-LD schema.org** — `PodcastSeries` dans le layout, `PodcastEpisode` sur chaque page épisode
-- [ ] **Favicon personnalisé** — remplacer le favicon Next.js par défaut par une icône OKLM
+- [x] **Favicon personnalisé** — `src/app/icon.tsx` via `ImageResponse` : "OK" lime sur fond forest
 
 ---
 
 ## Phase 3 — Expérience utilisateur
 
-- [ ] **Afficher les images épisodes** — `imageUrl` est parsée depuis le RSS mais jamais affichée ; configurer `next.config.ts` avec le domaine Anchor.fm pour `next/image`, et afficher en thumbnail dans les cartes
-- [ ] **ISR sur fetchEpisodes** — remplacer `cache: "force-cache"` par `next: { revalidate: 3600 }` pour que le site se mette à jour automatiquement sans rebuild manuel
-- [ ] **Nav mobile** — la navigation n'est pas adaptée aux petits écrans ; ajouter un menu hamburger ou réorganiser les éléments
-- [ ] **Page 404 personnalisée** — créer `src/app/not-found.tsx` dans le ton OKLM
-- [ ] **Sanitization HTML** — la description des épisodes est injectée via `dangerouslySetInnerHTML` depuis le RSS ; envisager `dompurify` ou un sanitizer côté serveur
+- [x] **Afficher les images épisodes** — `next/image` dans `EpisodeCard`, fond coloré en fallback si pas d'image ; `next.config.ts` configuré avec `remotePatterns`
+- [x] **ISR sur fetchEpisodes** — `next: { revalidate: 3600 }` sur tous les fetches (RSS, Apple, Deezer) — le site se met à jour toutes les heures sans rebuild
+- [x] **Nav mobile** — menu hamburger avec SVG icons, drawer déroulant, géré via CSS media query 640px
+- [x] **Page 404 personnalisée** — `src/app/not-found.tsx` dans le ton OKLM
+- [x] **Sanitization HTML** — sanitizer serveur dans `rss.ts` : allowlist de tags sûrs, XSS bloqué
 
 ---
 
@@ -43,12 +43,14 @@ Suivi des tâches du projet. Statuts : `[ ]` à faire · `[~]` en cours · `[x]`
 - [ ] **Pagination / infinite scroll** — si le catalogue grandit, éviter de rendre 100+ cartes en une seule page
 - [ ] **Partage épisode** — bouton "Copier le lien" ou partage natif sur les pages épisode
 - [ ] **Mode sombre** — le design system en forest/lime se prête bien à un dark mode (déjà sombre par défaut en Hero)
+- [ ] **Newsletter** — brancher sur un vrai service d'emailing (Buttondown, Brevo, Mailchimp...)
 
 ---
 
 ## Notes techniques
 
-- Le RSS est fetché avec `cache: "force-cache"` — rebuild Vercel nécessaire pour voir les nouveaux épisodes (voir webhook `/api/rebuild`)
-- `overrides.json` est le seul fichier à éditer manuellement pour ajouter Deezer/Amazon Music
+- ISR configuré à 3600s (1h) — les nouveaux épisodes apparaissent automatiquement sans rebuild manuel
+- `overrides.json` reste utile pour Amazon Music (pas d'API) et corrections manuelles de liens
 - La détection d'émission (`detectShow` dans `rss.ts`) se base sur des mots-clés dans le titre — à ajuster si les titres changent de format
 - Next.js 16 App Router — `params` est une `Promise<>` dans les page components (déjà géré correctement)
+- `NEXT_PUBLIC_SITE_URL` à configurer dans Vercel (sinon fallback sur l'URL Vercel auto-générée)

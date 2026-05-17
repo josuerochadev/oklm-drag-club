@@ -93,6 +93,21 @@ export function detectShow(title: string): ShowId {
   return "other";
 }
 
+const ALLOWED_TAGS = new Set(["p", "br", "b", "strong", "em", "i", "ul", "ol", "li", "span"]);
+
+function sanitizeHtml(html: string): string {
+  return html.replace(/<(\/?)(\w+)([^>]*)>/g, (_, slash, tag, attrs) => {
+    const t = tag.toLowerCase();
+    if (t === "a") {
+      if (slash) return "</a>";
+      const href = /href="([^"]*)"/.exec(attrs)?.[1] ?? "";
+      if (!href || /^javascript:/i.test(href)) return "";
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer">`;
+    }
+    return ALLOWED_TAGS.has(t) ? `<${slash}${t}>` : "";
+  });
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractSpotifyUrl(item: any): string | undefined {
   const link: string = typeof item.link === "string" ? item.link : "";
@@ -112,7 +127,7 @@ export async function fetchEpisodes(): Promise<Episode[]> {
   }
 
   const [response, platformLinks] = await Promise.all([
-    fetch(RSS_URL, { cache: "force-cache" }),
+    fetch(RSS_URL, { next: { revalidate: 3600 } }),
     fetchPlatformLinks().catch(() => new Map()),
   ]);
   if (!response.ok) throw new Error(`RSS fetch failed: ${response.status}`);
@@ -159,7 +174,7 @@ export async function fetchEpisodes(): Promise<Episode[]> {
     return {
       id,
       title,
-      description: item.description ?? item["itunes:summary"] ?? "",
+      description: sanitizeHtml(item.description ?? item["itunes:summary"] ?? ""),
       pubDate: item.pubDate ?? "",
       duration: formatDuration(item["itunes:duration"] ?? ""),
       episodeNumber,
