@@ -9,7 +9,7 @@ Suivi des tâches du projet. Statuts : `[ ]` à faire · `[~]` en cours · `[x]`
 - [x] **Vraies URLs plateformes dans Hero.tsx** — remplacer les URLs fictives (Spotify, Apple Podcasts, Deezer, Amazon Music) par les vraies URLs du podcast
 - [x] **Apple Podcasts et Deezer automatiques** — `platforms.ts` fetch les liens au build via iTunes API + Deezer API, mergés dans `fetchEpisodes()`
 - [x] **Amazon Music** — lien vers la page show en fallback automatique (`AMAZON_SHOW_URL` dans `platforms.ts`). `overrides.json` peut surcharger avec un lien d'épisode spécifique si besoin.
-- [ ] **Brancher la newsletter** — intégrer un vrai service d'emailing (Buttondown, Brevo, Mailchimp...) dans `NewsletterForm.tsx` — actuellement le formulaire ne fait rien
+- [x] **Newsletter remplacée par RSS** — section "Ne rien rater" avec lien RSS à copier + bouton copier-coller ; `NewsletterForm.tsx` supprimé
 - [x] **Footer : liens cliquables** — les plateformes et émissions dans le footer sont des `<p>` nus, les transformer en `<a>` avec les vraies URLs
 
 ---
@@ -43,7 +43,7 @@ Suivi des tâches du projet. Statuts : `[ ]` à faire · `[~]` en cours · `[x]`
 - [ ] **Pagination / infinite scroll** — si le catalogue grandit, éviter de rendre 100+ cartes en une seule page
 - [ ] **Partage épisode** — bouton "Copier le lien" ou partage natif sur les pages épisode
 - [ ] **Mode sombre** — le design system en forest/lime se prête bien à un dark mode (déjà sombre par défaut en Hero)
-- [ ] **Newsletter** — brancher sur un vrai service d'emailing (Buttondown, Brevo, Mailchimp...)
+- [x] **Newsletter** → remplacée par lien RSS (voir Phase 1)
 
 ---
 

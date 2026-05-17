@@ -3,7 +3,7 @@ import { fetchEpisodes } from "@/lib/rss";
 import { SHOWS_LIST } from "@/lib/shows";
 import Hero from "@/components/Hero";
 import EpisodeCard from "@/components/EpisodeCard";
-import NewsletterForm from "@/components/NewsletterForm";
+import CopyRssButton from "@/components/CopyRssButton";
 
 export default async function HomePage() {
   const episodes = await fetchEpisodes().catch(() => []);
@@ -198,9 +198,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Newsletter ── */}
+      {/* ── RSS ── */}
       <section
-        id="newsletter"
+        id="rss"
         style={{
           background: "var(--lime)",
           borderBottom: "var(--border-base)",
@@ -208,7 +208,7 @@ export default async function HomePage() {
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
           <p className="section-label" style={{ marginBottom: "12px" }}>
-            Rester informé·e
+            Ne rien rater
           </p>
           <h2
             style={{
@@ -217,13 +217,27 @@ export default async function HomePage() {
               color: "var(--forest)",
               letterSpacing: "-0.04em",
               lineHeight: 1,
-              marginBottom: "28px",
-              maxWidth: "480px",
+              marginBottom: "16px",
+              maxWidth: "520px",
             }}
           >
-            Une note douce à chaque épisode.
+            Chaque épisode, dans votre app.
           </h2>
-          <NewsletterForm />
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "0.9375rem",
+              color: "var(--forest)",
+              opacity: 0.65,
+              lineHeight: 1.65,
+              marginBottom: "28px",
+              maxWidth: "440px",
+            }}
+          >
+            Copiez ce lien RSS et collez-le dans votre application podcast favorite
+            pour être alerté·e dès qu&apos;un nouvel épisode est disponible.
+          </p>
+          <CopyRssButton />
         </div>
       </section>
     </>

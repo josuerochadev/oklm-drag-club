@@ -62,7 +62,7 @@ export default function Nav() {
             </Link>
           ))}
           <Link
-            href="/#newsletter"
+            href="/#rss"
             className="btn btn-primary"
             style={{ padding: "8px 18px", fontSize: "0.75rem" }}
           >
@@ -135,7 +135,7 @@ export default function Nav() {
           ))}
           <div style={{ marginTop: "12px" }}>
             <Link
-              href="/#newsletter"
+              href="/#rss"
               onClick={() => setOpen(false)}
               className="btn btn-primary"
               style={{ width: "100%", justifyContent: "center" }}
