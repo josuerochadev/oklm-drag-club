@@ -3,7 +3,16 @@ import { fetchEpisodes } from "@/lib/rss";
 import { SHOWS_LIST } from "@/lib/shows";
 import Hero from "@/components/Hero";
 import EpisodeCard from "@/components/EpisodeCard";
-import CopyRssButton from "@/components/CopyRssButton";
+import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
+
+const RSS_URL = "https://anchor.fm/s/f3147f50/podcast/rss";
+
+const FOLLOW_PLATFORMS = [
+  { Icon: SpotifyIcon, href: "https://open.spotify.com/show/3oH7fhOQ0r4TxzSmB8w6Ll", label: "Spotify" },
+  { Icon: AppleIcon, href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club/id1735072269", label: "Apple Podcasts" },
+  { Icon: DeezerIcon, href: "https://link.deezer.com/s/33gD3EOafsQg6hYKIJ1O3", label: "Deezer" },
+  { Icon: AmazonIcon, href: "https://music.amazon.fr/podcasts/e265f2dd-51a6-4596-9f50-2a77094fa1a4/oklm-drag-club?ref=dm_sh_B8czxUzRAahr96DhRnDz0uJ26&referrer=dm_sh_messages", label: "Amazon Music" },
+];
 
 export default async function HomePage() {
   const episodes = await fetchEpisodes().catch(() => []);
@@ -198,7 +207,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── RSS ── */}
+      {/* ── Suivre ── */}
       <section
         id="rss"
         style={{
@@ -221,23 +230,79 @@ export default async function HomePage() {
               maxWidth: "520px",
             }}
           >
-            Chaque épisode, dans votre app.
+            Suivez le podcast sur votre plateforme.
           </h2>
           <p
             style={{
               fontFamily: "var(--font-body)",
               fontSize: "0.9375rem",
               color: "var(--forest)",
-              opacity: 0.65,
+              opacity: 0.7,
               lineHeight: 1.65,
-              marginBottom: "28px",
+              marginBottom: "32px",
               maxWidth: "440px",
             }}
           >
-            Copiez ce lien RSS et collez-le dans votre application podcast favorite
-            pour être alerté·e dès qu&apos;un nouvel épisode est disponible.
+            Chaque nouvel épisode apparaîtra automatiquement — sans rien faire de plus.
           </p>
-          <CopyRssButton />
+
+          {/* Plateformes */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+              gap: "12px",
+              marginBottom: "28px",
+            }}
+          >
+            {FOLLOW_PLATFORMS.map(({ Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  padding: "14px 18px",
+                  background: "var(--white)",
+                  border: "var(--border-base)",
+                  borderRadius: "var(--radius-xs)",
+                  textDecoration: "none",
+                  color: "var(--forest)",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 600,
+                  fontSize: "0.875rem",
+                  transition: "box-shadow var(--transition-fast), transform var(--transition-fast)",
+                }}
+                className="episode-card-link"
+              >
+                <Icon size={22} />
+                {label}
+              </a>
+            ))}
+          </div>
+
+          {/* RSS discret */}
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "0.8125rem",
+              color: "var(--forest)",
+              opacity: 0.5,
+            }}
+          >
+            Vous utilisez une app podcast dédiée ?{" "}
+            <a
+              href={RSS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "var(--forest)", textDecoration: "underline", textUnderlineOffset: "3px" }}
+            >
+              Lien RSS
+            </a>
+          </p>
         </div>
       </section>
     </>
