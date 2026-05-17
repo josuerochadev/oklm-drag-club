@@ -4,6 +4,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/config";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
+import ShareButton from "@/components/ShareButton";
 
 export async function generateStaticParams() {
   const episodes = await fetchEpisodes().catch(() => []);
@@ -143,26 +144,28 @@ export default async function EpisodePage({
         {episode.title}
       </h1>
 
-      {/* Platform links */}
-      {episodeLinks.length > 0 && (
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "40px" }}>
-          {episodeLinks.map(({ Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={label}
-              aria-label={label}
-              className="btn btn-ghost"
-              style={{ padding: "8px 16px", fontSize: "0.75rem" }}
-            >
-              <Icon size={16} />
-              {label}
-            </a>
-          ))}
-        </div>
-      )}
+      {/* Platform links + partage */}
+      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "40px" }}>
+        {episodeLinks.map(({ Icon, href, label }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={label}
+            aria-label={label}
+            className="btn btn-ghost"
+            style={{ padding: "8px 16px", fontSize: "0.75rem" }}
+          >
+            <Icon size={16} />
+            {label}
+          </a>
+        ))}
+        <ShareButton
+          url={`${SITE_URL}/episodes/${episode.id}`}
+          title={episode.title}
+        />
+      </div>
 
       {/* Séparateur */}
       <div style={{ height: "2px", background: "var(--forest)", marginBottom: "32px", opacity: 0.12 }} />

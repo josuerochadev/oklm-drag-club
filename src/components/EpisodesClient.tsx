@@ -6,15 +6,39 @@ import type { ShowId } from "@/lib/shows";
 import EpisodeCard from "@/components/EpisodeCard";
 import ShowFilter from "@/components/ShowFilter";
 
+const PAGE_SIZE = 24;
+const LOAD_MORE = 12;
+
 export default function EpisodesClientPage({
   episodes,
 }: {
   episodes: Episode[];
 }) {
   const [active, setActive] = useState<ShowId | "all">("all");
+  const [query, setQuery] = useState("");
+  const [count, setCount] = useState(PAGE_SIZE);
 
-  const visible =
+  function handleFilterChange(show: ShowId | "all") {
+    setActive(show);
+    setCount(PAGE_SIZE);
+  }
+
+  function handleSearch(q: string) {
+    setQuery(q);
+    setCount(PAGE_SIZE);
+  }
+
+  const filtered =
     active === "all" ? episodes : episodes.filter((ep) => ep.show === active);
+
+  const searched = query.trim()
+    ? filtered.filter((ep) =>
+        ep.title.toLowerCase().includes(query.toLowerCase())
+      )
+    : filtered;
+
+  const displayed = searched.slice(0, count);
+  const remaining = searched.length - displayed.length;
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 32px 80px" }}>
@@ -38,30 +62,62 @@ export default function EpisodesClientPage({
           </p>
         )}
 
-        <div
-          style={{
-            height: "2px",
-            background: "var(--forest)",
-            marginBottom: "24px",
-          }}
-        />
+        <div style={{ height: "2px", background: "var(--forest)", marginBottom: "24px" }} />
 
-        <ShowFilter active={active} onChange={setActive} />
+        {/* Filtre émissions */}
+        <ShowFilter active={active} onChange={handleFilterChange} />
+
+        {/* Recherche */}
+        <div style={{ marginTop: "16px" }}>
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="Rechercher un épisode…"
+            className="field-input"
+            style={{ maxWidth: "400px" }}
+          />
+        </div>
       </div>
 
-      {/* Grille */}
-      {visible.length > 0 ? (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            gap: "24px",
-          }}
+      {/* Résultats */}
+      {query && (
+        <p
+          className="section-label"
+          style={{ marginBottom: "20px" }}
         >
-          {visible.map((ep) => (
-            <EpisodeCard key={ep.id} episode={ep} />
-          ))}
-        </div>
+          {searched.length} résultat{searched.length !== 1 ? "s" : ""} pour &ldquo;{query}&rdquo;
+        </p>
+      )}
+
+      {/* Grille */}
+      {displayed.length > 0 ? (
+        <>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap: "24px",
+            }}
+          >
+            {displayed.map((ep) => (
+              <EpisodeCard key={ep.id} episode={ep} />
+            ))}
+          </div>
+
+          {/* Voir plus */}
+          {remaining > 0 && (
+            <div style={{ textAlign: "center", marginTop: "48px" }}>
+              <button
+                onClick={() => setCount((c) => c + LOAD_MORE)}
+                className="btn btn-ghost"
+              >
+                Voir {Math.min(LOAD_MORE, remaining)} épisode{remaining !== 1 ? "s" : ""} de plus
+                <span style={{ opacity: 0.5 }}>({remaining} restant{remaining !== 1 ? "s" : ""})</span>
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <p
           style={{
@@ -72,7 +128,9 @@ export default function EpisodesClientPage({
             textAlign: "center",
           }}
         >
-          Aucun épisode dans cette catégorie pour l&apos;instant.
+          {query
+            ? `Aucun épisode ne correspond à « ${query} ».`
+            : "Aucun épisode dans cette catégorie pour l'instant."}
         </p>
       )}
     </div>

@@ -121,9 +121,13 @@ export default async function HomePage() {
             }}
           >
             {SHOWS_LIST.map((show) => (
-              <div
+              <Link
                 key={show.id}
+                href={`/emissions/${show.id}`}
+                className="episode-card-link"
                 style={{
+                  display: "flex",
+                  alignItems: "flex-end",
                   backgroundColor: show.color,
                   backgroundImage:
                     "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
@@ -131,8 +135,7 @@ export default async function HomePage() {
                   borderRadius: "var(--radius-xs)",
                   padding: "24px 20px",
                   minHeight: "120px",
-                  display: "flex",
-                  alignItems: "flex-end",
+                  textDecoration: "none",
                 }}
               >
                 <h3
@@ -146,7 +149,7 @@ export default async function HomePage() {
                 >
                   {show.label}
                 </h3>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

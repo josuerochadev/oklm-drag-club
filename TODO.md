@@ -38,12 +38,12 @@ Suivi des tâches du projet. Statuts : `[ ]` à faire · `[~]` en cours · `[x]`
 
 ## Phase 4 — Enhancements
 
-- [ ] **Recherche dans les épisodes** — filtre textuel côté client sur titre/description dans `EpisodesClient.tsx`
-- [ ] **Pages par émission** — rendre les cartes émissions dans la home cliquables (`/emissions/drag-race-france`) avec liste filtrée
-- [ ] **Pagination / infinite scroll** — si le catalogue grandit, éviter de rendre 100+ cartes en une seule page
-- [ ] **Partage épisode** — bouton "Copier le lien" ou partage natif sur les pages épisode
-- [ ] **Mode sombre** — le design system en forest/lime se prête bien à un dark mode (déjà sombre par défaut en Hero)
-- [x] **Newsletter** → remplacée par lien RSS (voir Phase 1)
+- [x] **Recherche dans les épisodes** — input de recherche dans `EpisodesClient.tsx`, filtre sur le titre en temps réel
+- [x] **Pages par émission** — `/emissions/[show]` avec header couleur show, grille filtrée ; cartes shows home cliquables
+- [x] **Pagination** — affichage 24 épisodes par défaut, bouton "Voir X de plus" par tranches de 12
+- [x] **Partage épisode** — `ShareButton.tsx` : Web Share API sur mobile, fallback copier le lien sur desktop
+- [ ] **Mode sombre** — à envisager plus tard, travail de design à part entière
+- [x] **Newsletter** → remplacée par liens plateformes + lien RSS discret
 
 ---
 
