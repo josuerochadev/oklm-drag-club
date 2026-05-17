@@ -4,6 +4,7 @@ export type ShowId =
   | "les-traitres-fr"
   | "ultime-drag-asmr"
   | "fan-fiction"
+  | "rpdr-global"
   | "other";
 
 export interface ShowConfig {
@@ -55,6 +56,14 @@ export const SHOW_CONFIG: Record<ShowId, ShowConfig> = {
     color: "var(--fuchsia-soft)",
     colorSoft: "var(--fuchsia-soft)",
     badgeClass: "badge-outline",
+  },
+  "rpdr-global": {
+    id: "rpdr-global",
+    label: "RPDR Global All Stars",
+    abbr: "GAS",
+    color: "var(--yellow)",
+    colorSoft: "var(--yellow-soft)",
+    badgeClass: "badge-yellow",
   },
   other: {
     id: "other",

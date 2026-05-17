@@ -20,6 +20,7 @@ export interface Episode {
 
 interface Overrides {
   [episodeId: string]: {
+    show?: ShowId;
     deezerUrl?: string;
     amazonUrl?: string;
     applePodcastsUrl?: string;
@@ -85,11 +86,19 @@ export function formatDuration(raw: string): string {
 
 export function detectShow(title: string): ShowId {
   const lower = title.toLowerCase();
-  if (lower.includes("drag race france") || lower.includes("drf")) return "drag-race-france";
+  if (
+    lower.includes("drag race france") ||
+    lower.includes("drf") ||
+    lower.includes("dragrace") ||
+    lower.includes("all stars fr") ||
+    lower.includes("allstar fr") ||
+    lower.includes("asfr")
+  ) return "drag-race-france";
   if (lower.includes("dragula")) return "dragula";
   if (lower.includes("traitre") || lower.includes("traître")) return "les-traitres-fr";
   if (lower.includes("asmr") || lower.includes("dragsmr") || lower.includes("ultime")) return "ultime-drag-asmr";
-  if (lower.includes("fan fiction") || lower.includes("fanfic")) return "fan-fiction";
+  if (lower.includes("fan fiction") || lower.includes("fanfic") || lower.includes("ssaw")) return "fan-fiction";
+  if (lower.includes("rpdr") || lower.includes("global allstars") || lower.includes("global all stars")) return "rpdr-global";
   return "other";
 }
 
@@ -161,14 +170,14 @@ export async function fetchEpisodes(): Promise<Episode[]> {
     const id = count === 0 ? baseSlug : `${baseSlug}-${count + 1}`;
 
     const episodeNumber = items.length - index;
-    const show = detectShow(title);
+    const ov = overrides[id] ?? {};
+    const show: ShowId = ov.show ?? detectShow(title);
 
     const imageUrl: string =
       item["itunes:image"]?.["@_href"] ??
       item["media:content"]?.["@_url"] ??
       channelImage;
 
-    const ov = overrides[id] ?? {};
     const platform = platformLinks.get(baseSlug) ?? {};
 
     return {
