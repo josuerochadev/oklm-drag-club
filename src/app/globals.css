@@ -207,15 +207,11 @@ a { color: var(--forest); text-decoration: none; }
   outline: 2px solid var(--lime);
   outline-offset: 2px;
 }
-/* Icônes dans les cards : blanc par défaut, couleurs de marque au hover */
 .platform-card img {
-  filter: brightness(0) invert(1);
-  opacity: 0.65;
-  transition: filter var(--transition-fast), opacity var(--transition-fast);
+  transition: opacity var(--transition-fast);
 }
 .platform-card:hover img {
-  filter: none;
-  opacity: 1;
+  opacity: 0.85;
 }
 
 /* ── Episode card hover ── */
