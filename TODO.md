@@ -16,7 +16,7 @@ Suivi des tâches du projet. Statuts : `[ ]` à faire · `[~]` en cours · `[x]`
 
 ## Phase 2 — Contenu & SEO
 
-- [ ] **Page À propos** (`/about`) — présenter le podcast, Romain, les émissions couvertes
+- [x] **Page À propos** (`/about`) — présenter le podcast, Romain, les émissions couvertes
 - [ ] **Open Graph / og:image** — ajouter balises og sur le layout et les pages épisode (og:image statique ou dynamique via `opengraph-image.tsx`)
 - [ ] **Twitter / X cards** — balises `twitter:card` dans les metadata
 - [ ] **Sitemap** — générer `/sitemap.xml` (Next.js App Router supporte `src/app/sitemap.ts`)

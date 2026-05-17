@@ -43,6 +43,18 @@ export default function Nav() {
           Épisodes
         </Link>
         <Link
+          href="/about"
+          style={{
+            fontFamily: "var(--font-body)",
+            fontWeight: 500,
+            fontSize: "0.9375rem",
+            color: "var(--forest-mid)",
+            textDecoration: "none",
+          }}
+        >
+          À propos
+        </Link>
+        <Link
           href="/#newsletter"
           className="btn btn-primary"
           style={{ padding: "8px 18px", fontSize: "0.75rem" }}

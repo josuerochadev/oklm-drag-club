@@ -62,26 +62,32 @@ export default function RootLayout({
               </p>
             </div>
 
-            {/* Émissions */}
+            {/* Navigation */}
             <div>
               <p
                 className="section-label"
                 style={{ color: "rgba(255,255,255,0.45)", marginBottom: "14px" }}
               >
-                Émissions
+                Navigation
               </p>
-              {["Drag Race France", "Dragula", "Les Traîtres FR", "Ultime Drag ASMR", "Fan Fiction"].map((l) => (
-                <p
-                  key={l}
+              {[
+                { label: "Épisodes", href: "/episodes" },
+                { label: "À propos", href: "/about" },
+              ].map(({ label, href }) => (
+                <a
+                  key={label}
+                  href={href}
                   style={{
+                    display: "block",
                     fontFamily: "var(--font-body)",
                     fontSize: "13px",
                     color: "rgba(255,255,255,0.70)",
                     marginBottom: "9px",
+                    textDecoration: "none",
                   }}
                 >
-                  {l}
-                </p>
+                  {label}
+                </a>
               ))}
             </div>
 
