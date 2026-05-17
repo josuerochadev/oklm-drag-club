@@ -36,7 +36,7 @@ export default function EpisodeCard({ episode }: EpisodeCardProps) {
         {/* Thumb */}
         <div
           style={{
-            height: "160px",
+            aspectRatio: "1",
             position: "relative",
             borderBottom: "var(--border-base)",
             backgroundColor: show.color,
