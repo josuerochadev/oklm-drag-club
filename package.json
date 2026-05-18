@@ -1,6 +1,6 @@
 {
   "name": "oklm-drag-club",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "description": "Site web du podcast OKLM Drag Club — réactions calmes sur la drag et la téléréalité",
   "private": true,
   "scripts": {
@@ -22,6 +22,9 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --fix"
+  },
+  "overrides": {
+    "postcss": "^8.5.14"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.0.1",
