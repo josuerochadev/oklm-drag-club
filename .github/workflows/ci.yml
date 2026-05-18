@@ -35,7 +35,7 @@ jobs:
         run: npm run build
         env:
           # Valeur stable pour le build CI — le fetch RSS est réel (réseau autorisé)
-          NEXT_PUBLIC_SITE_URL: https://oklm-drag-club.fr
+          NEXT_PUBLIC_SITE_URL: https://oklmdragclub.com
           # Source maps uploadées vers Sentry uniquement si le secret est configuré
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}

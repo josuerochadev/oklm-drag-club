@@ -242,6 +242,24 @@ a { color: var(--forest); text-decoration: none; }
   .footer-grid { grid-template-columns: 1fr; }
 }
 
+/* ── Featured episode card (accueil) ── */
+.featured-episode-card { display: grid; grid-template-columns: 200px 1fr; }
+.featured-episode-thumb { border-right: var(--border-base); }
+
+@media (max-width: 640px) {
+  .featured-episode-card  { grid-template-columns: 1fr; }
+  .featured-episode-thumb { border-right: none; border-bottom: var(--border-base); min-height: 220px; }
+}
+
+/* ── Show row (page À propos) ── */
+.show-row        { display: grid; grid-template-columns: 240px 1fr; }
+.show-row-header { border-right: var(--border-base); }
+
+@media (max-width: 640px) {
+  .show-row        { grid-template-columns: 1fr; }
+  .show-row-header { border-right: none; border-bottom: var(--border-base); }
+}
+
 /* ── Skip link ── */
 .skip-link {
   position: absolute;

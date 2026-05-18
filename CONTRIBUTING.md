@@ -121,7 +121,7 @@ Authorization: Bearer <REBUILD_SECRET>
 
 **Exemple curl :**
 ```bash
-curl -X POST https://oklm-drag-club.fr/api/rebuild \
+curl -X POST https://oklmdragclub.com/api/rebuild \
   -H "Authorization: Bearer <REBUILD_SECRET>"
 ```
 
