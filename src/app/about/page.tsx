@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SHOWS_LIST, SHOW_CONFIG } from "@/lib/shows";
+import { SHOWS_LIST } from "@/lib/shows";
 
 export const metadata: Metadata = {
   title: "À propos — OKLM Drag Club",
@@ -19,6 +19,8 @@ const SHOW_DESCRIPTIONS: Record<string, string> = {
     "Un format doux pour un univers drag qu'on n'entend pas assez. À écouter les yeux fermés.",
   "fan-fiction":
     "Et si on réécrivait les règles ? Une saison imaginaire, des queens inventées, un jeu de rôle éditorial pour le plaisir.",
+  "rpdr-global":
+    "Les meilleures queens du monde entier réunies pour une saison All Stars internationale. On analyse les dynamiques, les alliances et les performances.",
 };
 
 export default function AboutPage() {

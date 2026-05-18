@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Episode } from "@/lib/rss";
 import type { ShowId } from "@/lib/shows";
 import EpisodeCard from "@/components/EpisodeCard";
@@ -28,14 +28,15 @@ export default function EpisodesClientPage({
     setCount(PAGE_SIZE);
   }
 
-  const filtered =
-    active === "all" ? episodes : episodes.filter((ep) => ep.show === active);
-
-  const searched = query.trim()
-    ? filtered.filter((ep) =>
-        ep.title.toLowerCase().includes(query.toLowerCase())
-      )
-    : filtered;
+  const searched = useMemo(() => {
+    const filtered =
+      active === "all" ? episodes : episodes.filter((ep) => ep.show === active);
+    const normalizedQuery = query.trim().toLowerCase();
+    if (!normalizedQuery) return filtered;
+    return filtered.filter((ep) =>
+      ep.title.toLowerCase().includes(normalizedQuery)
+    );
+  }, [episodes, active, query]);
 
   const displayed = searched.slice(0, count);
   const remaining = searched.length - displayed.length;

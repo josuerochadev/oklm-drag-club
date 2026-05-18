@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { fetchEpisodes } from "@/lib/rss";
-import { SHOW_CONFIG, SHOWS_LIST, type ShowId } from "@/lib/shows";
+import { SHOW_CONFIG, SHOWS_LIST, isShowId } from "@/lib/shows";
 import EpisodeCard from "@/components/EpisodeCard";
 
 export function generateStaticParams() {
@@ -15,8 +15,8 @@ export async function generateMetadata({
   params: Promise<{ show: string }>;
 }): Promise<Metadata> {
   const { show: showId } = await params;
-  const show = SHOW_CONFIG[showId as ShowId];
-  if (!show) return {};
+  if (!isShowId(showId)) return {};
+  const show = SHOW_CONFIG[showId];
   return {
     title: `${show.label}`,
     description: `Tous les épisodes ${show.label} du podcast OKLM Drag Club — réactions calmes et bienveillantes.`,
@@ -29,9 +29,10 @@ export default async function EmissionPage({
   params: Promise<{ show: string }>;
 }) {
   const { show: showId } = await params;
-  const show = SHOW_CONFIG[showId as ShowId];
+  if (!isShowId(showId)) notFound();
+  const show = SHOW_CONFIG[showId];
 
-  if (!show || show.id === "other") notFound();
+  if (show.id === "other") notFound();
 
   const allEpisodes = await fetchEpisodes().catch(() => []);
   const episodes = allEpisodes.filter((ep) => ep.show === show.id);

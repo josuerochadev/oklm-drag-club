@@ -1,27 +1,9 @@
 import { ImageResponse } from "next/og";
 import { fetchEpisodes } from "@/lib/rss";
+import { SHOW_CONFIG } from "@/lib/shows";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-// Hex approximations des couleurs oklch par émission
-const SHOW_ACCENT: Record<string, string> = {
-  "drag-race-france": "#9fd400",
-  dragula: "#c94a9c",
-  "les-traitres-fr": "#ede84a",
-  "ultime-drag-asmr": "#d4edb0",
-  "fan-fiction": "#ead4ea",
-  other: "#9fd400",
-};
-
-const SHOW_LABEL: Record<string, string> = {
-  "drag-race-france": "DRF",
-  dragula: "DRG",
-  "les-traitres-fr": "TRT",
-  "ultime-drag-asmr": "ASMR",
-  "fan-fiction": "FAN",
-  other: "—",
-};
 
 const FOREST = "#111d10";
 
@@ -36,8 +18,9 @@ export default async function Image({
 
   const title = episode?.title ?? "OKLM Drag Club";
   const showId = episode?.show ?? "other";
-  const accent = SHOW_ACCENT[showId] ?? "#9fd400";
-  const abbr = SHOW_LABEL[showId] ?? "OKLM";
+  const showConfig = SHOW_CONFIG[showId];
+  const accent = showConfig.colorHex;
+  const abbr = showConfig.abbr;
 
   // Adapter la taille du titre selon sa longueur
   const fontSize = title.length > 60 ? 44 : title.length > 40 ? 56 : 68;

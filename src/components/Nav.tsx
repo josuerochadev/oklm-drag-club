@@ -82,7 +82,6 @@ export default function Nav() {
             borderRadius: "var(--radius-xs)",
             cursor: "pointer",
             padding: "6px 10px",
-            display: "none",
             alignItems: "center",
             justifyContent: "center",
             color: "var(--forest)",
@@ -110,7 +109,6 @@ export default function Nav() {
           style={{
             borderTop: "var(--border-base)",
             padding: "16px 32px 24px",
-            display: "none",
             flexDirection: "column",
             gap: "4px",
           }}

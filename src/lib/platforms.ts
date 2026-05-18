@@ -3,28 +3,21 @@
  * Matched against RSS episodes by normalized title (slugify).
  */
 
+import { slugify, SLUG_MAX_LENGTH } from "./utils";
+import { PLATFORM_SHOW_URLS } from "./config";
+
 const APPLE_PODCAST_ID = "1735072269";
 const DEEZER_SHOW_ID = "1000926732";
 
+export const SPOTIFY_URL = PLATFORM_SHOW_URLS.spotify;
+export const APPLE_PODCASTS_URL = PLATFORM_SHOW_URLS.apple;
+export const DEEZER_URL = PLATFORM_SHOW_URLS.deezer;
 /** Lien vers la page show Amazon Music — pas d'API publique pour les épisodes */
-export const AMAZON_SHOW_URL =
-  "https://music.amazon.fr/podcasts/e265f2dd-51a6-4596-9f50-2a77094fa1a4/oklm-drag-club";
+export const AMAZON_SHOW_URL = PLATFORM_SHOW_URLS.amazon;
 
 export interface PlatformLinks {
   applePodcastsUrl?: string;
   deezerUrl?: string;
-}
-
-// Duplicated from rss.ts to avoid circular dependency
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
 }
 
 async function fetchAppleLinks(): Promise<Map<string, string>> {
@@ -40,7 +33,7 @@ async function fetchAppleLinks(): Promise<Map<string, string>> {
 
   for (const item of data.results ?? []) {
     if (item.kind !== "podcast-episode") continue;
-    const slug = slugify(item.trackName ?? "").slice(0, 72);
+    const slug = slugify(item.trackName ?? "").slice(0, SLUG_MAX_LENGTH);
     if (slug && item.trackViewUrl) {
       // Strip Apple tracking param &uo=4
       map.set(slug, item.trackViewUrl.replace(/&uo=\d+/, ""));
@@ -50,12 +43,16 @@ async function fetchAppleLinks(): Promise<Map<string, string>> {
   return map;
 }
 
+const DEEZER_PAGE_SIZE = 100;
+const DEEZER_MAX_PAGES = 20;
+
 async function fetchDeezerLinks(): Promise<Map<string, string>> {
   const map = new Map<string, string>();
   let index = 0;
+  let page = 0;
 
-  while (true) {
-    const url = `https://api.deezer.com/podcast/${DEEZER_SHOW_ID}/episodes?limit=100&index=${index}`;
+  while (page < DEEZER_MAX_PAGES) {
+    const url = `https://api.deezer.com/podcast/${DEEZER_SHOW_ID}/episodes?limit=${DEEZER_PAGE_SIZE}&index=${index}`;
     const res = await fetch(url, { next: { revalidate: 3600 } });
     if (!res.ok) break;
 
@@ -66,15 +63,16 @@ async function fetchDeezerLinks(): Promise<Map<string, string>> {
     if (items.length === 0) break;
 
     for (const item of items) {
-      const slug = slugify(item.title ?? "").slice(0, 72);
+      const slug = slugify(item.title ?? "").slice(0, SLUG_MAX_LENGTH);
       if (slug && item.id) {
         map.set(slug, `https://www.deezer.com/episode/${item.id}`);
       }
     }
 
     // Deezer paginates by 100 — stop when we get a partial page
-    if (items.length < 100) break;
-    index += 100;
+    if (items.length < DEEZER_PAGE_SIZE) break;
+    index += DEEZER_PAGE_SIZE;
+    page += 1;
   }
 
   return map;

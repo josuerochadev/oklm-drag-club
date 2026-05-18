@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
+import { SPOTIFY_URL, APPLE_PODCASTS_URL, DEEZER_URL, AMAZON_SHOW_URL } from "@/lib/platforms";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -38,9 +39,9 @@ export default function RootLayout({
     inLanguage: "fr",
     author: { "@type": "Person", name: "Romain" },
     offers: [
-      { "@type": "Offer", url: "https://open.spotify.com/show/3oH7fhOQ0r4TxzSmB8w6Ll" },
-      { "@type": "Offer", url: "https://podcasts.apple.com/fr/podcast/oklm-drag-club/id1735072269" },
-      { "@type": "Offer", url: "https://link.deezer.com/s/33gD3EOafsQg6hYKIJ1O3" },
+      { "@type": "Offer", url: SPOTIFY_URL },
+      { "@type": "Offer", url: APPLE_PODCASTS_URL },
+      { "@type": "Offer", url: DEEZER_URL },
     ],
   };
 
@@ -137,10 +138,10 @@ export default function RootLayout({
                 Écouter
               </p>
               {[
-                { label: "Spotify", href: "https://open.spotify.com/show/3oH7fhOQ0r4TxzSmB8w6Ll" },
-                { label: "Apple Podcasts", href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club/id1735072269" },
-                { label: "Deezer", href: "https://link.deezer.com/s/33gD3EOafsQg6hYKIJ1O3" },
-                { label: "Amazon Music", href: "https://music.amazon.fr/podcasts/e265f2dd-51a6-4596-9f50-2a77094fa1a4/oklm-drag-club?ref=dm_sh_B8czxUzRAahr96DhRnDz0uJ26&referrer=dm_sh_messages" },
+                { label: "Spotify", href: SPOTIFY_URL },
+                { label: "Apple Podcasts", href: APPLE_PODCASTS_URL },
+                { label: "Deezer", href: DEEZER_URL },
+                { label: "Amazon Music", href: AMAZON_SHOW_URL },
               ].map(({ label, href }) => (
                 <a
                   key={label}
@@ -183,7 +184,7 @@ export default function RootLayout({
               color: "rgba(255,255,255,0.35)",
             }}
           >
-            <span>© 2026 OKLM Drag Club</span>
+            <span>© {new Date().getFullYear()} OKLM Drag Club</span>
             <span>Fait avec douceur</span>
           </div>
         </footer>

@@ -1,9 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ShareButton({ url, title }: { url: string; title: string }) {
   const [copied, setCopied] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   async function handleShare() {
     if (typeof navigator !== "undefined" && navigator.share) {
@@ -17,7 +24,8 @@ export default function ShareButton({ url, title }: { url: string; title: string
     }
     await navigator.clipboard.writeText(url);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setCopied(false), 2000);
   }
 
   return (

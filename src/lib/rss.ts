@@ -1,6 +1,9 @@
+import { cache } from "react";
 import { XMLParser } from "fast-xml-parser";
 import type { ShowId } from "./shows";
 import { fetchPlatformLinks, AMAZON_SHOW_URL } from "./platforms";
+import { slugify, SLUG_MAX_LENGTH } from "./utils";
+import { RSS_URL } from "./config";
 
 export interface Episode {
   id: string;
@@ -27,6 +30,27 @@ interface Overrides {
   };
 }
 
+interface RssItem {
+  title?: string;
+  description?: string;
+  "itunes:summary"?: string;
+  pubDate?: string;
+  link?: string;
+  "itunes:duration"?: string | number;
+  "itunes:image"?: { "@_href"?: string };
+  "media:content"?: { "@_url"?: string };
+}
+
+interface RssFeed {
+  rss?: {
+    channel?: {
+      item?: RssItem | RssItem[];
+      "itunes:image"?: { "@_href"?: string };
+      image?: { url?: string };
+    };
+  };
+}
+
 const ROMAN_VALUES: [number, string][] = [
   [1000, "M"], [900, "CM"], [500, "D"], [400, "CD"],
   [100, "C"],  [90, "XC"],  [50, "L"],  [40, "XL"],
@@ -46,18 +70,8 @@ export function toRoman(n: number): string {
   return result;
 }
 
-export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-}
-
-/** Format HH:MM:SS or raw seconds to "Xh YYmin" or "YYmin" */
+/** Format HH:MM:SS or raw seconds to "Xh YYmin" or "YYmin".
+ *  MM:SS format: seconds are intentionally dropped (display granularity is minutes). */
 export function formatDuration(raw: string): string {
   if (!raw) return "";
   // Already in HH:MM:SS or MM:SS
@@ -117,16 +131,13 @@ function sanitizeHtml(html: string): string {
   });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function extractSpotifyUrl(item: any): string | undefined {
-  const link: string = typeof item.link === "string" ? item.link : "";
+function extractSpotifyUrl(item: RssItem): string | undefined {
+  const link = typeof item.link === "string" ? item.link : "";
   if (link.includes("spotify.com") || link.includes("podcasters.spotify.com")) return link;
   return undefined;
 }
 
-export async function fetchEpisodes(): Promise<Episode[]> {
-  const RSS_URL = "https://anchor.fm/s/f3147f50/podcast/rss";
-
+export const fetchEpisodes = cache(async (): Promise<Episode[]> => {
   let overrides: Overrides = {};
   try {
     const mod = await import("@/data/overrides.json");
@@ -148,10 +159,9 @@ export async function fetchEpisodes(): Promise<Episode[]> {
     parseAttributeValue: true,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const parsed: any = parser.parse(xml);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const items: any[] = parsed?.rss?.channel?.item ?? [];
+  const parsed: RssFeed = parser.parse(xml);
+  const rawItems = parsed?.rss?.channel?.item ?? [];
+  const items: RssItem[] = Array.isArray(rawItems) ? rawItems : [rawItems];
   const channelImage: string =
     parsed?.rss?.channel?.["itunes:image"]?.["@_href"] ??
     parsed?.rss?.channel?.image?.url ??
@@ -162,7 +172,7 @@ export async function fetchEpisodes(): Promise<Episode[]> {
 
   const episodes: Episode[] = items.map((item, index) => {
     const title: string = item.title ?? `Épisode ${index + 1}`;
-    const baseSlug = slugify(title).slice(0, 72) || `episode-${index}`;
+    const baseSlug = slugify(title).slice(0, SLUG_MAX_LENGTH) || `episode-${index}`;
 
     // Deduplicate slug
     const count = seenSlugs.get(baseSlug) ?? 0;
@@ -185,7 +195,7 @@ export async function fetchEpisodes(): Promise<Episode[]> {
       title,
       description: sanitizeHtml(item.description ?? item["itunes:summary"] ?? ""),
       pubDate: item.pubDate ?? "",
-      duration: formatDuration(item["itunes:duration"] ?? ""),
+      duration: formatDuration(String(item["itunes:duration"] ?? "")),
       episodeNumber,
       romanNumeral: toRoman(episodeNumber),
       show,
@@ -199,4 +209,4 @@ export async function fetchEpisodes(): Promise<Episode[]> {
   });
 
   return episodes;
-}
+});

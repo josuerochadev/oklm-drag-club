@@ -5,14 +5,14 @@ import { SHOWS_LIST } from "@/lib/shows";
 import Hero from "@/components/Hero";
 import EpisodeCard from "@/components/EpisodeCard";
 import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
-
-const RSS_URL = "https://anchor.fm/s/f3147f50/podcast/rss";
+import { SPOTIFY_URL, APPLE_PODCASTS_URL, DEEZER_URL, AMAZON_SHOW_URL } from "@/lib/platforms";
+import { RSS_URL } from "@/lib/config";
 
 const FOLLOW_PLATFORMS = [
-  { Icon: SpotifyIcon, href: "https://open.spotify.com/show/3oH7fhOQ0r4TxzSmB8w6Ll", label: "Spotify" },
-  { Icon: AppleIcon, href: "https://podcasts.apple.com/fr/podcast/oklm-drag-club/id1735072269", label: "Apple Podcasts" },
-  { Icon: DeezerIcon, href: "https://link.deezer.com/s/33gD3EOafsQg6hYKIJ1O3", label: "Deezer" },
-  { Icon: AmazonIcon, href: "https://music.amazon.fr/podcasts/e265f2dd-51a6-4596-9f50-2a77094fa1a4/oklm-drag-club?ref=dm_sh_B8czxUzRAahr96DhRnDz0uJ26&referrer=dm_sh_messages", label: "Amazon Music" },
+  { Icon: SpotifyIcon, href: SPOTIFY_URL, label: "Spotify" },
+  { Icon: AppleIcon, href: APPLE_PODCASTS_URL, label: "Apple Podcasts" },
+  { Icon: DeezerIcon, href: DEEZER_URL, label: "Deezer" },
+  { Icon: AmazonIcon, href: AMAZON_SHOW_URL, label: "Amazon Music" },
 ];
 
 export default async function HomePage() {
