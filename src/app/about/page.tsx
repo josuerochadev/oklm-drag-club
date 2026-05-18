@@ -8,20 +8,6 @@ export const metadata: Metadata = {
     "OKLM Drag Club, c'est un podcast de réactions calmes et bienveillantes sur la drag et la téléréalité. Sans hurler dans vos oreilles.",
 };
 
-const SHOW_DESCRIPTIONS: Record<string, string> = {
-  "drag-race-france":
-    "Le concours de drag le plus suivi en France, saison après saison. Technique, personnalités, drama — analysés épisode par épisode.",
-  dragula:
-    "L'anti-Drag Race. Plus sombre, plus extrême, plus artistique. Un univers à part entière qui mérite qu'on s'y attarde.",
-  "les-traitres-fr":
-    "La téléréalité sociale dans ce qu'elle a de plus fascinant : la manipulation, la confiance, la trahison. On décortique chaque conseil.",
-  "ultime-drag-asmr":
-    "Un format doux pour un univers drag qu'on n'entend pas assez. À écouter les yeux fermés.",
-  "fan-fiction":
-    "Et si on réécrivait les règles ? Une saison imaginaire, des queens inventées, un jeu de rôle éditorial pour le plaisir.",
-  "rpdr-global":
-    "Les meilleures queens du monde entier réunies pour une saison All Stars internationale. On analyse les dynamiques, les alliances et les performances.",
-};
 
 export default function AboutPage() {
   return (
@@ -250,7 +236,7 @@ export default function AboutPage() {
                       opacity: 0.85,
                     }}
                   >
-                    {SHOW_DESCRIPTIONS[show.id] ?? ""}
+                    {show.description}
                   </p>
                 </div>
               </div>

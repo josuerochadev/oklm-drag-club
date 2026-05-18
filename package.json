@@ -1,6 +1,7 @@
 {
   "name": "oklm-drag-club",
   "version": "0.1.0",
+  "description": "Site web du podcast OKLM Drag Club — réactions calmes sur la drag et la téléréalité",
   "private": true,
   "scripts": {
     "dev": "next dev",

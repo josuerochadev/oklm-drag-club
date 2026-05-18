@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OKLM Drag Club
 
-## Getting Started
+Site web du podcast **OKLM Drag Club** — réactions calmes et bienveillantes sur la drag et la téléréalité, sans hurler dans vos oreilles.
 
-First, run the development server:
+Couverture : Drag Race France, Dragula, Les Traîtres FR, Ultime Drag ASMR, Fan Fiction, RPDR Global All Stars.
+
+## Stack
+
+| Outil | Version | Rôle |
+|---|---|---|
+| Next.js | 16 (App Router) | Framework — SSG, routing, OG images |
+| React | 19 | UI |
+| TypeScript | 5 strict | Typage |
+| Tailwind CSS | v4 | Utilitaires CSS globaux |
+| fast-xml-parser | 5 | Parsing du flux RSS |
+| Vercel | — | Déploiement + deploy hooks |
+
+## Architecture des données
+
+Le site est entièrement statique — **pas de base de données**.
+
+Les épisodes proviennent de deux sources mergées au build :
+
+1. **Flux RSS Anchor.fm** — titre, description, date, durée, liens Spotify
+2. **`src/data/overrides.json`** — correctifs manuels : show, Deezer, Apple Podcasts, Amazon Music
+
+Voir [`CONTRIBUTING.md`](./CONTRIBUTING.md#format-de-overridesjson) pour le format du fichier overrides.
+
+## Prérequis
+
+- Node.js ≥ 20
+- npm ≥ 10
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repo>
+cd oklm-drag-club
+npm install
+cp .env.example .env.local   # puis renseigner les valeurs
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Lancer le projet
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run dev      # http://localhost:3000
+npm run build    # build de production (fetch RSS + APIs plateformes)
+npm run lint     # ESLint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Variables d'environnement
 
-## Learn More
+Copier `.env.example` en `.env.local` :
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Obligatoire | Description |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Recommandée | URL publique du site (ex: `https://oklm-drag-club.fr`) |
+| `VERCEL_DEPLOY_HOOK_URL` | Pour `/api/rebuild` | URL du deploy hook Vercel |
+| `REBUILD_SECRET` | Pour `/api/rebuild` | Secret partagé pour protéger l'endpoint rebuild |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+En l'absence de `NEXT_PUBLIC_SITE_URL`, le site utilise `VERCEL_URL` (injecté automatiquement par Vercel) puis `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Structure du projet
 
-## Deploy on Vercel
+```
+src/
+├── app/                   # Pages et routes Next.js (App Router)
+│   ├── api/rebuild/       # Endpoint POST pour déclencher un redéploiement
+│   ├── emissions/[show]/  # Page par émission
+│   ├── episodes/[id]/     # Page détail d'un épisode
+│   └── ...
+├── components/            # Composants React
+├── data/
+│   └── overrides.json     # Correctifs manuels sur les épisodes
+└── lib/
+    ├── config.ts          # Constantes globales (URLs, noms)
+    ├── platforms.ts       # Fetch Apple Podcasts + Deezer au build
+    ├── rss.ts             # Fetch + parsing du flux RSS
+    ├── shows.ts           # Configuration des émissions (couleurs, labels, slugs)
+    └── utils.ts           # slugify, SLUG_MAX_LENGTH
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contribuer
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Lire [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+## Déploiement
+
+Le site est déployé sur Vercel. Chaque push sur `main` déclenche un build automatique. Le flux RSS est refetché à chaque build (`next: { revalidate: 3600 }` en dev).
+
+Pour forcer un rebuild sans push (ex : nouvel épisode paru), utiliser l'endpoint `/api/rebuild` — voir [CONTRIBUTING.md](./CONTRIBUTING.md#endpoint-apirebuild).

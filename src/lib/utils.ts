@@ -1,3 +1,5 @@
+// 72 caractères : les titres OKLM sont suffisamment discriminants à cette longueur,
+// ce qui évite les collisions tout en gardant des URLs raisonnables.
 export const SLUG_MAX_LENGTH = 72;
 
 export function slugify(text: string): string {
