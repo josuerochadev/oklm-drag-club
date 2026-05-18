@@ -179,9 +179,8 @@ export default function AboutPage() {
             {SHOWS_LIST.map((show) => (
               <div
                 key={show.id}
+                className="show-row"
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "240px 1fr",
                   border: "var(--border-base)",
                   borderRadius: "var(--radius-xs)",
                   overflow: "hidden",
@@ -189,11 +188,11 @@ export default function AboutPage() {
               >
                 {/* Couleur show */}
                 <div
+                  className="show-row-header"
                   style={{
                     backgroundColor: show.color,
                     backgroundImage:
                       "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
-                    borderRight: "var(--border-base)",
                     padding: "28px 24px",
                     display: "flex",
                     flexDirection: "column",

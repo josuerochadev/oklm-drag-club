@@ -9,7 +9,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-deployed-000000?style=flat&logo=vercel)
 
-[oklm-drag-club.fr](https://oklm-drag-club.fr) · [Portfolio](https://josuerocha.dev)
+[oklmdragclub.com](https://oklmdragclub.com) · [Portfolio](https://josuerocha.dev)
 
 </div>
 
@@ -60,7 +60,7 @@ npm install
 
 | Variable | Obligatoire | Description |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Recommandée | URL publique du site (ex : `https://oklm-drag-club.fr`) |
+| `NEXT_PUBLIC_SITE_URL` | Recommandée | URL publique du site (ex : `https://oklmdragclub.com`) |
 | `VERCEL_DEPLOY_HOOK_URL` | Pour `/api/rebuild` | URL du deploy hook Vercel |
 | `REBUILD_SECRET` | Pour `/api/rebuild` | Secret partagé pour protéger l'endpoint rebuild |
 

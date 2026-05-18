@@ -1,6 +1,6 @@
 /**
  * URL de base du site — à définir dans les variables d'environnement Vercel.
- * NEXT_PUBLIC_SITE_URL=https://oklm-drag-club.fr
+ * NEXT_PUBLIC_SITE_URL=https://oklmdragclub.com
  */
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ??

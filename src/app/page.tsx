@@ -33,10 +33,8 @@ export default async function HomePage() {
             </p>
             <Link
               href={`/episodes/${featured.id}`}
-              className="episode-card-link"
+              className="episode-card-link featured-episode-card"
               style={{
-                display: "grid",
-                gridTemplateColumns: "200px 1fr",
                 border: "var(--border-base)",
                 borderRadius: "var(--radius-xs)",
                 overflow: "hidden",
@@ -46,6 +44,7 @@ export default async function HomePage() {
             >
               {/* Thumb */}
               <div
+                className="featured-episode-thumb"
                 style={{
                   backgroundColor: "var(--lime)",
                   backgroundImage: featured.imageUrl
@@ -53,7 +52,6 @@ export default async function HomePage() {
                     : "repeating-linear-gradient(135deg, transparent 0, transparent 8px, rgba(0,0,0,0.07) 8px, rgba(0,0,0,0.07) 16px)",
                   position: "relative",
                   minHeight: "180px",
-                  borderRight: "var(--border-base)",
                   overflow: "hidden",
                 }}
               >
