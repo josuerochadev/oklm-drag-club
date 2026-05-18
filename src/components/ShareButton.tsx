@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
+type ShareState = "idle" | "copied" | "error";
+
 export default function ShareButton({ url, title }: { url: string; title: string }) {
-  const [copied, setCopied] = useState(false);
+  const [state, setState] = useState<ShareState>("idle");
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -11,6 +13,11 @@ export default function ShareButton({ url, title }: { url: string; title: string
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
+
+  function scheduleReset() {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setState("idle"), 2000);
+  }
 
   async function handleShare() {
     if (typeof navigator !== "undefined" && navigator.share) {
@@ -22,16 +29,22 @@ export default function ShareButton({ url, title }: { url: string; title: string
         return;
       }
     }
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(url);
+      setState("copied");
+      scheduleReset();
+    } catch {
+      setState("error");
+      scheduleReset();
+    }
   }
 
   return (
     <button onClick={handleShare} className="btn btn-ghost">
-      {copied ? (
-        "Lien copié ✓"
+      {state === "copied" ? (
+        "Lien copié"
+      ) : state === "error" ? (
+        "Impossible de copier"
       ) : (
         <>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>

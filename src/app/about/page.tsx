@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SHOWS_LIST } from "@/lib/shows";
 
 export const metadata: Metadata = {
-  title: "À propos — OKLM Drag Club",
+  title: "À propos",
   description:
     "OKLM Drag Club, c'est un podcast de réactions calmes et bienveillantes sur la drag et la téléréalité. Sans hurler dans vos oreilles.",
 };
@@ -13,7 +13,7 @@ export default function AboutPage() {
   return (
     <>
       {/* ── En-tête ── */}
-      <section style={{ borderBottom: "var(--border-base)", background: "var(--forest)" }}>
+      <section aria-label="À propos" style={{ borderBottom: "var(--border-base)", background: "var(--forest)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
           <p
             className="section-label"
@@ -37,14 +37,13 @@ export default function AboutPage() {
       </section>
 
       {/* ── L'origine ── */}
-      <section style={{ borderBottom: "var(--border-base)" }}>
+      <section aria-label="L'origine du podcast" style={{ borderBottom: "var(--border-base)" }}>
         <div
+          className="grid-2col"
           style={{
             maxWidth: "1200px",
             margin: "0 auto",
             padding: "64px 32px",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
             gap: "64px",
             alignItems: "start",
           }}
@@ -100,6 +99,7 @@ export default function AboutPage() {
 
       {/* ── La démarche ── */}
       <section
+        aria-label="La démarche"
         style={{
           borderBottom: "var(--border-base)",
           background: "var(--lime)",
@@ -110,9 +110,8 @@ export default function AboutPage() {
             La démarche
           </p>
           <div
+            className="grid-3col"
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
               gap: "2px",
               border: "var(--border-base)",
               borderRadius: "var(--radius-xs)",
@@ -171,7 +170,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Les émissions ── */}
-      <section style={{ borderBottom: "var(--border-base)" }}>
+      <section aria-label="Les émissions" style={{ borderBottom: "var(--border-base)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
           <p className="section-label" style={{ marginBottom: "32px" }}>
             Les émissions
@@ -246,7 +245,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ borderBottom: "var(--border-base)" }}>
+      <section aria-label="Commencer à écouter" style={{ borderBottom: "var(--border-base)" }}>
         <div
           style={{
             maxWidth: "1200px",

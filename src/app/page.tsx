@@ -26,7 +26,7 @@ export default async function HomePage() {
 
       {/* ── Dernier épisode ── */}
       {featured && (
-        <section style={{ borderBottom: "var(--border-base)" }}>
+        <section aria-label="Dernier épisode" style={{ borderBottom: "var(--border-base)" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
             <p className="section-label" style={{ marginBottom: "20px" }}>
               Dernier épisode
@@ -120,7 +120,7 @@ export default async function HomePage() {
       )}
 
       {/* ── Émissions ── */}
-      <section style={{ borderBottom: "var(--border-base)" }}>
+      <section aria-label="Émissions" style={{ borderBottom: "var(--border-base)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
           <p className="section-label" style={{ marginBottom: "20px" }}>
             Émissions
@@ -168,7 +168,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Épisodes récents ── */}
-      <section style={{ borderBottom: "var(--border-base)" }}>
+      <section aria-label="Épisodes récents" style={{ borderBottom: "var(--border-base)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
           <div
             style={{
@@ -219,6 +219,7 @@ export default async function HomePage() {
       {/* ── Suivre ── */}
       <section
         id="rss"
+        aria-label="S'abonner au podcast"
         style={{
           background: "var(--lime)",
           borderBottom: "var(--border-base)",

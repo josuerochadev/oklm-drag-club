@@ -21,7 +21,8 @@
     "react-dom": "19.2.4"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --fix"
+    "*.{ts,tsx}": "eslint --fix",
+    "src/data/overrides.json": "node scripts/validate-overrides.js"
   },
   "overrides": {
     "postcss": "^8.5.14"

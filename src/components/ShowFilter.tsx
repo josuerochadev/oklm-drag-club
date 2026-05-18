@@ -21,6 +21,7 @@ export default function ShowFilter({ active, onChange }: ShowFilterProps) {
           <button
             key={item.id}
             onClick={() => onChange(item.id as ShowId | "all")}
+            aria-pressed={isActive}
             className={`badge ${isActive ? item.activeClass : "badge-outline"}`}
             style={{
               cursor: "pointer",

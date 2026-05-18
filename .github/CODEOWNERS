@@ -1,0 +1,9 @@
+# Remplacer @github-username par le vrai handle GitHub du mainteneur.
+# Ce fichier déclenche une review automatique sur toute PR touchant les fichiers listés.
+# Doc : https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Propriétaire par défaut (toutes les modifications)
+* @github-username
+
+# Données critiques — review obligatoire sur tout changement
+src/data/overrides.json @github-username

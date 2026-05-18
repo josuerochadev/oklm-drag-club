@@ -41,7 +41,7 @@ export default function Hero() {
         <p
           className="section-label"
           style={{
-            color: "rgba(255,255,255,0.30)",
+            color: "rgba(255,255,255,0.65)",
             marginBottom: "20px",
             animation: "hero-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
           }}
@@ -71,7 +71,7 @@ export default function Hero() {
             fontFamily: "var(--font-body)",
             fontWeight: 400,
             fontSize: "clamp(14px, 1.4vw, 17px)",
-            color: "rgba(255,255,255,0.50)",
+            color: "rgba(255,255,255,0.80)",
             lineHeight: 1.65,
             maxWidth: "440px",
             marginBottom: "36px",
@@ -92,7 +92,7 @@ export default function Hero() {
         >
           <p
             className="section-label"
-            style={{ color: "rgba(255,255,255,0.25)", marginBottom: "12px" }}
+            style={{ color: "rgba(255,255,255,0.65)", marginBottom: "12px" }}
           >
             Écouter sur
           </p>
@@ -157,7 +157,7 @@ export default function Hero() {
         >
           <span
             className="section-label"
-            style={{ color: "rgba(255,255,255,0.25)" }}
+            style={{ color: "rgba(255,255,255,0.65)" }}
           >
             Émissions
           </span>
@@ -180,7 +180,7 @@ export default function Hero() {
                   fontFamily: "var(--font-body)",
                   fontWeight: 500,
                   fontSize: "0.75rem",
-                  color: "rgba(255,255,255,0.45)",
+                  color: "rgba(255,255,255,0.75)",
                   whiteSpace: "nowrap",
                 }}
               >

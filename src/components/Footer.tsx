@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SPOTIFY_URL, APPLE_PODCASTS_URL, DEEZER_URL, AMAZON_SHOW_URL } from "@/lib/platforms";
 
 const FOOTER_NAV = [
@@ -22,9 +23,8 @@ export default function Footer() {
       }}
     >
       <div
+        className="footer-grid"
         style={{
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr",
           gap: "32px",
           maxWidth: "1200px",
           margin: "0 auto 32px",
@@ -66,7 +66,7 @@ export default function Footer() {
             Navigation
           </p>
           {FOOTER_NAV.map(({ label, href }) => (
-            <a
+            <Link
               key={label}
               href={href}
               style={{
@@ -79,7 +79,7 @@ export default function Footer() {
               }}
             >
               {label}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -130,7 +130,7 @@ export default function Footer() {
           margin: "0 auto",
           fontFamily: "var(--font-body)",
           fontSize: "11px",
-          color: "rgba(255,255,255,0.35)",
+          color: "rgba(255,255,255,0.55)",
         }}
       >
         <span>© {new Date().getFullYear()} OKLM Drag Club</span>

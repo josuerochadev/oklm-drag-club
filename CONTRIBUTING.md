@@ -1,5 +1,14 @@
 # Contribuer à OKLM Drag Club
 
+## Stratégie de branches (Trunk-Based Development)
+
+Ce repo suit un workflow **trunk-based** : `main` est la seule branche de longue durée.
+
+- Développement direct sur `main` pour les petits changements (< 1 jour de travail).
+- Branche courte (`feat/nom`, `fix/nom`) pour les changements plus larges, mergée via PR dans les 24–48h.
+- Pas de branches `develop`, `release/*` ou `hotfix/*`.
+- Chaque push sur `main` déclenche un build Vercel → production. Chaque branche génère une preview URL.
+
 ## Règles générales
 
 - **Une PR = un thème.** Pas de PR fourre-tout.

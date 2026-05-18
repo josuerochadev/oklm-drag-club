@@ -70,7 +70,11 @@ export default function EpisodesClientPage({
 
         {/* Recherche */}
         <div style={{ marginTop: "16px" }}>
+          <label htmlFor="episode-search" className="sr-only">
+            Rechercher un épisode
+          </label>
           <input
+            id="episode-search"
             type="search"
             value={query}
             onChange={(e) => handleSearch(e.target.value)}
@@ -82,14 +86,16 @@ export default function EpisodesClientPage({
       </div>
 
       {/* Résultats */}
-      {query && (
-        <p
-          className="section-label"
-          style={{ marginBottom: "20px" }}
-        >
-          {searched.length} résultat{searched.length !== 1 ? "s" : ""} pour &ldquo;{query}&rdquo;
-        </p>
-      )}
+      <p
+        aria-live="polite"
+        aria-atomic="true"
+        className="section-label"
+        style={{ marginBottom: "20px", minHeight: "1.2em" }}
+      >
+        {query
+          ? `${searched.length} résultat${searched.length !== 1 ? "s" : ""} pour « ${query} »`
+          : ""}
+      </p>
 
       {/* Grille */}
       {displayed.length > 0 ? (
