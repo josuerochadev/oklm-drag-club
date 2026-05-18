@@ -162,9 +162,10 @@ export default function Hero() {
             Émissions
           </span>
           {SHOWS_LIST.map((show) => (
-            <div
+            <Link
               key={show.id}
-              style={{ display: "flex", alignItems: "center", gap: "7px" }}
+              href={`/emissions/${show.id}`}
+              style={{ display: "flex", alignItems: "center", gap: "7px", textDecoration: "none" }}
             >
               <span
                 style={{
@@ -186,7 +187,7 @@ export default function Hero() {
               >
                 {show.label}
               </span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

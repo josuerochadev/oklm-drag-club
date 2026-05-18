@@ -91,11 +91,24 @@ export default async function EpisodePage({
     },
   };
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Épisodes", item: `${SITE_URL}/episodes` },
+      { "@type": "ListItem", position: 2, name: episode.title, item: `${SITE_URL}/episodes/${episode.id}` },
+    ],
+  };
+
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbLd) }}
     />
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 32px 80px" }}>
 
@@ -211,7 +224,7 @@ export default async function EpisodePage({
               style={{ textDecoration: "none", color: "var(--forest)" }}
             >
               <p className="section-label" style={{ marginBottom: "6px" }}>
-                ← Précédent
+                ← Épisode précédent
               </p>
               <p
                 style={{
@@ -234,7 +247,7 @@ export default async function EpisodePage({
               style={{ textDecoration: "none", color: "var(--forest)", textAlign: "right" }}
             >
               <p className="section-label" style={{ marginBottom: "6px", justifyContent: "flex-end" }}>
-                Suivant →
+                Épisode suivant →
               </p>
               <p
                 style={{

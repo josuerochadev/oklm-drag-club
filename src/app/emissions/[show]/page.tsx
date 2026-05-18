@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { fetchEpisodes } from "@/lib/rss";
 import { SHOW_CONFIG, SHOWS_LIST, isShowId } from "@/lib/shows";
 import EpisodeCard from "@/components/EpisodeCard";
+import { SITE_URL } from "@/lib/config";
+import { safeJsonLd } from "@/lib/utils";
 
 export function generateStaticParams() {
   return SHOWS_LIST.map((show) => ({ show: show.id }));
@@ -37,8 +39,21 @@ export default async function EmissionPage({
   const allEpisodes = await fetchEpisodes().catch(() => []);
   const episodes = allEpisodes.filter((ep) => ep.show === show.id);
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Épisodes", item: `${SITE_URL}/episodes` },
+      { "@type": "ListItem", position: 2, name: show.label, item: `${SITE_URL}/emissions/${show.id}` },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbLd) }}
+      />
       {/* ── En-tête émission ── */}
       <section
         style={{

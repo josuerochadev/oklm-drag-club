@@ -28,6 +28,7 @@ export default function Nav() {
       >
         <Link
           href="/"
+          aria-label="OKLM Drag Club — Accueil"
           style={{
             fontFamily: "var(--font-display)",
             fontSize: "1.5rem",
