@@ -1,3 +1,5 @@
+Closes #<!-- numéro de l'issue -->
+
 ## Description
 
 <!-- Décris le changement et pourquoi il est nécessaire. -->

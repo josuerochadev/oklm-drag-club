@@ -36,14 +36,29 @@ cp .env.example .env.local
 npm run dev
 ```
 
-## Linting
+## Hooks locaux
 
-Le pre-commit hook lance `lint-staged` automatiquement sur les fichiers stagés.
+| Hook | Déclenchement | Vérifications |
+|---|---|---|
+| `pre-commit` | `git commit` | `lint-staged` (ESLint) + `tsc --noEmit` |
+| `commit-msg` | `git commit` | `commitlint` — format conventional commits |
+
+Ne jamais bypasser avec `--no-verify`.
 
 Pour lancer manuellement :
 ```bash
-npm run lint
+npm run lint        # ESLint
+npm run type-check  # TypeScript
+npm test            # Vitest
 ```
+
+## Release
+
+1. Mettre à jour `CHANGELOG.md` (section `[Unreleased]` → `[X.Y.Z] — AAAA-MM-JJ`)
+2. Bumper la version dans `package.json`
+3. Commiter : `chore: release vX.Y.Z`
+4. Tagger : `git tag -a vX.Y.Z -m "vX.Y.Z — description courte"`
+5. Pousser : `git push && git push --tags`
 
 ## Format de overrides.json
 

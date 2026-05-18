@@ -89,3 +89,18 @@ Lire [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 Le site est déployé sur Vercel. Chaque push sur `main` déclenche un build automatique. Le flux RSS est refetché à chaque build (`next: { revalidate: 3600 }` en dev).
 
 Pour forcer un rebuild sans push (ex : nouvel épisode paru), utiliser l'endpoint `/api/rebuild` — voir [CONTRIBUTING.md](./CONTRIBUTING.md#endpoint-apirebuild).
+
+### Preview (branches et PRs)
+
+Chaque branche poussée et chaque PR crée automatiquement une **preview URL** Vercel (ex : `oklm-drag-club-git-ma-branche-user.vercel.app`). L'URL est postée en commentaire sur la PR par le bot Vercel.
+
+### Rollback en production
+
+En cas de régression détectée après un merge :
+
+1. Aller dans le dashboard Vercel → onglet **Deployments**
+2. Trouver le dernier build stable
+3. Cliquer **⋯ → Promote to Production**
+4. Le rollback est instantané (pas de redéploiement)
+
+Pour un rollback via git : `git revert <sha>` puis push — déclenche un nouveau build propre.
