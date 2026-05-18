@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   images: {
@@ -54,4 +55,20 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // Tunnel les événements Sentry via /monitoring (même origine → CSP connect-src 'self' OK)
+  tunnelRoute: "/monitoring",
+
+  // org/project/authToken lus depuis les variables d'environnement (SENTRY_ORG, etc.)
+  // Source maps : supprimées du bundle après upload (ne pas exposer en prod)
+  sourcemaps: {
+    disable: !process.env.SENTRY_AUTH_TOKEN,
+    filesToDeleteAfterUpload: [".next/**/*.map"],
+  },
+
+  // Silencieux si les variables Sentry ne sont pas configurées (dev local)
+  silent: !process.env.SENTRY_AUTH_TOKEN,
+
+  // Ne pas envoyer de télémétrie interne Sentry
+  telemetry: false,
+});
