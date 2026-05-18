@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { SITE_DESCRIPTION } from "@/lib/config";
+import { loadOgFont } from "@/lib/utils";
 
 export const alt = "OKLM Drag Club — Podcast drag & téléréalité";
 export const size = { width: 1200, height: 630 };
@@ -11,7 +12,12 @@ const LIME = "#9fd400";
 const FUCHSIA = "#c94a9c";
 const YELLOW = "#ede84a";
 
-export default function Image() {
+export default async function Image() {
+  const fontData = await loadOgFont();
+  const fonts = fontData
+    ? [{ name: "Archivo Black", data: fontData, weight: 400 as const, style: "normal" as const }]
+    : [];
+
   return new ImageResponse(
     (
       <div
@@ -23,7 +29,7 @@ export default function Image() {
           flexDirection: "column",
           padding: "64px 72px",
           justifyContent: "space-between",
-          fontFamily: "sans-serif",
+          fontFamily: "Archivo Black, sans-serif",
         }}
       >
         {/* Bande de couleurs décorative */}
@@ -108,6 +114,6 @@ export default function Image() {
         </div>
       </div>
     ),
-    { ...size }
+    { ...size, fonts }
   );
 }

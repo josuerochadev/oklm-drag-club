@@ -1,6 +1,7 @@
 import { fetchEpisodes } from "@/lib/rss";
 import { SHOW_CONFIG } from "@/lib/shows";
 import { SITE_URL, SITE_NAME } from "@/lib/config";
+import { safeJsonLd } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
@@ -94,7 +95,7 @@ export default async function EpisodePage({
     <>
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
     />
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 32px 80px" }}>
 

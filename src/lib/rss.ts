@@ -71,14 +71,22 @@ export function detectShow(title: string): ShowId {
 
 const ALLOWED_TAGS = new Set(["p", "br", "b", "strong", "em", "i", "ul", "ol", "li", "span"]);
 
+/** Décode les entités HTML numériques (&#106; → j, &#x6A; → j) pour neutraliser les bypasses comme &#106;avascript:. */
+function decodeNumericEntities(str: string): string {
+  return str
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+}
+
 function sanitizeHtml(html: string): string {
   return html.replace(/<(\/?)(\w+)([^>]*)>/g, (_, slash, tag, attrs) => {
     const t = tag.toLowerCase();
     if (t === "a") {
       if (slash) return "</a>";
-      const href = /href="([^"]*)"/.exec(attrs)?.[1] ?? "";
+      const rawHref = /href="([^"]*)"/.exec(attrs)?.[1] ?? "";
+      const href = decodeNumericEntities(rawHref).trim();
       if (!href || /^javascript:/i.test(href)) return "";
-      return `<a href="${href}" target="_blank" rel="noopener noreferrer">`;
+      return `<a href="${rawHref}" target="_blank" rel="noopener noreferrer">`;
     }
     return ALLOWED_TAGS.has(t) ? `<${slash}${t}>` : "";
   });

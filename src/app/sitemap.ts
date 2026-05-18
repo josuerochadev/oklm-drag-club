@@ -5,22 +5,25 @@ import { SITE_URL } from "@/lib/config";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const episodes = await fetchEpisodes().catch(() => []);
 
+  // Date du dernier épisode : reflète fidèlement la fraîcheur des pages dynamiques.
+  // /about est une page éditoriale statique — lastModified omis pour éviter les faux positifs.
+  const latestEpisodeDate = episodes[0]?.pubDate ? new Date(episodes[0].pubDate) : undefined;
+
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
-      lastModified: new Date(),
+      lastModified: latestEpisodeDate,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
       url: `${SITE_URL}/episodes`,
-      lastModified: new Date(),
+      lastModified: latestEpisodeDate,
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/about`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
     },

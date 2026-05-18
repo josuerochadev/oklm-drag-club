@@ -1,9 +1,26 @@
 import type { Metadata } from "next";
+import { Archivo_Black, Barlow } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 import { SPOTIFY_URL, APPLE_PODCASTS_URL, DEEZER_URL } from "@/lib/platforms";
+import { safeJsonLd } from "@/lib/utils";
+
+const archivoBlack = Archivo_Black({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const barlow = Barlow({
+  weight: ["400", "500", "600", "700", "800"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -51,10 +68,10 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className={`${archivoBlack.variable} ${barlow.variable} min-h-full flex flex-col`}>
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />

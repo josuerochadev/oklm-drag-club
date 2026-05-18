@@ -8,6 +8,7 @@ export const SITE_URL =
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000");
 
+
 export const SITE_NAME = "OKLM Drag Club";
 export const RSS_URL = "https://anchor.fm/s/f3147f50/podcast/rss";
 

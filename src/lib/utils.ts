@@ -2,6 +2,34 @@
 // ce qui évite les collisions tout en gardant des URLs raisonnables.
 export const SLUG_MAX_LENGTH = 72;
 
+/**
+ * Sérialise un objet JSON pour un bloc <script type="application/ld+json">.
+ * JSON.stringify natif ne protège pas contre </script> dans les valeurs,
+ * ce qui permettrait de fermer la balise prématurément (XSS).
+ * On échappe < en \u003c pour neutraliser ce vecteur.
+ */
+export function safeJsonLd(data: object): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
+/**
+ * Charge Archivo Black depuis Google Fonts pour les ImageResponse (OG images).
+ * Utilisé uniquement côté serveur / build time. Retourne null en cas d'échec.
+ */
+export async function loadOgFont(): Promise<ArrayBuffer | null> {
+  try {
+    const css = await fetch(
+      "https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap",
+      { headers: { "User-Agent": "Mozilla/5.0 (compatible)" } }
+    ).then((r) => r.text());
+    const url = css.match(/src: url\(([^)]+)\)/)?.[1];
+    if (!url) return null;
+    return fetch(url).then((r) => r.arrayBuffer());
+  } catch {
+    return null;
+  }
+}
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()

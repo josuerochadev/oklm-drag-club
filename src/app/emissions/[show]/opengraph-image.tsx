@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og";
-import { fetchEpisodes } from "@/lib/rss";
-import { SHOW_CONFIG } from "@/lib/shows";
+import { SHOW_CONFIG, isShowId } from "@/lib/shows";
 import { loadOgFont } from "@/lib/utils";
 
 export const size = { width: 1200, height: 630 };
@@ -11,20 +10,11 @@ const FOREST = "#111d10";
 export default async function Image({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ show: string }>;
 }) {
-  const { id } = await params;
-  const episodes = await fetchEpisodes().catch(() => []);
-  const episode = episodes.find((ep) => ep.id === id);
-
-  const title = episode?.title ?? "OKLM Drag Club";
-  const showId = episode?.show ?? "other";
-  const showConfig = SHOW_CONFIG[showId];
+  const { show: showId } = await params;
+  const showConfig = isShowId(showId) ? SHOW_CONFIG[showId] : SHOW_CONFIG.other;
   const accent = showConfig.colorHex;
-  const abbr = showConfig.abbr;
-
-  // Adapter la taille du titre selon sa longueur
-  const fontSize = title.length > 60 ? 44 : title.length > 40 ? 56 : 68;
 
   const fontData = await loadOgFont();
   const fonts = fontData
@@ -59,22 +49,22 @@ export default async function Image({
               borderRadius: "2px",
             }}
           >
-            {abbr}
+            {showConfig.abbr}
           </div>
         </div>
 
-        {/* Titre épisode */}
+        {/* Nom de l'émission */}
         <div
           style={{
             color: accent,
-            fontSize,
+            fontSize: showConfig.label.length > 20 ? 64 : 88,
             fontWeight: 900,
-            letterSpacing: "-2px",
-            lineHeight: 1.05,
+            letterSpacing: "-3px",
+            lineHeight: 0.95,
             maxWidth: "960px",
           }}
         >
-          {title}
+          {showConfig.label}
         </div>
 
         {/* Brand */}

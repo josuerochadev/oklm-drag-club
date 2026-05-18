@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "crypto";
 import { NextResponse } from "next/server";
 
 /**
@@ -22,9 +23,14 @@ export async function POST(request: Request) {
   const secret = process.env.REBUILD_SECRET;
   const hookUrl = process.env.VERCEL_DEPLOY_HOOK_URL;
 
-  // Vérifie l'autorisation
-  const authHeader = request.headers.get("authorization");
-  if (!secret || authHeader !== `Bearer ${secret}`) {
+  // Vérifie l'autorisation en temps constant pour résister aux timing attacks
+  const authHeader = request.headers.get("authorization") ?? "";
+  const expected = `Bearer ${secret}`;
+  const isAuthorized =
+    !!secret &&
+    authHeader.length === expected.length &&
+    timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected));
+  if (!isAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
