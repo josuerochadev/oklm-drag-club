@@ -1,106 +1,102 @@
+<div align="center">
+
 # OKLM Drag Club
 
-Site web du podcast **OKLM Drag Club** — réactions calmes et bienveillantes sur la drag et la téléréalité, sans hurler dans vos oreilles.
+**Site vitrine du podcast drag et téléréalité de Romain — catalogue des épisodes et accès centralisé aux plateformes d'écoute.**
 
-Couverture : Drag Race France, Dragula, Les Traîtres FR, Ultime Drag ASMR, Fan Fiction, RPDR Global All Stars.
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=flat&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-deployed-000000?style=flat&logo=vercel)
 
-## Stack
+[oklm-drag-club.fr](https://oklm-drag-club.fr) · [Portfolio](https://josuerocha.dev)
 
-| Outil | Version | Rôle |
-|---|---|---|
-| Next.js | 16 (App Router) | Framework — SSG, routing, OG images |
-| React | 19 | UI |
-| TypeScript | 5 strict | Typage |
-| Tailwind CSS | v4 | Utilitaires CSS globaux |
-| fast-xml-parser | 5 | Parsing du flux RSS |
-| Vercel | — | Déploiement + deploy hooks |
+</div>
 
-## Architecture des données
+---
 
-Le site est entièrement statique — **pas de base de données**.
+## À propos
 
-Les épisodes proviennent de deux sources mergées au build :
+OKLM Drag Club est un podcast de réaction drag et téléréalité — Drag Race France, Dragula, Les Traîtres FR, Ultime Drag ASMR — créé par Romain avec un ton calme et bienveillant. Ce site en est la vitrine : il liste les épisodes par émission et renvoie vers les plateformes d'écoute. Entièrement statique, sans base de données — les épisodes sont récupérés depuis le flux RSS Anchor.fm au moment du build et enrichis par un fichier de correctifs local.
 
-1. **Flux RSS Anchor.fm** — titre, description, date, durée, liens Spotify
-2. **`src/data/overrides.json`** — correctifs manuels : show, Deezer, Apple Podcasts, Amazon Music
+## Fonctionnalités
 
-Voir [`CONTRIBUTING.md`](./CONTRIBUTING.md#format-de-overridesjson) pour le format du fichier overrides.
+- Catalogue des épisodes par émission (Drag Race France, Dragula, Les Traîtres FR, Ultime Drag ASMR, Fan Fiction)
+- Page détail par épisode avec description, durée et liens directs vers Spotify, Apple Podcasts, Deezer, Amazon Music
+- Mise à jour automatique via flux RSS au build — aucune intervention manuelle pour un nouvel épisode
+- Images Open Graph générées dynamiquement par épisode et par émission
+- Endpoint `/api/rebuild` pour forcer un redéploiement sans push git
+- Sitemap et `robots.txt` générés automatiquement
 
-## Prérequis
+## Stack technique
+
+| Catégorie | Outils |
+|---|---|
+| Framework | Next.js 16 (App Router, SSG) |
+| UI | React 19, TypeScript 5 strict |
+| Style | Tailwind CSS v4 |
+| Données | Flux RSS Anchor.fm + `overrides.json` local |
+| Parsing | fast-xml-parser 5 |
+| Monitoring | Sentry |
+| CI | GitHub Actions (lint, type-check, tests, build) |
+| Déploiement | Vercel |
+
+## Démarrer
+
+### Prérequis
 
 - Node.js ≥ 20
 - npm ≥ 10
 
-## Installation
+### Installation
 
 ```bash
 git clone <repo>
 cd oklm-drag-club
 npm install
-cp .env.example .env.local   # puis renseigner les valeurs
 ```
 
-## Lancer le projet
-
-```bash
-npm run dev      # http://localhost:3000
-npm run build    # build de production (fetch RSS + APIs plateformes)
-npm run lint     # ESLint
-```
-
-## Variables d'environnement
-
-Copier `.env.example` en `.env.local` :
+### Variables d'environnement
 
 | Variable | Obligatoire | Description |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Recommandée | URL publique du site (ex: `https://oklm-drag-club.fr`) |
+| `NEXT_PUBLIC_SITE_URL` | Recommandée | URL publique du site (ex : `https://oklm-drag-club.fr`) |
 | `VERCEL_DEPLOY_HOOK_URL` | Pour `/api/rebuild` | URL du deploy hook Vercel |
 | `REBUILD_SECRET` | Pour `/api/rebuild` | Secret partagé pour protéger l'endpoint rebuild |
 
-En l'absence de `NEXT_PUBLIC_SITE_URL`, le site utilise `VERCEL_URL` (injecté automatiquement par Vercel) puis `http://localhost:3000`.
+En l'absence de `NEXT_PUBLIC_SITE_URL`, le site utilise `VERCEL_URL` (injecté par Vercel) puis `http://localhost:3000`.
 
-## Structure du projet
+### Scripts disponibles
+
+| Commande | Description |
+|---|---|
+| `npm run dev` | Serveur de développement sur `http://localhost:3000` |
+| `npm run build` | Build de production (fetch RSS au build) |
+| `npm run start` | Démarre le serveur de production |
+| `npm run lint` | ESLint |
+| `npm run type-check` | Vérification TypeScript sans émission |
+| `npm test` | Tests unitaires (vitest) |
+
+## Architecture
 
 ```
 src/
-├── app/                   # Pages et routes Next.js (App Router)
-│   ├── api/rebuild/       # Endpoint POST pour déclencher un redéploiement
-│   ├── emissions/[show]/  # Page par émission
-│   ├── episodes/[id]/     # Page détail d'un épisode
+├── app/                    # Pages et routes (App Router)
+│   ├── api/rebuild/        # Endpoint POST — déclenche un redéploiement Vercel
+│   ├── emissions/[show]/   # Page par émission
+│   ├── episodes/[id]/      # Page détail d'un épisode
 │   └── ...
-├── components/            # Composants React
+├── components/             # Composants React
 ├── data/
-│   └── overrides.json     # Correctifs manuels sur les épisodes
+│   └── overrides.json      # Liens Deezer, Amazon Music et correctifs manuels
 └── lib/
-    ├── config.ts          # Constantes globales (URLs, noms)
-    ├── platforms.ts       # Fetch Apple Podcasts + Deezer au build
-    ├── rss.ts             # Fetch + parsing du flux RSS
-    ├── shows.ts           # Configuration des émissions (couleurs, labels, slugs)
-    └── utils.ts           # slugify, SLUG_MAX_LENGTH
+    ├── config.ts           # Constantes globales (URLs, noms)
+    ├── rss.ts              # Fetch et parsing du flux RSS
+    ├── shows.ts            # Configuration des émissions (couleurs, slugs, labels)
+    ├── platforms.ts        # URLs par plateforme d'écoute
+    └── utils.ts            # Utilitaires (slugify, constantes)
 ```
 
-## Contribuer
+---
 
-Lire [`CONTRIBUTING.md`](./CONTRIBUTING.md).
-
-## Déploiement
-
-Le site est déployé sur Vercel. Chaque push sur `main` déclenche un build automatique. Le flux RSS est refetché à chaque build (`next: { revalidate: 3600 }` en dev).
-
-Pour forcer un rebuild sans push (ex : nouvel épisode paru), utiliser l'endpoint `/api/rebuild` — voir [CONTRIBUTING.md](./CONTRIBUTING.md#endpoint-apirebuild).
-
-### Preview (branches et PRs)
-
-Chaque branche poussée et chaque PR crée automatiquement une **preview URL** Vercel (ex : `oklm-drag-club-git-ma-branche-user.vercel.app`). L'URL est postée en commentaire sur la PR par le bot Vercel.
-
-### Rollback en production
-
-En cas de régression détectée après un merge :
-
-1. Aller dans le dashboard Vercel → onglet **Deployments**
-2. Trouver le dernier build stable
-3. Cliquer **⋯ → Promote to Production**
-4. Le rollback est instantané (pas de redéploiement)
-
-Pour un rollback via git : `git revert <sha>` puis push — déclenche un nouveau build propre.
+Construit par **[Josué Rocha](https://josuerocha.dev)** · [LinkedIn](https://linkedin.com/in/josuerocha) · [GitHub](https://github.com/josuerochadev)
