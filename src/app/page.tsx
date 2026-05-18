@@ -195,13 +195,7 @@ export default async function HomePage() {
           </div>
 
           {recentEpisodes.length > 0 ? (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: "24px",
-              }}
-            >
+            <div className="episode-grid">
               {recentEpisodes.map((ep) => (
                 <EpisodeCard key={ep.id} episode={ep} />
               ))}

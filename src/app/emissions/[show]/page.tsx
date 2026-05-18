@@ -81,13 +81,7 @@ export default async function EmissionPage({
       {/* ── Grille épisodes ── */}
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 32px 80px" }}>
         {episodes.length > 0 ? (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: "24px",
-            }}
-          >
+          <div className="episode-grid">
             {episodes.map((ep) => (
               <EpisodeCard key={ep.id} episode={ep} />
             ))}

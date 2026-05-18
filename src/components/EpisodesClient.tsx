@@ -94,13 +94,7 @@ export default function EpisodesClientPage({
       {/* Grille */}
       {displayed.length > 0 ? (
         <>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: "24px",
-            }}
-          >
+          <div className="episode-grid">
             {displayed.map((ep) => (
               <EpisodeCard key={ep.id} episode={ep} />
             ))}
