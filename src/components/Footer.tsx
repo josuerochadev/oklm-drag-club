@@ -4,6 +4,8 @@ import { SPOTIFY_URL, APPLE_PODCASTS_URL, DEEZER_URL, AMAZON_SHOW_URL } from "@/
 const FOOTER_NAV = [
   { label: "Épisodes", href: "/episodes" },
   { label: "À propos", href: "/about" },
+  { label: "Mentions légales", href: "/mentions-legales" },
+  { label: "Confidentialité", href: "/confidentialite" },
 ];
 
 const FOOTER_PLATFORMS = [
