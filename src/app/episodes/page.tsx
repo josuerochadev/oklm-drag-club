@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { fetchEpisodes } from "@/lib/rss";
 import EpisodesClient from "@/components/EpisodesClient";
 
@@ -8,5 +9,9 @@ export const metadata = {
 
 export default async function EpisodesPage() {
   const episodes = await fetchEpisodes().catch(() => []);
-  return <EpisodesClient episodes={episodes} />;
+  return (
+    <Suspense>
+      <EpisodesClient episodes={episodes} />
+    </Suspense>
+  );
 }

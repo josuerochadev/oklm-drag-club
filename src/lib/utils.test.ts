@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { slugify, SLUG_MAX_LENGTH, toRoman, formatDuration, safeJsonLd } from "./utils";
+import { slugify, SLUG_MAX_LENGTH, toRoman, formatDuration, durationToIso, safeJsonLd } from "./utils";
 
 describe("slugify", () => {
   it("lowercases", () => {
@@ -96,6 +96,19 @@ describe("formatDuration", () => {
 
   it("returns raw value for unrecognised format", () => {
     expect(formatDuration("invalid")).toBe("invalid");
+  });
+});
+
+describe("durationToIso", () => {
+  it.each([
+    ["1h 30min", "PT1H30M"],
+    ["2h 05min", "PT2H05M"],
+    ["45min", "PT45M"],
+    ["0min", "PT0M"],
+    ["", undefined],
+    ["unknown", undefined],
+  ] as const)('durationToIso("%s") → %s', (input, expected) => {
+    expect(durationToIso(input)).toBe(expected);
   });
 });
 

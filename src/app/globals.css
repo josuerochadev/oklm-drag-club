@@ -278,6 +278,17 @@ a { color: var(--forest); text-decoration: none; }
 }
 .skip-link:focus { top: 8px; }
 
+/* ── Skeleton loading ── */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.25; }
+}
+.skeleton {
+  background: var(--forest);
+  border-radius: var(--radius-xs);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

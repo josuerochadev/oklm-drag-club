@@ -60,6 +60,16 @@ export function toRoman(n: number): string {
   return result;
 }
 
+/** Convert display duration ("1h 30min", "45min") to ISO 8601 ("PT1H30M", "PT45M"). */
+export function durationToIso(display: string): string | undefined {
+  if (!display) return undefined;
+  const full = display.match(/(\d+)h\s*(\d+)min/);
+  if (full) return `PT${full[1]}H${full[2]}M`;
+  const mins = display.match(/(\d+)min/);
+  if (mins) return `PT${mins[1]}M`;
+  return undefined;
+}
+
 /** Format HH:MM:SS or raw seconds to "Xh YYmin" or "YYmin".
  *  MM:SS format: seconds are intentionally dropped (display granularity is minutes). */
 export function formatDuration(raw: string): string {

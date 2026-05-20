@@ -1,7 +1,7 @@
 import { fetchEpisodes } from "@/lib/rss";
 import { SHOW_CONFIG } from "@/lib/shows";
 import { SITE_URL, SITE_NAME } from "@/lib/config";
-import { safeJsonLd } from "@/lib/utils";
+import { safeJsonLd, durationToIso } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
@@ -77,6 +77,7 @@ export default async function EpisodePage({
     .filter((p) => episode[p.key])
     .map((p) => ({ ...p, href: episode[p.key]! }));
 
+  const isoDuration = durationToIso(episode.duration);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "PodcastEpisode",
@@ -84,6 +85,8 @@ export default async function EpisodePage({
     description: episode.description.replace(/<[^>]*>/g, "").slice(0, 300),
     url: `${SITE_URL}/episodes/${episode.id}`,
     datePublished: episode.pubDate ? new Date(episode.pubDate).toISOString().split("T")[0] : undefined,
+    ...(isoDuration ? { timeRequired: isoDuration } : {}),
+    episodeNumber: episode.episodeNumber,
     partOfSeries: {
       "@type": "PodcastSeries",
       name: SITE_NAME,

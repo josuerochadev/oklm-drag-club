@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 import { SPOTIFY_URL, APPLE_PODCASTS_URL, DEEZER_URL } from "@/lib/platforms";
 import { safeJsonLd } from "@/lib/utils";
+import { fetchEpisodes } from "@/lib/rss";
 
 const archivoBlack = Archivo_Black({
   weight: "400",
@@ -41,13 +42,19 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} — Podcast drag & téléréalité`,
     description: SITE_DESCRIPTION,
   },
+  alternates: {
+    types: {
+      "application/rss+xml": `${SITE_URL}/feed.xml`,
+    },
+  },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const episodes = await fetchEpisodes().catch(() => []);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "PodcastSeries",
@@ -56,11 +63,13 @@ export default function RootLayout({
     url: SITE_URL,
     inLanguage: "fr",
     author: { "@type": "Person", name: "Romain" },
+    numberOfEpisodes: episodes.length,
     offers: [
       { "@type": "Offer", url: SPOTIFY_URL },
       { "@type": "Offer", url: APPLE_PODCASTS_URL },
       { "@type": "Offer", url: DEEZER_URL },
     ],
+    webFeed: `${SITE_URL}/feed.xml`,
   };
 
   return (

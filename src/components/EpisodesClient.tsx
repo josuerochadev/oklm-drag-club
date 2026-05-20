@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { Episode } from "@/lib/rss";
 import type { ShowId } from "@/lib/shows";
+import { isShowId } from "@/lib/shows";
 import EpisodeCard from "@/components/EpisodeCard";
 import ShowFilter from "@/components/ShowFilter";
 
@@ -14,19 +16,44 @@ export default function EpisodesClientPage({
 }: {
   episodes: Episode[];
 }) {
-  const [active, setActive] = useState<ShowId | "all">("all");
-  const [query, setQuery] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const showParam = searchParams.get("show");
+  const queryParam = searchParams.get("q") ?? "";
+
+  const active: ShowId | "all" =
+    showParam && isShowId(showParam) ? showParam : "all";
+
+  // Local state only for the text input (avoids re-render lag on every keystroke via URL)
+  const [localQuery, setLocalQuery] = useState(queryParam);
   const [count, setCount] = useState(PAGE_SIZE);
 
+  // Sync URL when filters change
+  const updateUrl = useCallback(
+    (show: ShowId | "all", q: string) => {
+      const params = new URLSearchParams();
+      if (show !== "all") params.set("show", show);
+      if (q.trim()) params.set("q", q.trim());
+      const qs = params.toString();
+      router.replace(`/episodes${qs ? `?${qs}` : ""}`, { scroll: false });
+    },
+    [router]
+  );
+
   function handleFilterChange(show: ShowId | "all") {
-    setActive(show);
     setCount(PAGE_SIZE);
+    updateUrl(show, localQuery);
   }
 
   function handleSearch(q: string) {
-    setQuery(q);
+    setLocalQuery(q);
     setCount(PAGE_SIZE);
+    updateUrl(active, q);
   }
+
+  // Use URL query for filtering (source of truth), local state only for input value
+  const query = localQuery;
 
   const searched = useMemo(() => {
     const filtered =
@@ -76,7 +103,7 @@ export default function EpisodesClientPage({
           <input
             id="episode-search"
             type="search"
-            value={query}
+            value={localQuery}
             onChange={(e) => handleSearch(e.target.value)}
             placeholder="Rechercher un épisode…"
             className="field-input"

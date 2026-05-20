@@ -14,6 +14,7 @@ export interface Episode {
   episodeNumber: number;
   romanNumeral: string;
   show: ShowId;
+  season?: string;
   spotifyUrl?: string;
   applePodcastsUrl?: string;
   deezerUrl?: string;
@@ -67,6 +68,28 @@ export function detectShow(title: string): ShowId {
   if (lower.includes("fan fiction") || lower.includes("fanfic") || lower.includes("ssaw")) return "fan-fiction";
   if (lower.includes("rpdr") || lower.includes("global allstars") || lower.includes("global all stars")) return "rpdr-global";
   return "other";
+}
+
+/**
+ * Extrait un identifiant de saison à partir du titre (ex. "S03", "Titans S2").
+ * Retourne undefined si aucune saison n'est détectée.
+ */
+export function detectSeason(title: string): string | undefined {
+  const lower = title.toLowerCase();
+
+  // "Titans S2E3" → "Titans S2"
+  const titansMatch = lower.match(/titans\s*s(\d+)/);
+  if (titansMatch) return `Titans S${titansMatch[1]}`;
+
+  // "All Stars FR S1E2" → "All Stars S1"
+  const allStarsMatch = lower.match(/all\s*stars?\s*fr?\s*s(\d+)/i);
+  if (allStarsMatch) return `All Stars S${allStarsMatch[1]}`;
+
+  // Standard "S03E01", "S3 E03", "S03", "S3"
+  const seasonMatch = lower.match(/s0*(\d+)/);
+  if (seasonMatch) return `S${seasonMatch[1]}`;
+
+  return undefined;
 }
 
 const ALLOWED_TAGS = new Set(["p", "br", "b", "strong", "em", "i", "ul", "ol", "li", "span"]);
@@ -131,6 +154,13 @@ export const fetchEpisodes = cache(async (): Promise<Episode[]> => {
   // Build slug → ensure uniqueness by appending index on collision
   const seenSlugs = new Map<string, number>();
 
+  const MIN_EXPECTED_EPISODES = 10;
+  if (items.length < MIN_EXPECTED_EPISODES) {
+    throw new Error(
+      `RSS returned only ${items.length} episodes (expected at least ${MIN_EXPECTED_EPISODES}). The RSS feed may be broken.`
+    );
+  }
+
   const episodes: Episode[] = items.map((item, index) => {
     const title: string = item.title ?? `Épisode ${index + 1}`;
     const baseSlug = slugify(title).slice(0, SLUG_MAX_LENGTH) || `episode-${index}`;
@@ -143,6 +173,7 @@ export const fetchEpisodes = cache(async (): Promise<Episode[]> => {
     const episodeNumber = items.length - index;
     const ov = overrides[id] ?? {};
     const show: ShowId = ov.show ?? detectShow(title);
+    const season = detectSeason(title);
 
     const imageUrl: string =
       item["itunes:image"]?.["@_href"] ??
@@ -160,6 +191,7 @@ export const fetchEpisodes = cache(async (): Promise<Episode[]> => {
       episodeNumber,
       romanNumeral: toRoman(episodeNumber),
       show,
+      season,
       spotifyUrl: extractSpotifyUrl(item),
       // overrides.json prend le dessus sur les APIs (correction manuelle possible)
       applePodcastsUrl: ov.applePodcastsUrl ?? platform.applePodcastsUrl,

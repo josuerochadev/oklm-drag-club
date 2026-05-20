@@ -93,14 +93,59 @@ export default async function EmissionPage({
         </div>
       </section>
 
-      {/* ── Grille épisodes ── */}
+      {/* ── Épisodes groupés par saison ── */}
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 32px 80px" }}>
         {episodes.length > 0 ? (
-          <div className="episode-grid">
-            {episodes.map((ep) => (
-              <EpisodeCard key={ep.id} episode={ep} />
-            ))}
-          </div>
+          (() => {
+            // Group episodes by season, preserving order (newest first)
+            const groups: { season: string; episodes: typeof episodes }[] = [];
+            const seen = new Map<string, number>();
+            for (const ep of episodes) {
+              const key = ep.season ?? "Hors saison";
+              const idx = seen.get(key);
+              if (idx !== undefined) {
+                groups[idx].episodes.push(ep);
+              } else {
+                seen.set(key, groups.length);
+                groups.push({ season: key, episodes: [ep] });
+              }
+            }
+
+            // If only one group, skip the section headers
+            if (groups.length <= 1) {
+              return (
+                <div className="episode-grid">
+                  {episodes.map((ep) => (
+                    <EpisodeCard key={ep.id} episode={ep} />
+                  ))}
+                </div>
+              );
+            }
+
+            return groups.map((group) => (
+              <section key={group.season} style={{ marginBottom: "48px" }}>
+                <h2
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "clamp(20px, 3vw, 32px)",
+                    color: "var(--forest)",
+                    letterSpacing: "-0.03em",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {group.season}
+                </h2>
+                <p className="section-label" style={{ marginBottom: "20px" }}>
+                  {group.episodes.length} épisode{group.episodes.length > 1 ? "s" : ""}
+                </p>
+                <div className="episode-grid">
+                  {group.episodes.map((ep) => (
+                    <EpisodeCard key={ep.id} episode={ep} />
+                  ))}
+                </div>
+              </section>
+            ));
+          })()
         ) : (
           <p
             style={{
