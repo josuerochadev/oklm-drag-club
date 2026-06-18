@@ -96,7 +96,7 @@ export default function NavMobileMenu({
                 color: "var(--forest)",
                 textDecoration: "none",
                 padding: "10px 0",
-                borderBottom: "1px solid rgba(0,0,0,0.08)",
+                borderBottom: "1px solid color-mix(in oklch, var(--color-text), transparent 85%)",
               }}
             >
               {label}

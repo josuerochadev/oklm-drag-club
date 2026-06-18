@@ -144,7 +144,7 @@ export default async function HomePage() {
                     fontFamily: "var(--font-display)",
                     fontSize: "1rem",
                     letterSpacing: "-0.03em",
-                    color: "var(--forest)",
+                    color: "var(--forest-fixed)",
                     lineHeight: 1.1,
                   }}
                 >
@@ -210,19 +210,19 @@ export default async function HomePage() {
         id="rss"
         aria-label="S'abonner au podcast"
         style={{
-          background: "var(--lime)",
+          background: "var(--lime-fixed)",
           borderBottom: "var(--border-base)",
         }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
-          <p className="section-label" style={{ marginBottom: "12px" }}>
+          <p className="section-label" style={{ marginBottom: "12px", color: "var(--forest-fixed)", opacity: 0.5 }}>
             Ne rien rater
           </p>
           <h2
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "clamp(28px, 4vw, 48px)",
-              color: "var(--forest)",
+              color: "var(--forest-fixed)",
               letterSpacing: "-0.04em",
               lineHeight: 1,
               marginBottom: "16px",
@@ -235,7 +235,7 @@ export default async function HomePage() {
             style={{
               fontFamily: "var(--font-body)",
               fontSize: "0.9375rem",
-              color: "var(--forest)",
+              color: "var(--forest-fixed)",
               opacity: 0.7,
               lineHeight: 1.65,
               marginBottom: "32px",
@@ -265,11 +265,11 @@ export default async function HomePage() {
                   alignItems: "center",
                   gap: "12px",
                   padding: "14px 18px",
-                  background: "var(--white)",
-                  border: "var(--border-base)",
+                  background: "var(--white-fixed)",
+                  border: "2px solid var(--forest-fixed)",
                   borderRadius: "var(--radius-xs)",
                   textDecoration: "none",
-                  color: "var(--forest)",
+                  color: "var(--forest-fixed)",
                   fontFamily: "var(--font-body)",
                   fontWeight: 600,
                   fontSize: "0.875rem",
@@ -288,7 +288,7 @@ export default async function HomePage() {
             style={{
               fontFamily: "var(--font-body)",
               fontSize: "0.8125rem",
-              color: "var(--forest)",
+              color: "var(--forest-fixed)",
               opacity: 0.5,
             }}
           >
@@ -297,7 +297,7 @@ export default async function HomePage() {
               href={RSS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "var(--forest)", textDecoration: "underline", textUnderlineOffset: "3px" }}
+              style={{ color: "var(--forest-fixed)", textDecoration: "underline", textUnderlineOffset: "3px" }}
             >
               Lien RSS
             </a>

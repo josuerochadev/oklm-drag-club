@@ -15,7 +15,7 @@ export default function Hero() {
     <section
       style={{
         height: "calc(100svh - 56px)",
-        background: "var(--forest)",
+        background: "var(--forest-fixed)",
         backgroundImage:
           "repeating-linear-gradient(135deg, transparent 0, transparent 24px, rgba(255,255,255,0.022) 24px, rgba(255,255,255,0.022) 48px)",
         borderBottom: "var(--border-base)",
@@ -54,7 +54,7 @@ export default function Hero() {
           style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(40px, 9vw, 88px)",
-            color: "var(--lime)",
+            color: "var(--lime-fixed)",
             letterSpacing: "-0.04em",
             lineHeight: 0.92,
             marginBottom: "24px",

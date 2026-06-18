@@ -80,7 +80,7 @@ export default async function EmissionPage({
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(48px, 8vw, 88px)",
-                color: "var(--forest)",
+                color: "var(--forest-fixed)",
                 lineHeight: 0.92,
                 letterSpacing: "-0.04em",
               }}

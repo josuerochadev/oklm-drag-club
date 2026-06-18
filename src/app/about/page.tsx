@@ -16,7 +16,7 @@ export default function AboutPage() {
   return (
     <>
       {/* ── En-tête ── */}
-      <section aria-label="À propos" style={{ borderBottom: "var(--border-base)", background: "var(--forest)" }}>
+      <section aria-label="À propos" style={{ borderBottom: "var(--border-base)", background: "var(--forest-fixed)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
           <p
             className="section-label"
@@ -28,7 +28,7 @@ export default function AboutPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "clamp(48px, 9vw, 96px)",
-              color: "var(--lime)",
+              color: "var(--lime-fixed)",
               lineHeight: 0.92,
               letterSpacing: "-0.04em",
               maxWidth: "700px",
@@ -105,18 +105,18 @@ export default function AboutPage() {
         aria-label="La démarche"
         style={{
           borderBottom: "var(--border-base)",
-          background: "var(--lime)",
+          background: "var(--lime-fixed)",
         }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
-          <p className="section-label" style={{ marginBottom: "20px" }}>
+          <p className="section-label" style={{ marginBottom: "20px", color: "var(--forest-fixed)", opacity: 0.5 }}>
             La démarche
           </p>
           <div
             className="grid-3col"
             style={{
               gap: "2px",
-              border: "var(--border-base)",
+              border: "2px solid var(--forest-fixed)",
               borderRadius: "var(--radius-xs)",
               overflow: "hidden",
             }}
@@ -139,8 +139,8 @@ export default function AboutPage() {
                 key={label}
                 style={{
                   padding: "32px 28px",
-                  background: "var(--lime)",
-                  borderRight: "var(--border-base)",
+                  background: "var(--lime-fixed)",
+                  borderRight: "2px solid var(--forest-fixed)",
                 }}
               >
                 <p
@@ -148,7 +148,7 @@ export default function AboutPage() {
                     fontFamily: "var(--font-display)",
                     fontSize: "1.125rem",
                     letterSpacing: "-0.03em",
-                    color: "var(--forest)",
+                    color: "var(--forest-fixed)",
                     marginBottom: "12px",
                     lineHeight: 1.1,
                   }}
@@ -159,7 +159,7 @@ export default function AboutPage() {
                   style={{
                     fontFamily: "var(--font-body)",
                     fontSize: "0.9375rem",
-                    color: "var(--forest)",
+                    color: "var(--forest-fixed)",
                     lineHeight: 1.65,
                     opacity: 0.8,
                   }}
@@ -210,7 +210,7 @@ export default function AboutPage() {
                       fontFamily: "var(--font-display)",
                       fontSize: "1.125rem",
                       letterSpacing: "-0.03em",
-                      color: "var(--forest)",
+                      color: "var(--forest-fixed)",
                       lineHeight: 1.1,
                       marginTop: "16px",
                     }}

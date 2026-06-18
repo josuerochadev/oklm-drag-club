@@ -19,7 +19,7 @@ export default function Footer() {
   return (
     <footer
       style={{
-        background: "var(--forest)",
+        background: "var(--forest-fixed)",
         borderTop: "var(--border-base)",
         padding: "48px 32px 28px",
       }}
@@ -38,7 +38,7 @@ export default function Footer() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "2rem",
-              color: "var(--lime)",
+              color: "var(--lime-fixed)",
               letterSpacing: "-0.04em",
               lineHeight: 1,
               marginBottom: "12px",

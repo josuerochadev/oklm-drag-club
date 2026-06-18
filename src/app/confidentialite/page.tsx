@@ -16,7 +16,7 @@ export default function ConfidentialitePage() {
       {/* ── En-tête ── */}
       <section
         aria-label="Politique de confidentialité"
-        style={{ borderBottom: "var(--border-base)", background: "var(--forest)" }}
+        style={{ borderBottom: "var(--border-base)", background: "var(--forest-fixed)" }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "64px 32px" }}>
           <p
@@ -29,7 +29,7 @@ export default function ConfidentialitePage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "clamp(36px, 7vw, 72px)",
-              color: "var(--lime)",
+              color: "var(--lime-fixed)",
               lineHeight: 0.95,
               letterSpacing: "-0.04em",
             }}
