@@ -9,9 +9,12 @@
   --white:         oklch(98.5% 0.008  85);
 
   /* Couleurs fixes (ne changent pas en dark mode) */
-  --forest-fixed:  oklch(16%   0.06  150);
-  --lime-fixed:    oklch(78%   0.26  130);
-  --white-fixed:   oklch(98.5% 0.008  85);
+  --forest-fixed:       oklch(16%   0.06  150);
+  --lime-fixed:         oklch(78%   0.26  130);
+  --white-fixed:        oklch(98.5% 0.008  85);
+  --lime-soft-fixed:    oklch(93%   0.10  130);
+  --fuchsia-soft-fixed: oklch(94%   0.08  332);
+  --yellow-soft-fixed:  oklch(97%   0.07   98);
 
   /* Variations */
   --lime-soft:     oklch(93%   0.10  130);
