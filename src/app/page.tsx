@@ -2,18 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchEpisodes } from "@/lib/rss";
 import { SHOWS_LIST } from "@/lib/shows";
-import Hero from "@/components/Hero";
+import Hero, { FOLLOW_PLATFORMS } from "@/components/Hero";
 import EpisodeCard from "@/components/EpisodeCard";
-import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "@/components/svg/PlatformIcons";
-import { SPOTIFY_URL, APPLE_PODCASTS_URL, DEEZER_URL, AMAZON_SHOW_URL } from "@/lib/platforms";
 import { RSS_URL } from "@/lib/config";
-
-const FOLLOW_PLATFORMS = [
-  { Icon: SpotifyIcon, href: SPOTIFY_URL, label: "Spotify" },
-  { Icon: AppleIcon, href: APPLE_PODCASTS_URL, label: "Apple Podcasts" },
-  { Icon: DeezerIcon, href: DEEZER_URL, label: "Deezer" },
-  { Icon: AmazonIcon, href: AMAZON_SHOW_URL, label: "Amazon Music" },
-];
 
 export default async function HomePage() {
   const episodes = await fetchEpisodes().catch(() => []);

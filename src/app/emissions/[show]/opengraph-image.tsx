@@ -1,11 +1,10 @@
 import { ImageResponse } from "next/og";
 import { SHOW_CONFIG, isShowId } from "@/lib/shows";
 import { loadOgFont } from "@/lib/utils";
+import { OgLayout, OgBadge, OgBrand, OG_SIZE, OG_CONTENT_TYPE, ogFonts } from "@/lib/og-shared";
 
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-
-const FOREST = "#111d10";
+export const size = OG_SIZE;
+export const contentType = OG_CONTENT_TYPE;
 
 export default async function Image({
   params,
@@ -17,43 +16,12 @@ export default async function Image({
   const accent = showConfig.colorHex;
 
   const fontData = await loadOgFont();
-  const fonts = fontData
-    ? [{ name: "Archivo Black", data: fontData, weight: 400 as const, style: "normal" as const }]
-    : [];
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          background: FOREST,
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          padding: "64px 72px",
-          justifyContent: "space-between",
-          fontFamily: "Archivo Black, sans-serif",
-        }}
-      >
-        {/* Badge émission */}
-        <div style={{ display: "flex" }}>
-          <div
-            style={{
-              background: accent,
-              color: FOREST,
-              fontSize: 13,
-              fontWeight: 700,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              padding: "6px 14px",
-              borderRadius: "2px",
-            }}
-          >
-            {showConfig.abbr}
-          </div>
-        </div>
+      <OgLayout>
+        <OgBadge label={showConfig.abbr} color={accent} />
 
-        {/* Nom de l'émission */}
         <div
           style={{
             color: accent,
@@ -67,38 +35,9 @@ export default async function Image({
           {showConfig.label}
         </div>
 
-        {/* Brand */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            style={{
-              color: "rgba(255,255,255,0.9)",
-              fontSize: 24,
-              fontWeight: 900,
-              letterSpacing: "-1px",
-            }}
-          >
-            OKLM DRAG CLUB
-          </div>
-          <div
-            style={{
-              color: "rgba(255,255,255,0.3)",
-              fontSize: 14,
-              fontWeight: 500,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-            }}
-          >
-            Podcast drag & téléréalité
-          </div>
-        </div>
-      </div>
+        <OgBrand subtitle="Podcast drag & téléréalité" />
+      </OgLayout>
     ),
-    { ...size, fonts }
+    { ...size, fonts: ogFonts(fontData) }
   );
 }

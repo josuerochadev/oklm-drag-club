@@ -3,7 +3,7 @@ import { SpotifyIcon, AppleIcon, DeezerIcon, AmazonIcon } from "./svg/PlatformIc
 import { SHOWS_LIST } from "@/lib/shows";
 import { SPOTIFY_URL, APPLE_PODCASTS_URL, DEEZER_URL, AMAZON_SHOW_URL } from "@/lib/platforms";
 
-const PLATFORMS = [
+export const FOLLOW_PLATFORMS = [
   { Icon: SpotifyIcon, href: SPOTIFY_URL, label: "Spotify" },
   { Icon: AppleIcon, href: APPLE_PODCASTS_URL, label: "Apple Podcasts" },
   { Icon: DeezerIcon, href: DEEZER_URL, label: "Deezer" },
@@ -103,7 +103,7 @@ export default function Hero() {
               gap: "10px",
             }}
           >
-            {PLATFORMS.map(({ Icon, href, label }) => (
+            {FOLLOW_PLATFORMS.map(({ Icon, href, label }) => (
               <a
                 key={label}
                 href={href}

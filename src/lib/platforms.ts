@@ -3,6 +3,7 @@
  * Matched against RSS episodes by normalized title (slugify).
  */
 
+import * as Sentry from "@sentry/nextjs";
 import { slugify, SLUG_MAX_LENGTH } from "./utils";
 import { PLATFORM_SHOW_URLS } from "./config";
 
@@ -85,8 +86,14 @@ async function fetchDeezerLinks(): Promise<Map<string, string>> {
  */
 export async function fetchPlatformLinks(): Promise<Map<string, PlatformLinks>> {
   const [appleMap, deezerMap] = await Promise.all([
-    fetchAppleLinks().catch(() => new Map<string, string>()),
-    fetchDeezerLinks().catch(() => new Map<string, string>()),
+    fetchAppleLinks().catch((err) => {
+      Sentry.captureException(err, { tags: { platform: "apple" } });
+      return new Map<string, string>();
+    }),
+    fetchDeezerLinks().catch((err) => {
+      Sentry.captureException(err, { tags: { platform: "deezer" } });
+      return new Map<string, string>();
+    }),
   ]);
 
   const result = new Map<string, PlatformLinks>();

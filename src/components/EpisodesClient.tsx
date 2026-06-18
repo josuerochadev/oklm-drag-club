@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Episode } from "@/lib/rss";
 import type { ShowId } from "@/lib/shows";
@@ -29,6 +29,15 @@ export default function EpisodesClientPage({
   const [localQuery, setLocalQuery] = useState(queryParam);
   const [count, setCount] = useState(PAGE_SIZE);
 
+  // Debounce timer for URL sync on search
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
+
   // Sync URL when filters change
   const updateUrl = useCallback(
     (show: ShowId | "all", q: string) => {
@@ -49,7 +58,8 @@ export default function EpisodesClientPage({
   function handleSearch(q: string) {
     setLocalQuery(q);
     setCount(PAGE_SIZE);
-    updateUrl(active, q);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => updateUrl(active, q), 200);
   }
 
   // Use URL query for filtering (source of truth), local state only for input value

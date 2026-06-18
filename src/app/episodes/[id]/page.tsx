@@ -74,8 +74,8 @@ export default async function EpisodePage({
     : null;
 
   const episodeLinks = PLATFORM_ICONS
-    .filter((p) => episode[p.key])
-    .map((p) => ({ ...p, href: episode[p.key]! }));
+    .filter((p): p is typeof PLATFORM_ICONS[number] & { key: keyof typeof episode } => Boolean(episode[p.key]))
+    .map((p) => ({ ...p, href: episode[p.key] as string }));
 
   const isoDuration = durationToIso(episode.duration);
   const jsonLd = {

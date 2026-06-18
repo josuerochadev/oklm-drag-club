@@ -71,7 +71,7 @@ export default function NavMobileMenu({
         <div
           ref={menuRef}
           id="nav-mobile-menu"
-          className="nav-mobile-menu"
+          className="nav-mobile-menu nav-mobile-menu-enter"
           style={{
             position: "absolute",
             top: "56px",

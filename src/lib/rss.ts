@@ -109,7 +109,7 @@ function sanitizeHtml(html: string): string {
       const rawHref = /href="([^"]*)"/.exec(attrs)?.[1] ?? "";
       const href = decodeNumericEntities(rawHref).trim();
       if (!href || /^javascript:/i.test(href)) return "";
-      return `<a href="${rawHref}" target="_blank" rel="noopener noreferrer">`;
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer">`;
     }
     return ALLOWED_TAGS.has(t) ? `<${slash}${t}>` : "";
   });

@@ -213,6 +213,15 @@ a { color: var(--forest); text-decoration: none; }
 .nav-hamburger { display: none; }
 .nav-mobile-menu { display: flex; }
 
+/* ── Mobile menu enter animation ── */
+@keyframes menu-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.nav-mobile-menu-enter {
+  animation: menu-slide-down 150ms ease both;
+}
+
 @media (max-width: 640px) {
   .nav-desktop { display: none; }
   .nav-hamburger { display: flex; }
@@ -287,6 +296,36 @@ a { color: var(--forest); text-decoration: none; }
   background: var(--forest);
   border-radius: var(--radius-xs);
   animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Dark mode ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --white:         oklch(16%   0.06  150);
+    --forest:        oklch(93%   0.03  150);
+    --forest-mid:    oklch(70%   0.04  150);
+    --forest-light:  oklch(55%   0.04  150);
+    --lime-soft:     oklch(22%   0.06  130);
+    --fuchsia-soft:  oklch(22%   0.05  332);
+    --yellow-soft:   oklch(22%   0.05   98);
+
+    --color-bg:      oklch(12%   0.04  150);
+    --color-text:    oklch(93%   0.03  150);
+    --color-border:  oklch(70%   0.04  150);
+  }
+
+  body { -webkit-font-smoothing: auto; }
+
+  ::selection { background: var(--lime); color: oklch(16% 0.06 150); }
+
+  .platform-card {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .skeleton { background: oklch(70% 0.04 150); }
+
+  .field-input { background: oklch(18% 0.04 150); }
 }
 
 /* ── Reduced motion ── */
