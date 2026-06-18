@@ -22,6 +22,9 @@ export async function generateMetadata({
   return {
     title: `${show.label}`,
     description: `Tous les épisodes ${show.label} du podcast OKLM Drag Club — réactions calmes et bienveillantes.`,
+    alternates: {
+      canonical: `${SITE_URL}/emissions/${showId}`,
+    },
   };
 }
 

@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "À propos",
   description:
     "OKLM Drag Club, c'est un podcast de réactions calmes et bienveillantes sur la drag et la téléréalité. Sans hurler dans vos oreilles.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 

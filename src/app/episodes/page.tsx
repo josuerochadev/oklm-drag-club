@@ -5,6 +5,9 @@ import EpisodesClient from "@/components/EpisodesClient";
 export const metadata = {
   title: "Épisodes — OKLM Drag Club",
   description: "Tous les épisodes du podcast OKLM Drag Club.",
+  alternates: {
+    canonical: "/episodes",
+  },
 };
 
 export default async function EpisodesPage() {

@@ -39,6 +39,9 @@ export async function generateMetadata({
       title: episode.title,
       description,
     },
+    alternates: {
+      canonical: url,
+    },
   };
 }
 

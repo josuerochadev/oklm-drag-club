@@ -43,6 +43,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
   },
   alternates: {
+    canonical: SITE_URL,
     types: {
       "application/rss+xml": `${SITE_URL}/feed.xml`,
     },
@@ -72,12 +73,29 @@ export default async function RootLayout({
     webFeed: `${SITE_URL}/feed.xml`,
   };
 
+  const organizationLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/opengraph-image`,
+    sameAs: [
+      SPOTIFY_URL,
+      APPLE_PODCASTS_URL,
+      DEEZER_URL,
+    ],
+  };
+
   return (
     <html lang="fr" className="h-full">
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(organizationLd) }}
         />
       </head>
       <body className={`${archivoBlack.variable} ${barlow.variable} min-h-full flex flex-col`}>

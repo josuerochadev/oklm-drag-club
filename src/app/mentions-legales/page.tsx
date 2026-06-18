@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Mentions légales",
   description:
     "Mentions légales du site oklmdragclub.com — éditeur, hébergeur et informations juridiques.",
+  alternates: {
+    canonical: "/mentions-legales",
+  },
 };
 
 export default function MentionsLegalesPage() {

@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
     "Politique de confidentialité du site oklmdragclub.com — données collectées, droits des utilisateurs et contact.",
+  alternates: {
+    canonical: "/confidentialite",
+  },
 };
 
 export default function ConfidentialitePage() {
